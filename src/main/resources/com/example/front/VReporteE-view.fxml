@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+
+<VBox prefHeight="600.0" prefWidth="900.0" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.front.Controllers.VReporteEController">
+    <stylesheets>
+        <URL value="@../../../CSS/estilos.css" />
+    </stylesheets>
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20" />
+    </padding>
+
+    <!-- Primera fila de filtros -->
+    <HBox spacing="15" alignment="CENTER">
+        <VBox spacing="5" alignment="CENTER">
+            <Label text="ID" />
+            <TextField fx:id="txtNombre" prefWidth="150" prefHeight="30" promptText="Documento"/>
+        </VBox>
+        <VBox spacing="5" alignment="CENTER">
+            <Label text="Año" />
+            <ComboBox fx:id="cmbAnio" prefWidth="150" prefHeight="30" promptText="Año"/>
+        </VBox>
+        <VBox spacing="5" alignment="CENTER">
+            <Label text="Periodo" />
+            <ComboBox fx:id="cmbPeriodo" prefWidth="150" prefHeight="30" promptText="Seleccione el periodo"/>
+        </VBox>
+        <VBox spacing="5" alignment="CENTER">
+            <Label text="Puntaje Min" />
+            <TextField fx:id="txtPuntajeGlobalMin" prefWidth="150" prefHeight="30" promptText="Mínimo"/>
+        </VBox>
+        <VBox spacing="5" alignment="CENTER">
+            <Label text="Puntaje Max" />
+            <TextField fx:id="txtPuntajeGlobalMax" prefWidth="150" prefHeight="30" promptText="Máximo"/>
+        </VBox>
+    </HBox>
+
+    <!-- Segunda fila de filtros -->
+    <HBox spacing="15" alignment="CENTER">
+        <VBox spacing="5" alignment="CENTER">
+            <Label text="Tipo de Módulo" />
+            <ComboBox fx:id="cmbTipoModulo" prefWidth="180" prefHeight="30" promptText="Seleccione el tipo"/>
+        </VBox>
+        <VBox spacing="5" alignment="CENTER">
+            <Label text="Nivel Desempeño" />
+            <ComboBox fx:id="cmbNivelDesempeno" prefWidth="180" prefHeight="30" promptText="Seleccione el nivel"/>
+        </VBox>
+        <Button fx:id="btnBuscar" text="Buscar Reporte" onAction="#buscarReporte" prefWidth="150" prefHeight="35" />
+    </HBox>
+
+    <Separator/>
+
+    <!-- Opciones de orden -->
+    <HBox spacing="15" alignment="CENTER">
+        <VBox spacing="5" alignment="CENTER">
+            <Label text="Ordenar por" />
+            <ComboBox fx:id="cmbOrdenarPor" prefWidth="200" prefHeight="30" promptText="Seleccione el campo"/>
+        </VBox>
+        <VBox spacing="5" alignment="CENTER">
+            <Label text="Dirección" />
+            <ComboBox fx:id="cmbDireccion" prefWidth="150" prefHeight="30" promptText="Ascendente"/>
+        </VBox>
+    </HBox>
+
+    <!-- Tabla de reportes -->
+    <TableView fx:id="tablaReportes" prefHeight="250" prefWidth="850">
+        <columns>
+            <TableColumn fx:id="colNombre" prefWidth="150" text="Nombre"/>
+            <TableColumn fx:id="colRegistro" prefWidth="100" text="N° Registro"/>
+            <TableColumn fx:id="colAnio" prefWidth="80" text="Año"/>
+            <TableColumn fx:id="colPeriodo" prefWidth="80" text="Periodo"/>
+            <TableColumn fx:id="colPuntajeGlobal" prefWidth="120" text="Puntaje Global"/>
+            <TableColumn fx:id="colTipoModulo" prefWidth="150" text="Tipo de Módulo"/>
+            <TableColumn fx:id="colDesempeno" prefWidth="150" text="Desempeño"/>
+        </columns>
+    </TableView>
+</VBox>
+
+

@@ -1,0 +1,65 @@
+.root {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-background-color: #2C3E50;
+}
+
+/* General para etiquetas */
+.label {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
+
+/* Estilo para los TitledPane del menú */
+.menu-titled-pane {
+    -fx-background-color: #3c5067;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 5 0 5 0;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 5, 0, 0, 2);
+}
+
+/* Estilo del encabezado del TitledPane */
+.menu-titled-pane > .title {
+    -fx-background-color: transparent;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 10;
+    -fx-alignment: CENTER_LEFT;
+}
+
+/* Alinear la flecha a la derecha */
+.menu-titled-pane > .title > .arrow-button {
+    -fx-content-display: right;
+    -fx-alignment: CENTER_RIGHT;
+    -fx-translate-x: 100%; /* desplazar hacia la derecha */
+}
+
+/* Estilo de botones dentro de los TitledPane */
+.button {
+    -fx-background-color: #3c5067;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-padding: 8 16 8 16;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-alignment: CENTER_LEFT;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 3, 0, 0, 1);
+}
+
+.button:hover {
+    -fx-background-color: #547aa5;
+}
+
+/* Espaciado entre icono y texto en botones */
+.button .graphic {
+    -fx-padding: 0 10 0 0;
+}
+
+/* Estilo para imagen del logo */
+#logoImage {
+    -fx-padding: 20;
+    -fx-alignment: CENTER;
+}
+

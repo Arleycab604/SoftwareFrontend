@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.front.Controllers.VReporteGController"
+            prefHeight="600.0" prefWidth="1000.0">
+
+    <VBox spacing="10" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
+
+        <HBox spacing="10">
+            <TextField fx:id="campoBuscarPrograma" promptText="Programa o Competencia" />
+            <ComboBox fx:id="comboAnio" promptText="Año" />
+            <ComboBox fx:id="comboPeriodo" promptText="Periodo" />
+            <Button text="Buscar Reporte" fx:id="botonBuscar" />
+        </HBox>
+
+        <HBox spacing="10">
+            <ComboBox fx:id="ordenarPor" promptText="Ordenar por" />
+            <ComboBox fx:id="direccionOrden" promptText="Ascendente/Descendente" />
+        </HBox>
+
+        <TableView fx:id="tablaReporteGeneral" prefHeight="500" prefWidth="1000">
+            <columns>
+                <TableColumn fx:id="columnaCompetenciaPrograma" text="Competencia / Programa" prefWidth="250"/>
+                <TableColumn fx:id="columnaAnio" text="Año" prefWidth="100"/>
+                <TableColumn fx:id="columnaPeriodo" text="Periodo" prefWidth="100"/>
+                <TableColumn fx:id="columnaPromedioGlobal" text="Promedio Global" prefWidth="150"/>
+                <TableColumn fx:id="columnaNivelDesempeno" text="Nivel de Desempeño" prefWidth="200"/>
+                <TableColumn fx:id="columnaNumEstudiantes" text="N° Estudiantes" prefWidth="150"/>
+            </columns>
+        </TableView>
+
+        <Label fx:id="mensajeTablaVacia" text="Tabla sin contenido" visible="false" style="-fx-text-fill: gray;"/>
+
+    </VBox>
+
+</AnchorPane>
+

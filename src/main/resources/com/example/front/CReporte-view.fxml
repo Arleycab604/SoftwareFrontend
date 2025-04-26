@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.front.Controllers.CReporteController"
+            stylesheets="@../../../CSS/dashboard.css" prefWidth="800" prefHeight="600">
+
+    <VBox spacing="20" padding="20" alignment="TOP_CENTER" style="-fx-background-color: #2C3E50;">
+
+        <Label text="Cargar Reporte" style="-fx-font-size: 22px; -fx-text-fill: white;"/>
+
+        <GridPane hgap="15" vgap="15" alignment="CENTER">
+            <columnConstraints>
+                <ColumnConstraints halignment="RIGHT"/>
+                <ColumnConstraints hgrow="ALWAYS"/>
+            </columnConstraints>
+
+            <!-- Información del estudiante -->
+            <Label text="Documento:" styleClass="label"/>
+            <TextField fx:id="documentoField" promptText="Ingrese documento"/>
+
+            <Label text="Tipo Documento:" styleClass="label"/>
+            <ComboBox fx:id="tipoDocumentoBox">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="CC"/>
+                        <String fx:value="TI"/>
+                        <String fx:value="CE"/>
+                    </FXCollections>
+                </items>
+            </ComboBox>
+
+            <Label text="Nombre Estudiante:" styleClass="label"/>
+            <TextField fx:id="nombreEstudianteField" promptText="Ej: Juan Pérez"/>
+
+            <Label text="Ciudad:" styleClass="label"/>
+            <TextField fx:id="ciudadField"/>
+
+            <!-- Información del reporte -->
+            <Label text="Año:" styleClass="label"/>
+            <TextField fx:id="yearField"/>
+
+            <Label text="Período:" styleClass="label"/>
+            <TextField fx:id="periodoField"/>
+
+            <Label text="Puntaje Global:" styleClass="label"/>
+            <TextField fx:id="puntajeGlobalField"/>
+
+            <Label text="Percentil Global:" styleClass="label"/>
+            <TextField fx:id="percentilGlobalField"/>
+
+            <Label text="Novedades:" styleClass="label"/>
+            <TextField fx:id="novedadesField"/>
+        </GridPane>
+
+        <!-- Módulo asociado -->
+        <TitledPane text="Agregar Módulo" expanded="true" styleClass="menu-titled-pane" prefWidth="600">
+            <content>
+                <GridPane hgap="10" vgap="10" padding="10">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="RIGHT"/>
+                        <ColumnConstraints hgrow="ALWAYS"/>
+                    </columnConstraints>
+
+                    <Label text="Tipo de Módulo:" styleClass="label"/>
+                    <TextField fx:id="tipoModuloField"/>
+
+                    <Label text="Puntaje:" styleClass="label"/>
+                    <TextField fx:id="puntajeModuloField"/>
+
+                    <Label text="Nivel de Desempeño:" styleClass="label"/>
+                    <TextField fx:id="nivelDesempenoField"/>
+
+                    <Label text="Percentil Nacional:" styleClass="label"/>
+                    <TextField fx:id="percentilNacionalField"/>
+                </GridPane>
+            </content>
+        </TitledPane>
+
+        <!-- Botón de guardar -->
+        <Button text="Guardar Reporte" fx:id="guardarButton" onAction="#guardarReporte" styleClass="button"/>
+
+
+    </VBox>
+</AnchorPane>

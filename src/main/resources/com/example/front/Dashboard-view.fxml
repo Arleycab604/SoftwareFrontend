@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:id="root" stylesheets="@../../../CSS/dashboard.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.front.Controllers.DashboardController">
+    <left>
+        <VBox alignment="TOP_CENTER" prefWidth="250" spacing="10" styleClass="sidebar">
+            <padding><Insets bottom="20" left="10" right="10" top="20" /></padding>
+
+            <ImageView fitHeight="120" fitWidth="120">
+                <image>
+                    <Image url="@../../../Images/logoicfes.png" />
+                </image>
+            </ImageView>
+
+            <Button onAction="#onButtonDashboardInicio" prefHeight="30.0" prefWidth="234.0" styleClass="menu-button" text="Inicio">
+                <graphic>
+                    <ImageView fitHeight="20" fitWidth="20">
+                        <image>
+                            <Image url="@../../../Images/home.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+
+            <!-- TitledPane 1 -->
+            <TitledPane expanded="false" prefWidth="230.0" styleClass="menu-titled-pane" text="Cargar reportes">
+                <content>
+                    <VBox spacing="5">
+                        <Button onAction="#onButtonDashboardSReporte" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Subir reportes" />
+                        <Button onAction="#onButtonDashboardSInformes" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Subir informes" />
+                    </VBox>
+                </content>
+                <graphic>
+                    <ImageView fitHeight="20" fitWidth="20">
+                        <image>
+                            <Image url="@../../../Images/report.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+            </TitledPane>
+
+            <!-- TitledPane 2 -->
+            <TitledPane expanded="false" styleClass="menu-titled-pane" text="Ver reporte">
+                <content>
+                    <VBox spacing="5">
+                        <Button onAction="#onButtonDashboardGeneral" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Generales" />
+                        <Button onAction="#onButtonDashboardEspecificos" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Específicos" />
+                    </VBox>
+                </content>
+                <graphic>
+                    <ImageView fitHeight="20" fitWidth="20">
+                        <image>
+                            <Image url="@../../../Images/report.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+            </TitledPane>
+
+            <!-- TitledPane 3 -->
+            <TitledPane expanded="false" styleClass="menu-titled-pane" text="Acciones de mejora">
+                <content>
+                    <VBox spacing="5">
+                        <Button onAction="#onButtonDashboardAsignar" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Asignar acciones de mejora" />
+                        <Button onAction="#onButtonDashboardSeguimiento" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Seguimiento de acciones de mejora" />
+                    </VBox>
+                </content>
+                <graphic>
+                    <ImageView fitHeight="20" fitWidth="20">
+                        <image>
+                            <Image url="@../../../Images/analytics.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+            </TitledPane>
+
+            <!-- TitledPane 4 -->
+            <TitledPane expanded="false" styleClass="menu-titled-pane" text="CRUD">
+                <content>
+                    <VBox spacing="5">
+                        <Button onAction="#onButtonDashboardCrearRol" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Crear rol" />
+                        <Button onAction="#onButtonDashboardBorrarRol" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Borrar rol" />
+                        <Button onAction="#onButtonDashboardModificarRol" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Modificar rol" />
+                    </VBox>
+                </content>
+                <graphic>
+                    <ImageView fitHeight="20" fitWidth="20">
+                        <image>
+                            <Image url="@../../../Images/user.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+            </TitledPane>
+
+        </VBox>
+    </left>
+
+    <center>
+        <StackPane fx:id="contentArea" style="-fx-background-color: white;" />
+    </center>
+
+</BorderPane>
