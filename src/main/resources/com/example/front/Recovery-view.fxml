@@ -8,7 +8,7 @@
 
 <VBox alignment="CENTER" prefHeight="480.0" prefWidth="450.0" spacing="15.0"
       style="-fx-background-color: #E7E7E7;" xmlns="http://javafx.com/javafx/17.0.12"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.front.Controllers.RecoveryController">
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.front.RecoveryController">
     <children>
         <VBox alignment="TOP_CENTER" maxWidth="350.0" spacing="20.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #B0BEC5; -fx-border-radius: 10; -fx-background-radius: 10;">
             <padding>

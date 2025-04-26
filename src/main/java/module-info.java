@@ -12,7 +12,5 @@ module com.example.front {
 
     opens com.example.front to javafx.fxml;
     exports com.example.front;
-    exports com.example.front.Controllers;
-    opens com.example.front.Controllers to javafx.fxml;
 }
 
