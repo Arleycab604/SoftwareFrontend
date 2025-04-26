@@ -11,6 +11,7 @@ module com.example.front {
     requires eu.hansolo.tilesfx;
 
     opens com.SaberPro.SoftwareFront to javafx.fxml;
+    opens com.SaberPro.SoftwareFront.Controllers to javafx.fxml;
+
     exports com.SaberPro.SoftwareFront;
 }
-

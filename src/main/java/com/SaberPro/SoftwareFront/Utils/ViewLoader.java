@@ -10,9 +10,10 @@ public class ViewLoader {
 
     public static void loadView(String fxmlPath, Stage currentStage, int width, int height) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(ViewLoader.class.getResource(fxmlPath));
+            FXMLLoader fxmlLoader = new FXMLLoader(ViewLoader.class.getResource("/com/SaberPro/SoftwareFront/" + fxmlPath));
             Scene scene = new Scene(fxmlLoader.load(), width, height);
             currentStage.setScene(scene);
+            currentStage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
