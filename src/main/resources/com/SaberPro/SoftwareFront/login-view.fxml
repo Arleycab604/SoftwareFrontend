@@ -9,7 +9,7 @@
 <VBox alignment="CENTER" prefHeight="480.0" prefWidth="450.0"
       style="-fx-background-color: #f6f8fb;"
       xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.example.front.LoginController">
+      fx:controller="com.SaberPro.SoftwareFront.Controllers.LoginController">
 
 <children>
    <VBox alignment="TOP_CENTER" spacing="20.0" maxWidth="360.0"

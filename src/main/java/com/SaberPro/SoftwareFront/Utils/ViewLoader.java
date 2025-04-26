@@ -1,4 +1,4 @@
-package com.example.front.Utils;
+package com.SaberPro.SoftwareFront.Utils;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

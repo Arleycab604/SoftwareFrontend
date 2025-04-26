@@ -10,7 +10,7 @@ module com.example.front {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
 
-    opens com.example.front to javafx.fxml;
-    exports com.example.front;
+    opens com.SaberPro.SoftwareFront to javafx.fxml;
+    exports com.SaberPro.SoftwareFront;
 }
 

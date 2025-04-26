@@ -10,7 +10,7 @@
       style="-fx-background-color: linear-gradient(to bottom right, #ECEFF1, #CFD8DC);"
       xmlns="http://javafx.com/javafx/17.0.12"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.example.front.RestoreController">
+      fx:controller="com.SaberPro.SoftwareFront.Controllers.RestoreController">
 
     <children>
         <VBox alignment="TOP_CENTER" maxWidth="360.0" spacing="20.0" style="-fx-background-color: white; -fx-border-color: #B0BEC5; -fx-border-radius: 15; -fx-background-radius: 15;">

@@ -1,13 +1,10 @@
-package com.example.front.Controllers;
+package com.SaberPro.SoftwareFront.Controllers;
 
-import com.example.front.Utils.ViewLoader;
+import com.SaberPro.SoftwareFront.Utils.ViewLoader;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-import java.io.IOException;
 
 
 public class LoginController {

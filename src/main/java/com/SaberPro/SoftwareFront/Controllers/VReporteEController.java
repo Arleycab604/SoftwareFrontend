@@ -1,4 +1,4 @@
-package com.example.front.Controllers;
+package com.SaberPro.SoftwareFront.Controllers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
