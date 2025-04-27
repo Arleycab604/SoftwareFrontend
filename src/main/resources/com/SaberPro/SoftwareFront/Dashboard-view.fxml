@@ -99,7 +99,7 @@
     </left>
 
     <center>
-        <StackPane fx:id="contentArea" style="-fx-background-color: white;" />
+        <StackPane fx:id="contentArea" xmlns:fx="http://javafx.com/fxml" style="-fx-background-color: white;"/>
     </center>
 
 </BorderPane>

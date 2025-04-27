@@ -1,89 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
 
-<?import javafx.collections.FXCollections?>
-<?import java.lang.String?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.SaberPro.SoftwareFront.Controllers.CReporteController"
-            stylesheets="@../../../CSS/dashboard.css" prefWidth="800" prefHeight="600">
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml" stylesheets="@../../../CSS/Carga.css"
+            fx:controller="com.SaberPro.SoftwareFront.Controllers.CReporteController" prefHeight="600.0" prefWidth="900.0">
 
-    <VBox spacing="20" padding="20" alignment="TOP_CENTER" style="-fx-background-color: #2C3E50;">
+    <VBox spacing="20" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
 
-        <Label text="Cargar Reporte" style="-fx-font-size: 22px; -fx-text-fill: white;"/>
+        <!-- Título del sistema -->
+        <Label text="Archivos compatibles: CSV y Excel" style="-fx-font-size: 14px; -fx-font-weight: bold;" />
 
-        <GridPane hgap="15" vgap="15" alignment="CENTER">
-            <columnConstraints>
-                <ColumnConstraints halignment="RIGHT"/>
-                <ColumnConstraints hgrow="ALWAYS"/>
-            </columnConstraints>
+        <!-- Logo del sistema -->
+        <ImageView fx:id="logoSistema" fitHeight="80" fitWidth="200" style="-fx-align: center;" />
 
-            <!-- Información del estudiante -->
-            <Label text="Documento:" styleClass="label"/>
-            <TextField fx:id="documentoField" promptText="Ingrese documento"/>
+        <!-- Área de carga de archivos -->
+        <HBox spacing="10" alignment="CENTER">
+            <Button text="Seleccionar Archivos CSV/Excel" fx:id="botonSeleccionarArchivos" onAction="#handleSeleccionarArchivos"/>
+            <Button text="Subir Datos" fx:id="botonSubirDatos" onAction="#handleSubirDatos" disable="true"/>
+            <Button text="Cancelar" fx:id="botonCancelar" onAction="#handleCancel"/>
+        </HBox>
 
-            <Label text="Tipo Documento:" styleClass="label"/>
-            <ComboBox fx:id="tipoDocumentoBox">
-                <items>
-                    <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="CC"/>
-                        <String fx:value="TI"/>
-                        <String fx:value="CE"/>
-                    </FXCollections>
-                </items>
-            </ComboBox>
+        <!-- Tablas para vista previa -->
+        <TableView fx:id="tablaVistaPrevia" prefHeight="400" prefWidth="800">
+            <columns>
+                <TableColumn text="Nombre Estudiante" prefWidth="250"/>
+                <TableColumn text="Documento" prefWidth="150"/>
+                <TableColumn text="Año" prefWidth="100"/>
+                <TableColumn text="Periodo" prefWidth="100"/>
+                <TableColumn text="Resultado" prefWidth="150"/>
+            </columns>
+        </TableView>
 
-            <Label text="Nombre Estudiante:" styleClass="label"/>
-            <TextField fx:id="nombreEstudianteField" promptText="Ej: Juan Pérez"/>
-
-            <Label text="Ciudad:" styleClass="label"/>
-            <TextField fx:id="ciudadField"/>
-
-            <!-- Información del reporte -->
-            <Label text="Año:" styleClass="label"/>
-            <TextField fx:id="yearField"/>
-
-            <Label text="Período:" styleClass="label"/>
-            <TextField fx:id="periodoField"/>
-
-            <Label text="Puntaje Global:" styleClass="label"/>
-            <TextField fx:id="puntajeGlobalField"/>
-
-            <Label text="Percentil Global:" styleClass="label"/>
-            <TextField fx:id="percentilGlobalField"/>
-
-            <Label text="Novedades:" styleClass="label"/>
-            <TextField fx:id="novedadesField"/>
-        </GridPane>
-
-        <!-- Módulo asociado -->
-        <TitledPane text="Agregar Módulo" expanded="true" styleClass="menu-titled-pane" prefWidth="600">
-            <content>
-                <GridPane hgap="10" vgap="10" padding="10">
-                    <columnConstraints>
-                        <ColumnConstraints halignment="RIGHT"/>
-                        <ColumnConstraints hgrow="ALWAYS"/>
-                    </columnConstraints>
-
-                    <Label text="Tipo de Módulo:" styleClass="label"/>
-                    <TextField fx:id="tipoModuloField"/>
-
-                    <Label text="Puntaje:" styleClass="label"/>
-                    <TextField fx:id="puntajeModuloField"/>
-
-                    <Label text="Nivel de Desempeño:" styleClass="label"/>
-                    <TextField fx:id="nivelDesempenoField"/>
-
-                    <Label text="Percentil Nacional:" styleClass="label"/>
-                    <TextField fx:id="percentilNacionalField"/>
-                </GridPane>
-            </content>
-        </TitledPane>
-
-        <!-- Botón de guardar -->
-        <Button text="Guardar Reporte" fx:id="guardarButton" onAction="#guardarReporte" styleClass="button"/>
-
-
+        <!-- Mensajes -->
+        <Label fx:id="mensajeConfirmacion" text="Datos cargados exitosamente." visible="false" style="-fx-text-fill: green; -fx-font-weight: bold;"/>
+        <Label fx:id="mensajeError" text="Error al cargar los archivos." visible="false" style="-fx-text-fill: red; -fx-font-weight: bold;"/>
     </VBox>
+
 </AnchorPane>
+
+

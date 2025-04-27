@@ -13,11 +13,12 @@ public class DashboardController {
 
     private void loadView(String fxml) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/SaberPro/SoftwareFront/" + fxml));
             Parent view = loader.load();
             contentArea.getChildren().setAll(view);
         } catch (IOException e) {
             e.printStackTrace();
+            throw new RuntimeException("Error al cargar la vista: " + fxml, e);
         }
     }
 
