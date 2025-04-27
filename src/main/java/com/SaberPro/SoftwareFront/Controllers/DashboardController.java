@@ -1,9 +1,13 @@
 package com.SaberPro.SoftwareFront.Controllers;
 
+import com.SaberPro.SoftwareFront.Utils.ViewLoader;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.StackPane;
 import javafx.scene.Parent;
+import javafx.stage.Stage;
+
+
 import java.io.IOException;
 
 public class DashboardController {
@@ -21,6 +25,14 @@ public class DashboardController {
             throw new RuntimeException("Error al cargar la vista: " + fxml, e);
         }
     }
+
+    @FXML
+    private void onAtrasClick() {
+        // Usar el StackPane para obtener el Stage
+        Stage stage = (Stage) contentArea.getScene().getWindow();
+        ViewLoader.loadView("login-view.fxml", stage, 450, 480);
+    }
+
 
     @FXML private void onButtonDashboardInicio() {
         loadView("Login-view.fxml");
@@ -51,15 +63,11 @@ public class DashboardController {
     }
 
     @FXML private void onButtonDashboardCrearRol() {
-        loadView("Login-view.fxml");
+        loadView("CrearRol-view.fxml");
     }
 
-    @FXML private void onButtonDashboardBorrarRol() {
-        loadView("Login-view.fxml");
-    }
-
-    @FXML private void onButtonDashboardModificarRol() {
-        loadView("Login-view.fxml");
+    @FXML private void onButtonDashboardConsultarRol() {
+        loadView("ConsultarRol-view.fxml");
     }
 }
 

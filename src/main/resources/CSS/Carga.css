@@ -1,33 +1,106 @@
-/* Títulos del sistema */
-.label-title {
-    -fx-font-size: 18px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #333333;
+/* Estilo general para la tabla */
+.tableview {
+    -fx-background-color: #ffffff; /* Fondo blanco para la tabla */
+    -fx-border-color: #d0d0d0;     /* Borde gris suave */
+    -fx-border-radius: 10px;       /* Bordes redondeados */
+    -fx-background-radius: 10px;
+    -fx-padding: 15px;             /* Espaciado interno más amplio */
+    -fx-font-family: "Arial", sans-serif; /* Fuente limpia y moderna */
+    -fx-font-size: 14px;           /* Tamaño de fuente legible */
+    -fx-text-fill: #000000;        /* Texto negro por defecto */
 }
 
-/* Botones principales */
+/* Alternancia de colores en las filas */
+.tableview .table-row-cell:odd {
+    -fx-background-color: #f9f9f9; /* Gris claro para filas impares */
+}
+
+.tableview .tableview .table-row-cell:even {
+    -fx-background-color: #ffffff; /* Blanco para filas pares */
+}
+
+/* Estilo al pasar el mouse sobre una fila */
+.tableview .table-row-cell:hover {
+    -fx-background-color: #f0f0f0; /* Gris suave para el hover */
+}
+
+/* Encabezados de columnas */
+.tableview .column-header {
+    -fx-background-color: #0066cc; /* Azul elegante para encabezados */
+    -fx-text-fill: #ffffff;        /* Texto blanco en encabezados */
+    -fx-font-size: 16px;           /* Tamaño de fuente mayor en encabezados */
+    -fx-font-weight: bold;         /* Negrita en los encabezados */
+    -fx-padding: 10px;             /* Espaciado interno */
+    -fx-border-color: #0066cc;    /* Bordes del mismo color que el encabezado */
+    -fx-alignment: CENTER;         /* Alineación centrada */
+}
+
+/* Líneas divisorias para las celdas de la tabla */
+.tableview .table-cell {
+    -fx-border-color: #e0e0e0;     /* Líneas divisorias tenues */
+    -fx-border-width: 0 0 1 0;     /* Solo borde inferior */
+    -fx-padding: 12px 15px;        /* Espaciado interno amplio */
+    -fx-alignment: CENTER_LEFT;    /* Alineación del texto a la izquierda */
+    -fx-text-fill: #000000;        /* Texto negro */
+}
+
+/* ScrollBar personalizada */
+.tableview .scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.tableview .scroll-bar:vertical .thumb {
+    -fx-background-color: #0066cc; /* Barra de desplazamiento azul */
+    -fx-background-radius: 5;
+}
+
+.tableview .scroll-bar:horizontal .thumb {
+    -fx-background-color: #0066cc;
+    -fx-background-radius: 5;
+}
+
+/* Botones en general */
 .button {
-    -fx-font-size: 14px;
-    -fx-padding: 8px 15px;
-    -fx-background-color: #4CAF50; /* Verde */
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-border-radius: 5px;
-    -fx-background-radius: 5px;
+    -fx-font-size: 14px;           /* Tamaño de letra un poco mayor */
+    -fx-background-radius: 8px;     /* Bordes redondeados más suaves */
+    -fx-padding: 12px 20px;         /* Espaciado interno cómodo */
+    -fx-text-fill: #ffffff;         /* Texto blanco */
+    -fx-background-color: #2C3E50;  /* Fondo azul oscuro elegante */
+    -fx-font-weight: bold;          /* Fuente en negrita */
 }
 
 .button:hover {
-    -fx-background-color: #45a049; /* Más oscuro en hover */
+    -fx-background-color: #1A2530;  /* Azul aún más oscuro en hover */
 }
 
-.button:disabled {
-    -fx-background-color: #d9d9d9; /* Gris */
-    -fx-text-fill: #888888;
+/* Botón de Buscar */
+.button-buscar {
+    -fx-background-color: #2C3E50; /* Azul oscuro para los botones */
+    -fx-text-fill: #ffffff;        /* Texto blanco */
 }
 
-/* Tabla de vista previa */
-.table-view {
-    -fx-border-color: #cccccc;
-    -fx-border-width: 1px;
-    -fx-font-size: 12px;
+.button-buscar:hover {
+    -fx-background-color: #1A2530; /* Azul más oscuro en hover */
 }
+
+/* Botón Anterior */
+.button-anterior {
+    -fx-background-color: #2C3E50; /* Azul oscuro para consistencia */
+    -fx-text-fill: #ffffff;        /* Texto blanco */
+}
+
+.button-anterior:hover {
+    -fx-background-color: #1A2530; /* Azul más oscuro en hover */
+}
+
+/* Botón Siguiente */
+.button-siguiente {
+    -fx-background-color: #2C3E50; /* Azul oscuro para consistencia */
+    -fx-text-fill: #ffffff;        /* Texto blanco */
+}
+
+.button-siguiente:hover {
+    -fx-background-color: #1A2530; /* Azul más oscuro en hover */
+}
+
+
