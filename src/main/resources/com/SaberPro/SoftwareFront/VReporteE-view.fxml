@@ -45,6 +45,7 @@
             <Label text="Nivel Desempeño" />
             <ComboBox fx:id="cmbNivelDesempeno" prefWidth="180" prefHeight="30" promptText="Percentil" />
         </VBox>
+
         <Region HBox.hgrow="ALWAYS" />
         <Button fx:id="btnBuscar" text="Buscar Reporte" onAction="#buscarReporte" prefWidth="150" prefHeight="35" />
     </HBox>
@@ -64,13 +65,23 @@
 
     <TableView fx:id="tablaReportes" prefHeight="250" prefWidth="850" style="-fx-padding: 20px;">
         <columns>
+            <TableColumn fx:id="colDocumento" prefWidth="120" text="Documento" />
             <TableColumn fx:id="colNombre" prefWidth="150" text="Nombre" />
             <TableColumn fx:id="colRegistro" prefWidth="100" text="N° Registro" />
+
             <TableColumn fx:id="colAnio" prefWidth="80" text="Año" />
             <TableColumn fx:id="colPeriodo" prefWidth="80" text="Periodo" />
+            <TableColumn fx:id="colNombrePrograma" prefWidth="150" text="Nombre Programa" />
+            <TableColumn fx:id="colGrupoDeReferencia" prefWidth="150" text="Grupo de Referencia" />
             <TableColumn fx:id="colPuntajeGlobal" prefWidth="120" text="Puntaje Global" />
-            <TableColumn fx:id="colTipoModulo" prefWidth="150" text="Tipo de Módulo" />
             <TableColumn fx:id="colDesempeno" prefWidth="150" text="Desempeño" />
+            <TableColumn fx:id="colPercentilGlobal" prefWidth="120" text="Percentil Global" />
+            <TableColumn fx:id="colTipoModulo" prefWidth="150" text="Tipo de Módulo" />
+            <TableColumn fx:id="colNumeroRegistro" prefWidth="120" text="N° Registro" />
+            <TableColumn fx:id="colYear" prefWidth="80" text="Año" />
+            <TableColumn fx:id="colPuntajeModulo" prefWidth="120" text="Puntaje Módulo" />
+            <TableColumn fx:id="colPercentilModulo" prefWidth="120" text="Percentil Módulo" />
+            <TableColumn fx:id="colNovedades" prefWidth="150" text="Novedades" />
         </columns>
     </TableView>
 </VBox>

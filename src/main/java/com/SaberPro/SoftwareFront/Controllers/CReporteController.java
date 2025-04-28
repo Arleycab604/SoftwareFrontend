@@ -7,12 +7,21 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.core5.http.HttpEntity;
+import java.io.File;
+import javafx.scene.control.TextField;
+import org.apache.hc.client5.http.entity.EntityBuilder;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.ContentType;
 
 import java.io.File;
-import java.util.List;
+import java.io.IOException;
+
 
 public class CReporteController {
-
     // Constantes para mensajes estáticos
     private static final String MSG_ARCHIVOS_SELECCIONADOS = "Archivo(s) seleccionados correctamente. Total: ";
     private static final String MSG_NO_SELECCIONADOS = "No se seleccionaron archivos. Intenta nuevamente.";
@@ -23,10 +32,14 @@ public class CReporteController {
     private TableView<?> tablaVistaPrevia; // Tabla para vista previa (opcional por ahora)
     @FXML
     private Label mensajeConfirmacion; // Etiqueta para mensajes visibles de éxito
+     @FXML
+    private Button botonSeleccionarArchivos;
     @FXML
-    private Label mensajeError; // Etiqueta para mensajes visibles de error
+    private Button botonSubirDatos;
     @FXML
-    private Button botonSubirDatos; // Botón de subir datos (inicia deshabilitado)
+    private Label mensajeError;
+
+    private File archivoSeleccionado;
 
     // Métodos privados para mostrar mensajes (reducen duplicación)
     private void mostrarMensajeExito(String mensaje) {
@@ -46,57 +59,88 @@ public class CReporteController {
         System.out.println(mensaje);
     }
 
-    // Acción: Seleccionar archivos
+
     @FXML
-    public void handleSeleccionarArchivos(ActionEvent event) {
-        // Crear diálogo para seleccionar archivos
+    public void handleSeleccionarArchivos() {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Seleccionar Archivos");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos CSV", "*.csv"));
+        archivoSeleccionado = fileChooser.showOpenDialog(new Stage());
 
-        // Filtros de archivos permitidos
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Archivos CSV y Excel", "*.csv", "*.xlsx"),
-                new FileChooser.ExtensionFilter("Archivos CSV", "*.csv"),
-                new FileChooser.ExtensionFilter("Archivos Excel", "*.xlsx")
-        );
-
-        // Mostrar diálogo para seleccionar múltiples archivos
-        Stage stage = new Stage();
-        List<File> archivosSeleccionados = fileChooser.showOpenMultipleDialog(stage);
-
-        if (archivosSeleccionados != null && !archivosSeleccionados.isEmpty()) {
-            // Mostrar archivos seleccionados en consola
-            logConsola("=== Archivos seleccionados ===");
-            archivosSeleccionados.forEach(archivo ->
-                    logConsola("Archivo seleccionado: " + archivo.getAbsolutePath())
-            );
-
-            // Mostrar mensaje en la vista
-            mostrarMensajeExito(MSG_ARCHIVOS_SELECCIONADOS + archivosSeleccionados.size());
-
-            // Activar botón de subir datos
+        if (archivoSeleccionado != null) {
             botonSubirDatos.setDisable(false);
+            mensajeError.setText("");
         } else {
-            // Si se canceló o no se seleccionaron archivos
-            logConsola("Acción cancelada: No se seleccionaron archivos.");
+            botonSubirDatos.setDisable(true);
+            mensajeError.setText("No se seleccionó ningún archivo. Intenta nuevamente.");
+        }
+    }
+    @FXML
+    private TextField campoAnio;
 
-            // Mostrar mensaje de error en la vista
-            mostrarMensajeError(MSG_NO_SELECCIONADOS);
+    @FXML
+    private TextField campoPeriodo;
+
+    @FXML
+    public void handleSubirDatos() {
+        if (archivoSeleccionado == null) {
+            mensajeError.setText("No se ha seleccionado ningún archivo.");
+            System.out.println("DEBUG: No se seleccionó ningún archivo para subir.");
+            return;
+        }
+
+        String anioTexto = campoAnio.getText();
+        String periodoTexto = campoPeriodo.getText();
+
+        if (anioTexto.isEmpty() || periodoTexto.isEmpty()) {
+            mensajeError.setText("Debe ingresar el año y el periodo.");
+            System.out.println("DEBUG: Año o periodo no ingresados.");
+            return;
+        }
+
+        try {
+            int anio = Integer.parseInt(anioTexto);
+            int periodo = Integer.parseInt(periodoTexto);
+
+            String url = "http://localhost:8080/api/upload/csv?year=" + anio + "&periodo=" + periodo;
+
+            try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+                HttpPost uploadFile = new HttpPost(url);
+
+                HttpEntity entity = EntityBuilder.create()
+                        .setFile(archivoSeleccionado)
+                        .setContentType(ContentType.MULTIPART_FORM_DATA)
+                        .build();
+
+                uploadFile.setEntity(entity);
+
+                try (CloseableHttpResponse response = httpClient.execute(uploadFile)) {
+                    int statusCode = response.getCode();
+                    String reasonPhrase = response.getReasonPhrase();
+
+                    if (statusCode == 200) {
+                        mensajeError.setText("Archivo subido exitosamente.");
+                        mensajeError.setStyle("-fx-text-fill: green;");
+                        System.out.println("DEBUG: Archivo subido exitosamente. Respuesta del servidor: " + reasonPhrase);
+                    } else {
+                        mensajeError.setText("Error al subir el archivo. Servidor respondió: " + reasonPhrase);
+                        mensajeError.setStyle("-fx-text-fill: red;");
+                        System.out.println("DEBUG: Error al subir el archivo. Código de estado: " + statusCode + ", Razón: " + reasonPhrase);
+                    }
+                }
+            }
+        } catch (NumberFormatException e) {
+            mensajeError.setText("El año y el periodo deben ser números enteros.");
+            mensajeError.setStyle("-fx-text-fill: red;");
+            System.out.println("DEBUG: Error de formato en año o periodo. Detalles: " + e.getMessage());
+        } catch (IOException e) {
+            mensajeError.setText("Error al subir el archivo: " + e.getMessage());
+            mensajeError.setStyle("-fx-text-fill: red;");
+            System.out.println("DEBUG: Error de IO al subir el archivo. Detalles: " + e.getMessage());
         }
     }
 
-    // Acción: Subir los datos seleccionados
     @FXML
-    public void handleSubirDatos(ActionEvent event) {
-        // Lógica para procesar los datos seleccionados
-        logConsola("Los datos han sido subidos exitosamente.");
 
-        // Mensaje de éxito en la vista
-        mostrarMensajeExito(MSG_DATOS_SUBIDOS);
-    }
-
-    // Acción: Cancelar operación
-    @FXML
     public void handleCancel(ActionEvent event) {
         // Log por consola (para desarrolladores)
         logConsola("Acción cancelada por el usuario.");

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="20.0"
+      xmlns="http://javafx.com/javafx/17.0.12"  xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.SaberPro.SoftwareFront.Controllers.CRUDController">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Administración de Datos" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+    <HBox spacing="10">
+        <Button text="Crear" onAction="#onCreateButtonClick" />
+        <Button text="Editar" onAction="#onEditButtonClick" />
+        <Button text="Eliminar" onAction="#onDeleteButtonClick" />
+    </HBox>
+
+    <TextField fx:id="searchField" promptText="Buscar..." onKeyReleased="#onSearchKeyReleased" />
+
+    <TableView fx:id="dataTable">
+        <columns>
+            <TableColumn text="Año" />
+            <TableColumn text="Tipo de Dato" />
+            <TableColumn text="Valor" />
+            <TableColumn text="Fuente" />
+        </columns>
+    </TableView>
+
+    <HBox spacing="10">
+        <Button text="Anterior" onAction="#onPreviousPageButtonClick" />
+        <Button text="Siguiente" onAction="#onNextPageButtonClick" />
+    </HBox>
+</VBox>
