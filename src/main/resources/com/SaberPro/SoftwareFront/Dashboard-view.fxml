@@ -10,7 +10,6 @@
         <VBox alignment="TOP_CENTER" prefWidth="250" spacing="10" styleClass="sidebar">
             <padding><Insets bottom="20" left="10" right="10" top="20" /></padding>
 
-            <!-- Botón Atrás usando un ícono -->
             <Button onAction="#onAtrasClick" maxWidth="200" styleClass="menu-icon-button">
                 <graphic>
                     <ImageView fitHeight="30" fitWidth="30">
@@ -38,11 +37,11 @@
             </Button>
 
             <!-- TitledPane 1 -->
-            <TitledPane expanded="false" prefWidth="230.0" styleClass="menu-titled-pane" text="Cargar reportes">
+            <TitledPane fx:id="cargarReportesPane" expanded="false" prefWidth="230.0" styleClass="menu-titled-pane" text="Cargar reportes">
                 <content>
                     <VBox spacing="5">
-                        <Button onAction="#onButtonDashboardSReporte" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Subir reportes" />
-                        <Button onAction="#onButtonDashboardSInformes" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Subir informes" />
+                        <Button fx:id="subirReportesButton" onAction="#onButtonDashboardSReporte" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Subir reportes" />
+                        <Button fx:id="subirInformesButton" onAction="#onButtonDashboardSInformes" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Subir informes" />
                     </VBox>
                 </content>
                 <graphic>
@@ -54,12 +53,11 @@
                 </graphic>
             </TitledPane>
 
-            <!-- TitledPane 2 -->
-            <TitledPane expanded="false" styleClass="menu-titled-pane" text="Ver reporte">
+            <TitledPane fx:id="verReportesPane" expanded="false" styleClass="menu-titled-pane" text="Ver reporte">
                 <content>
                     <VBox spacing="5">
-                        <Button onAction="#onButtonDashboardGeneral" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Generales" />
-                        <Button onAction="#onButtonDashboardEspecificos" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Específicos" />
+                        <Button fx:id="generalesButton" onAction="#onButtonDashboardGeneral" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Generales" />
+                        <Button fx:id="especificosButton" onAction="#onButtonDashboardEspecificos" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Específicos" />
                     </VBox>
                 </content>
                 <graphic>
@@ -71,12 +69,11 @@
                 </graphic>
             </TitledPane>
 
-            <!-- TitledPane 3 -->
-            <TitledPane expanded="false" styleClass="menu-titled-pane" text="Acciones de mejora">
+            <TitledPane fx:id="accionesMejoraPane" expanded="false" styleClass="menu-titled-pane" text="Acciones de mejora">
                 <content>
                     <VBox spacing="5">
-                        <Button onAction="#onButtonDashboardAsignar" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Asignar acciones de mejora" />
-                        <Button onAction="#onButtonDashboardSeguimiento" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Seguimiento de acciones de mejora" />
+                        <Button fx:id="asignarAccionesButton" onAction="#onButtonDashboardAsignar" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Asignar acciones de mejora" />
+                        <Button fx:id="seguimientoAccionesButton" onAction="#onButtonDashboardSeguimiento" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Seguimiento de acciones de mejora" />
                     </VBox>
                 </content>
                 <graphic>
@@ -88,12 +85,11 @@
                 </graphic>
             </TitledPane>
 
-            <!-- TitledPane 4 -->
-            <TitledPane expanded="false" styleClass="menu-titled-pane" text="CRUD">
+            <TitledPane fx:id="crudPane" expanded="false" styleClass="menu-titled-pane" text="CRUD">
                 <content>
                     <VBox spacing="5">
-                        <Button onAction="#onButtonDashboardCrearRol" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Crear rol" />
-                        <Button onAction="#onButtonDashboardConsultarRol" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Modificar rol" />
+                        <Button fx:id="crearRolButton" onAction="#onButtonDashboardCrearRol" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Crear rol" />
+                        <Button fx:id="modificarRolButton" onAction="#onButtonDashboardConsultarRol" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Modificar rol" />
                     </VBox>
                 </content>
                 <graphic>

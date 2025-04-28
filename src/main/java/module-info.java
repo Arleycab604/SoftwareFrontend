@@ -9,7 +9,8 @@ module com.example.front {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
-    requires java.desktop;
+    requires com.fasterxml.jackson.databind;
+    requires java.net.http;
 
     opens com.SaberPro.SoftwareFront to javafx.fxml;
     opens com.SaberPro.SoftwareFront.Controllers to javafx.fxml;

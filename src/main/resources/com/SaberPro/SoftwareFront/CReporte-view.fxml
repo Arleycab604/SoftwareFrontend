@@ -31,7 +31,8 @@
                 <TableColumn text="Resultado" prefWidth="150"/>
             </columns>
         </TableView>
-
+        <Label text="Formato del archivo: año-periodo.csv (Ejemplo: 2023-1.csv)" style="-fx-font-size: 12px; -fx-text-fill: gray;" />
+        <Label text="Columnas requeridas: Nombre Estudiante, Documento, Año, Periodo, Resultado" style="-fx-font-size: 12px; -fx-text-fill: gray;" />
         <!-- Mensajes -->
         <Label fx:id="mensajeConfirmacion" text="Datos cargados exitosamente." visible="false" style="-fx-text-fill: green; -fx-font-weight: bold;"/>
         <Label fx:id="mensajeError" text="Error al cargar los archivos." visible="false" style="-fx-text-fill: red; -fx-font-weight: bold;"/>
