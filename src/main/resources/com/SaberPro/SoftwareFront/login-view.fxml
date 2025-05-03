@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
         <?import javafx.geometry.Insets?>
         <?import javafx.scene.control.*?>
         <?import javafx.scene.image.*?>
         <?import javafx.scene.layout.*?>
         <?import javafx.scene.text.Font?>
-
 <VBox alignment="CENTER" prefHeight="480.0" prefWidth="450.0"
       style="-fx-background-color: #f6f8fb;"
       xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"

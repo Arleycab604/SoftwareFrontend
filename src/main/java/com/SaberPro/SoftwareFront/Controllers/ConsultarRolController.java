@@ -1,5 +1,10 @@
 package com.SaberPro.SoftwareFront.Controllers;
 
+import com.SaberPro.SoftwareFront.Models.UsuarioDTO;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
@@ -9,34 +14,41 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.SelectionModel;
+import javafx.scene.control.cell.PropertyValueFactory;
+
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Scanner;
 
 public class ConsultarRolController {
 
     // Tabla de datos
     @FXML
-    private TableView<Object> dataTable; // Cambia Object por tu clase modelo, p. ej., Rol
-
+    private TableView<UsuarioDTO> dataTable; // Cambia Object por tu clase modelo, p. ej., Rol
     @FXML
     private TableColumn<Object, String> idColumn;
-
     @FXML
     private TableColumn<Object, String> nameColumn;
-
     @FXML
     private TableColumn<Object, String> rolColumn;
-
     @FXML
     private TableColumn<Object, String> startDateColumn;
+    // Tabla de datos
+    @FXML
+    private TableColumn<UsuarioDTO, String> nombreUsuarioColumn;
+    @FXML
+    private TableColumn<UsuarioDTO, String> tipoDeUsuarioColumn;
+    @FXML
+    private TableColumn<UsuarioDTO, String> correoColumn;
 
     // Campos de búsqueda
     @FXML
     private TextField searchByIdField;
-
     @FXML
     private TextField searchByNameField;
-
     @FXML
     private DatePicker searchByStartDatePicker;
+    private final ObservableList<UsuarioDTO> usuarios = FXCollections.observableArrayList();
 
     // Botones de acciones
     @FXML
@@ -47,6 +59,19 @@ public class ConsultarRolController {
 
     @FXML
     private Button buttonSiguiente;
+
+    @FXML
+    private void initialize() {
+        configurarColumnas();
+        cargarUsuariosDesdeAPI();
+    }
+
+    private void configurarColumnas() {
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("nombreUsuario"));
+        rolColumn.setCellValueFactory(new PropertyValueFactory<>("tipoDeUsuario"));
+        startDateColumn.setCellValueFactory(new PropertyValueFactory<>("correo"));
+        dataTable.setItems(usuarios);
+    }
 
     /**
      * Método para realizar el filtrado en la tabla según los campos de búsqueda.
@@ -86,17 +111,47 @@ public class ConsultarRolController {
 
     /**
      * Obtener el elemento seleccionado en la tabla.
-     *
      * @return El objeto seleccionado o `null` si no hay selección.
      */
     private Object getSelectedItem() {
-        SelectionModel<Object> selectionModel = dataTable.getSelectionModel();
+        SelectionModel<UsuarioDTO> selectionModel = dataTable.getSelectionModel();
         return selectionModel.getSelectedItem();
     }
 
+    private void cargarUsuariosDesdeAPI() {
+        try {
+            URL url = new URL("http://localhost:8080/api/usuario/excluirPorTipo?tipoExcluido=estudiante");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
+
+            if (conn.getResponseCode() == 200) {
+                Scanner scanner = new Scanner(conn.getInputStream());
+                StringBuilder jsonResponse = new StringBuilder();
+                while (scanner.hasNext()) {
+                    jsonResponse.append(scanner.nextLine());
+                }
+                scanner.close();
+
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode rootNode = objectMapper.readTree(jsonResponse.toString());
+                for (JsonNode usuarioNode : rootNode) {
+                    String nombreUsuario = usuarioNode.get("nombreUsuario").asText();
+                    String tipoDeUsuario = usuarioNode.get("tipoDeUsuario").asText();
+                    String correo = usuarioNode.get("correo").asText();
+
+                    usuarios.add(new UsuarioDTO(nombreUsuario, tipoDeUsuario, correo));
+                }
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Error", "No se pudieron cargar los usuarios.");
+            }
+            conn.disconnect();
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Ocurrió un error al cargar los usuarios.");
+        }
+    }
     /**
      * Mostrar alertas genéricas.
-     *
      * @param alertType Tipo de la alerta.
      * @param title     Título de la alerta.
      * @param content   Contenido de la alerta.
@@ -107,14 +162,5 @@ public class ConsultarRolController {
         alert.setHeaderText(null); // Sin cabecera extra.
         alert.setContentText(content);
         alert.showAndWait(); // Espera interacción del usuario.
-    }
-
-    /**
-     * Inicializador. Ejecuta acciones tras cargar la vista.
-     */
-    @FXML
-    private void initialize() {
-        // TODO: Cargar datos en la tabla si es necesario. Puedes configurar las columnas aquí.
-        System.out.println("Vista inicializada correctamente.");
     }
 }

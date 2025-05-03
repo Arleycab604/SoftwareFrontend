@@ -17,12 +17,9 @@ module com.example.front {
     opens com.SaberPro.SoftwareFront to javafx.fxml;
     opens com.SaberPro.SoftwareFront.Controllers to javafx.fxml;
 
-
-    opens com.tests.frontbienhecho to javafx.fxml;
     // Exportar cualquier otro paquete necesario si es requerido por otros módulos
-    exports com.tests.frontbienhecho;
-    exports com.SaberPro.SoftwareFront.Classes;
-    opens com.SaberPro.SoftwareFront.Classes to com.fasterxml.jackson.databind;
+    exports com.SaberPro.SoftwareFront.Models;
     exports com.SaberPro.SoftwareFront;
+    opens com.SaberPro.SoftwareFront.Models to com.fasterxml.jackson.databind, javafx.fxml;
 
 }

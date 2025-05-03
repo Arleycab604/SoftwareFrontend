@@ -1,15 +1,22 @@
 package com.SaberPro.SoftwareFront.Controllers;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.time.LocalDate;
+import java.util.Scanner;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 public class CrearRolController {
-
     @FXML
     private ComboBox<String> tipoRolComboBox;
 
@@ -21,6 +28,51 @@ public class CrearRolController {
 
     @FXML
     private TextField duracionField;
+
+    @FXML
+    private void initialize() {
+        inicializarComboBoxRoles();
+        cargarUsuariosDesdeAPI();
+    }
+
+    private void inicializarComboBoxRoles() {
+        tipoRolComboBox.setItems(FXCollections.observableArrayList(
+                "DIRECTOR DE PROGRAMA",
+                "DOCENTE",
+                "COORDINADOR SABER PRO"
+        ));
+    }
+
+    private void cargarUsuariosDesdeAPI() {
+        try {
+            URL url = new URL("http://localhost:8080/api/usuario/excluirPorTipo?tipoExcluido=estudiante");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
+
+            if (conn.getResponseCode() == 200) {
+                Scanner scanner = new Scanner(conn.getInputStream());
+                StringBuilder jsonResponse = new StringBuilder();
+                while (scanner.hasNext()) {
+                    jsonResponse.append(scanner.nextLine());
+                }
+                scanner.close();
+
+                System.out.println("Respuesta JSON: " + jsonResponse.toString()); // Depuración
+
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode rootNode = objectMapper.readTree(jsonResponse.toString());
+                for (JsonNode usuarioNode : rootNode) {
+                    docenteComboBox.getItems().add(usuarioNode.get("nombreUsuario").asText());
+                }
+            } else {
+                mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudieron cargar los usuarios.");
+            }
+            conn.disconnect();
+        } catch (Exception e) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Error", "Ocurrió un error al cargar los usuarios.");
+        }
+    }
 
     /**
      * Método que se ejecuta al hacer clic en el botón "Crear Rol".
@@ -54,14 +106,55 @@ public class CrearRolController {
      */
     @FXML
     private void onModificarRolClick() {
-        // TODO: Implementar la lógica correspondiente a la modificación del rol
-        mostrarAlerta(
-                Alert.AlertType.INFORMATION,
-                "Modificar Rol",
-                "Opción de modificación disponible para ser implementada."
-        );
-    }
+        try {
+            // Obtener el usuario seleccionado y el nuevo rol
+            String usuarioSeleccionado = docenteComboBox.getValue();
+            String nuevoRol = tipoRolComboBox.getValue();
 
+            if (usuarioSeleccionado == null || nuevoRol == null) {
+                mostrarAlerta(Alert.AlertType.WARNING, "Advertencia", "Debe seleccionar un usuario y un rol.");
+                return;
+            }
+
+            System.out.println("Usuario seleccionado: " + usuarioSeleccionado);
+            System.out.println("Nuevo rol: " + nuevoRol);
+
+            String usuarioCodificado = java.net.URLEncoder.encode(usuarioSeleccionado, "UTF-8");
+            String rolCodificado = java.net.URLEncoder.encode(nuevoRol, "UTF-8");
+
+            String endpoint = String.format("http://localhost:8080/api/usuario/cambiarRol?nombreUsuario=%s&nuevoRol=%s",
+                    usuarioCodificado, rolCodificado);
+
+            URL url = new URL(endpoint);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setDoOutput(true);
+            conn.setRequestMethod("PUT");
+            conn.setRequestProperty("Accept", "application/json");
+
+            if (conn.getResponseCode() == 200) {
+                mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Rol modificado correctamente.");
+            } else {
+                // Verificar si el flujo de error no es nulo
+                InputStream errorStream = conn.getErrorStream();
+                if (errorStream != null) {
+                    Scanner scanner = new Scanner(errorStream);
+                    StringBuilder errorResponse = new StringBuilder();
+                    while (scanner.hasNext()) {
+                        errorResponse.append(scanner.nextLine());
+                    }
+                    scanner.close();
+                    mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo modificar el rol: " + errorResponse.toString());
+                } else {
+                    mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo modificar el rol. El servidor no proporcionó detalles.");
+                }
+            }
+
+            conn.disconnect();
+        } catch (Exception e) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Error", "Ocurrió un error al modificar el rol: " + e.getMessage());
+            e.printStackTrace(); // Depuración: Imprimir el stack trace
+        }
+    }
     /**
      * Valida que todos los campos requeridos del formulario hayan sido llenados correctamente.
      *
@@ -103,31 +196,6 @@ public class CrearRolController {
         return true;
     }
 
-    /**
-     * Inicializa el formulario con valores en el ComboBox.
-     */
-    @FXML
-    private void initialize() {
-        inicializarComboBoxRoles();
-        inicializarComboBoxDocentes();
-    }
-
-    /**
-     * Inicializa valores del ComboBox de Tipo de Rol.
-     */
-    private void inicializarComboBoxRoles() {
-        tipoRolComboBox.getItems().addAll(
-                "Administrador",
-                "Docente",
-                "Estudiante",
-                "Coordinador",
-                "Supervisor"
-        );
-    }
-
-    /**
-     * Inicializa valores del ComboBox de Docentes.
-     */
     private void inicializarComboBoxDocentes() {
         // TODO: Cargar docentes del sistema o base de datos
         docenteComboBox.getItems().addAll(

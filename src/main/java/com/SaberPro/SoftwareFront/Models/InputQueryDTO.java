@@ -1,4 +1,4 @@
-package com.SaberPro.SoftwareFront;
+package com.SaberPro.SoftwareFront.Models;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +28,8 @@ public class InputQueryDTO {
 
     // Datos de módulos (resumen ejemplo: podrías tener una lista si quieres más detalle)
     private String tipoModulo; // Any, o uno especifico
-    private int puntajeMinimoModulo;
-    private int puntajeMaximoModulo;
+    private int puntajeModuloMinimo;
+    private int puntajeModuloMaximo;
     private String nivelDesempeno;
     private int percentilModulo;
 
@@ -47,8 +47,8 @@ public class InputQueryDTO {
                 ", percentilGlobal=" + percentilGlobal +
                 ", novedades='" + novedades + '\'' +
                 ", tipoModulo='" + tipoModulo + '\'' +
-                ", puntajeMinimoModulo=" + puntajeMinimoModulo +
-                ", puntajeMaximoModulo=" + puntajeMaximoModulo +
+                ", puntajeMinimoModulo=" + puntajeModuloMinimo +
+                ", puntajeMaximoModulo=" + puntajeModuloMaximo +
                 ", nivelDesempeno='" + nivelDesempeno + '\'' +
                 ", percentilModulo=" + percentilModulo +
                 '}';
