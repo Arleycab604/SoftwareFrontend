@@ -1,65 +1,58 @@
-.root {
-    -fx-font-family: "Segoe UI", sans-serif;
-    -fx-background-color: #2C3E50;
+.sidebar-scrollpane {
+    -fx-background-color: #444;
+    -fx-hbar-policy: never; /* Ocultar la barra de desplazamiento horizontal */
+    -fx-vbar-policy: as_needed; /* Mostrar la barra de desplazamiento vertical cuando sea necesario */
+}
+/* Agregar esto: */
+.sidebar-scrollpane .viewport {
+    -fx-background-color: #444;
 }
 
-/* General para etiquetas */
-.label {
-    -fx-text-fill: white;
+.sidebar {
+    -fx-background-color: #444; /* O el color gris oscuro que estés usando */
+    -fx-spacing: 15px;
+    -fx-vgrow: ALWAYS; /* Asegura que el VBox crezca verticalmente */
+}
+
+.sidebar-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #eee;
+    -fx-padding: 10 0;
+}
+
+.menu-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #eee;
     -fx-font-size: 14px;
 }
 
-/* Estilo para los TitledPane del menú */
+.menu-button:hover {
+    -fx-background-color: #555;
+}
+
+.submenu-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ccc;
+    -fx-font-size: 13px;
+}
+
+.submenu-button:hover {
+    -fx-background-color: #444;
+}
+
 .menu-titled-pane {
-    -fx-background-color: #3c5067;
-    -fx-text-fill: white;
-    -fx-font-size: 14px;
-    -fx-border-radius: 8px;
-    -fx-background-radius: 8px;
-    -fx-padding: 5 0 5 0;
-    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 5, 0, 0, 2);
+    -fx-text-fill: #eee;
 }
 
-/* Estilo del encabezado del TitledPane */
 .menu-titled-pane > .title {
     -fx-background-color: transparent;
-    -fx-border-radius: 8px;
-    -fx-background-radius: 8px;
-    -fx-padding: 10;
-    -fx-alignment: CENTER_LEFT;
 }
 
-/* Alinear la flecha a la derecha */
-.menu-titled-pane > .title > .arrow-button {
-    -fx-content-display: right;
-    -fx-alignment: CENTER_RIGHT;
-    -fx-translate-x: 100%; /* desplazar hacia la derecha */
+.menu-titled-pane > .title:hover {
+    -fx-background-color: #555;
 }
 
-/* Estilo de botones dentro de los TitledPane */
-.button {
-    -fx-background-color: #3c5067;
-    -fx-text-fill: white;
-    -fx-font-size: 13px;
-    -fx-padding: 8 16 8 16;
-    -fx-background-radius: 8;
-    -fx-cursor: hand;
-    -fx-alignment: CENTER_LEFT;
-    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 3, 0, 0, 1);
+.menu-titled-pane > .title > .arrow-button > .arrow {
+    -fx-background-color: #eee;
 }
-
-.button:hover {
-    -fx-background-color: #547aa5;
-}
-
-/* Espaciado entre icono y texto en botones */
-.button .graphic {
-    -fx-padding: 0 10 0 0;
-}
-
-/* Estilo para imagen del logo */
-#logoImage {
-    -fx-padding: 20;
-    -fx-alignment: CENTER;
-}
-

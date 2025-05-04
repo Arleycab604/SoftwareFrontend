@@ -63,7 +63,7 @@
         </VBox>
     </HBox>
 
-    <TableView fx:id="tablaReportes" prefHeight="250" prefWidth="850" style="-fx-padding: 20px;">
+    <TableView fx:id="tablaReportes" prefHeight="250" prefWidth="1200" style="-fx-padding: 20px;">
         <columns>
             <TableColumn fx:id="colDocumento" prefWidth="120" text="Documento" />
             <TableColumn fx:id="colNombre" prefWidth="150" text="Nombre" />

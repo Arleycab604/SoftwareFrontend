@@ -30,7 +30,7 @@ public class LoginController {
 
         try {
             // Conectar al backend
-            URL url = new URL("http://localhost:8080/api/usuario/login");
+            URL url = new URL("http://localhost:8080/SaberPro/usuario/login");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json");
@@ -69,7 +69,7 @@ public class LoginController {
 
                     // Cargar el Dashboard
                     Stage stage = (Stage) usernameField.getScene().getWindow();
-                    ViewLoader.loadView("Dashboard-view.fxml", stage, 450, 480);
+                    ViewLoader.loadView("Dashboard-view.fxml", stage, 600, 600);
                 } else {
                     System.out.println("Usuario o contraseña incorrectos.");
                 }
@@ -85,6 +85,6 @@ public class LoginController {
     @FXML
     private void onForgotPasswordClick() {
         Stage stage = (Stage) usernameField.getScene().getWindow();
-        ViewLoader.loadView("Recovery-view.fxml", stage, 450, 480);
+        ViewLoader.loadView("Recovery-view.fxml", stage, 600, 600);
     }
 }
