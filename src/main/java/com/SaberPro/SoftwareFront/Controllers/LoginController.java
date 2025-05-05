@@ -1,5 +1,6 @@
 package com.SaberPro.SoftwareFront.Controllers;
 
+import com.SaberPro.SoftwareFront.Utils.BuildRequest;
 import com.SaberPro.SoftwareFront.Utils.TokenManager;
 import com.SaberPro.SoftwareFront.Utils.ViewLoader;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,13 +11,17 @@ import javafx.stage.Stage;
 
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.Base64;
 import java.util.Map;
 import java.util.Scanner;
 
 public class LoginController {
-
+    private final BuildRequest buildRequest = new BuildRequest();
     @FXML
     private TextField usernameField;
 
@@ -29,31 +34,22 @@ public class LoginController {
         String password = passwordField.getText();
 
         try {
-            // Conectar al backend
-            URL url = new URL("http://localhost:8080/api/usuario/login");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type", "application/json");
-            connection.setDoOutput(true);
+            // Enviar la solicitud y obtener la respuesta
+            HttpResponse<String> response = buildRequest.JsonPOST(
+                    "http://localhost:8080/SaberPro/usuario/login",
+                     String.format("{\"nombreUsuario\":\"%s\", \"password\":\"%s\"}", username, password));
 
-            // Crear el JSON con las credenciales
-            String jsonInput = String.format("{\"nombreUsuario\":\"%s\", \"password\":\"%s\"}", username, password);
+            // Manejar la respuesta
+            int responseCode = response.statusCode();
+            System.out.println("Código de respuesta: " + responseCode);
 
-            // Enviar la solicitud
-            try (OutputStream os = connection.getOutputStream()) {
-                os.write(jsonInput.getBytes());
-                os.flush();
-            }
+            if (responseCode == 200) {
+                String responseBody = response.body();
+                System.out.println("Respuesta del servidor: " + responseBody);
 
-            // Leer la respuesta
-            if (connection.getResponseCode() == 200) {
-                Scanner scanner = new Scanner(connection.getInputStream());
-                String response = scanner.useDelimiter("\\A").next();
-                scanner.close();
-
-                // Procesar el token
+                // Procesar el token (si es necesario)
                 ObjectMapper objectMapper = new ObjectMapper();
-                Map<String, Object> jsonMap = objectMapper.readValue(response, Map.class);
+                Map<String, Object> jsonMap = objectMapper.readValue(responseBody, Map.class);
                 String token = (String) jsonMap.get("token");
 
                 if (token != null && !token.equals("Credenciales inválidas.")) {
@@ -74,14 +70,13 @@ public class LoginController {
                     System.out.println("Usuario o contraseña incorrectos.");
                 }
             } else {
-                System.out.println("Error en la solicitud: " + connection.getResponseCode());
+                System.out.println("Error en la solicitud: " + responseCode + " - " + response.body());
             }
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error al conectar con el backend.");
         }
     }
-
     @FXML
     private void onForgotPasswordClick() {
         Stage stage = (Stage) usernameField.getScene().getWindow();

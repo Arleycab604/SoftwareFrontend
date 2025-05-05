@@ -2,106 +2,123 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <BorderPane fx:id="root" stylesheets="@../../../CSS/dashboard.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.SaberPro.SoftwareFront.Controllers.DashboardController">
     <left>
-        <VBox alignment="TOP_CENTER" prefWidth="250" spacing="10" styleClass="sidebar">
-            <padding><Insets bottom="20" left="10" right="10" top="20" /></padding>
+        <ScrollPane fitToWidth="true" styleClass="sidebar-scrollpane">
+            <content>
+                <VBox alignment="TOP_LEFT" prefWidth="230" spacing="15" styleClass="sidebar">
+                    <padding><Insets bottom="25" left="15" right="15" top="25" /></padding>
 
-            <Button onAction="#onAtrasClick" maxWidth="200" styleClass="menu-icon-button">
-                <graphic>
-                    <ImageView fitHeight="30" fitWidth="30">
-                        <image>
-                            <Image url="@../../../Images/close.png" />
-                        </image>
-                    </ImageView>
-                </graphic>
-            </Button>
+                    <Button onAction="#onAtrasClick" alignment="CENTER_LEFT" maxWidth="200" styleClass="menu-icon-button">
+                        <text>Volver</text>
+                        <font>
+                            <Font size="15.0" />
+                        </font>
+                        <padding><Insets left="10.0" /></padding>
+                    </Button>
 
-            <ImageView fitHeight="120" fitWidth="120">
-                <image>
-                    <Image url="@../../../Images/logoicfes.png" />
-                </image>
-            </ImageView>
+                    <Label styleClass="sidebar-title" text="Menú" />
 
-            <Button onAction="#onButtonDashboardInicio" prefHeight="30.0" prefWidth="234.0" styleClass="menu-button" text="Inicio">
-                <graphic>
-                    <ImageView fitHeight="20" fitWidth="20">
-                        <image>
-                            <Image url="@../../../Images/home.png" />
-                        </image>
-                    </ImageView>
-                </graphic>
-            </Button>
+                    <Button onAction="#onButtonDashboardInicio" alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="234.0" styleClass="menu-button" text="Inicio">
+                        <font>
+                            <Font size="14.0" />
+                        </font>
+                        <padding><Insets left="10.0" /></padding>
+                    </Button>
 
-            <!-- TitledPane 1 -->
-            <TitledPane fx:id="cargarReportesPane" expanded="false" prefWidth="230.0" styleClass="menu-titled-pane" text="Cargar reportes">
-                <content>
-                    <VBox spacing="5">
-                        <Button fx:id="subirReportesButton" onAction="#onButtonDashboardSReporte" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Subir reportes" />
-                        <Button fx:id="subirInformesButton" onAction="#onButtonDashboardSInformes" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Subir informes" />
-                    </VBox>
-                </content>
-                <graphic>
-                    <ImageView fitHeight="20" fitWidth="20">
-                        <image>
-                            <Image url="@../../../Images/report.png" />
-                        </image>
-                    </ImageView>
-                </graphic>
-            </TitledPane>
+                    <TitledPane fx:id="cargarReportesPane" expanded="false" prefWidth="230.0" styleClass="menu-titled-pane" text="Cargar reportes">
+                        <content>
+                            <VBox spacing="8" styleClass="submenu-vbox">
+                                <Button fx:id="subirReportesButton" onAction="#onButtonDashboardSReporte" alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="234.0" styleClass="submenu-button" text="Subir reportes">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                    <padding><Insets left="25.0" /></padding>
+                                </Button>
+                                <Button fx:id="subirInformesButton" onAction="#onButtonDashboardSInformes" alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="234.0" styleClass="submenu-button" text="Subir informes">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                    <padding><Insets left="25.0" /></padding>
+                                </Button>
+                            </VBox>
+                        </content>
+                        <font>
+                            <Font size="14.0" />
+                        </font>
+                    </TitledPane>
 
-            <TitledPane fx:id="verReportesPane" expanded="false" styleClass="menu-titled-pane" text="Ver reporte">
-                <content>
-                    <VBox spacing="5">
-                        <Button fx:id="generalesButton" onAction="#onButtonDashboardGeneral" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Generales" />
-                        <Button fx:id="especificosButton" onAction="#onButtonDashboardEspecificos" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Específicos" />
-                    </VBox>
-                </content>
-                <graphic>
-                    <ImageView fitHeight="20" fitWidth="20">
-                        <image>
-                            <Image url="@../../../Images/report.png" />
-                        </image>
-                    </ImageView>
-                </graphic>
-            </TitledPane>
+                    <TitledPane fx:id="verReportesPane" expanded="false" prefWidth="230.0" styleClass="menu-titled-pane" text="Ver reporte">
+                        <content>
+                            <VBox spacing="8" styleClass="submenu-vbox">
+                                <Button fx:id="generalesButton" onAction="#onButtonDashboardGeneral" alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="234.0" styleClass="submenu-button" text="Generales">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                    <padding><Insets left="25.0" /></padding>
+                                </Button>
+                                <Button fx:id="especificosButton" onAction="#onButtonDashboardEspecificos" alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="234.0" styleClass="submenu-button" text="Específicos">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                    <padding><Insets left="25.0" /></padding>
+                                </Button>
+                            </VBox>
+                        </content>
+                        <font>
+                            <Font size="14.0" />
+                        </font>
+                    </TitledPane>
 
-            <TitledPane fx:id="accionesMejoraPane" expanded="false" styleClass="menu-titled-pane" text="Acciones de mejora">
-                <content>
-                    <VBox spacing="5">
-                        <Button fx:id="asignarAccionesButton" onAction="#onButtonDashboardAsignar" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Asignar acciones de mejora" />
-                        <Button fx:id="seguimientoAccionesButton" onAction="#onButtonDashboardSeguimiento" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Seguimiento de acciones de mejora" />
-                    </VBox>
-                </content>
-                <graphic>
-                    <ImageView fitHeight="20" fitWidth="20">
-                        <image>
-                            <Image url="@../../../Images/analytics.png" />
-                        </image>
-                    </ImageView>
-                </graphic>
-            </TitledPane>
+                    <TitledPane fx:id="accionesMejoraPane" expanded="false" prefWidth="230.0" styleClass="menu-titled-pane" text="Acciones de mejora">
+                        <content>
+                            <VBox spacing="8" styleClass="submenu-vbox">
+                                <Button fx:id="asignarAccionesButton" onAction="#onButtonDashboardAsignar" alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="234.0" styleClass="submenu-button" text="Asignar acciones de mejora">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                    <padding><Insets left="25.0" /></padding>
+                                </Button>
+                                <Button fx:id="seguimientoAccionesButton" onAction="#onButtonDashboardSeguimiento" alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="234.0" styleClass="submenu-button" text="Seguimiento de acciones de mejora">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                    <padding><Insets left="25.0" /></padding>
+                                </Button>
+                            </VBox>
+                        </content>
+                        <font>
+                            <Font size="14.0" />
+                        </font>
+                    </TitledPane>
 
-            <TitledPane fx:id="crudPane" expanded="false" styleClass="menu-titled-pane" text="CRUD">
-                <content>
-                    <VBox spacing="5">
-                        <Button fx:id="crearRolButton" onAction="#onButtonDashboardCrearRol" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Crear rol" />
-                        <Button fx:id="modificarRolButton" onAction="#onButtonDashboardConsultarRol" prefHeight="30.0" prefWidth="234.0" styleClass="submenu-button" text="Modificar rol" />
-                    </VBox>
-                </content>
-                <graphic>
-                    <ImageView fitHeight="20" fitWidth="20">
-                        <image>
-                            <Image url="@../../../Images/user.png" />
-                        </image>
-                    </ImageView>
-                </graphic>
-            </TitledPane>
-
-        </VBox>
+                    <TitledPane fx:id="crudPane" expanded="false" prefWidth="230.0" styleClass="menu-titled-pane" text="CRUD">
+                        <content>
+                            <VBox spacing="8" styleClass="submenu-vbox">
+                                <Button fx:id="crearRolButton" onAction="#onButtonDashboardCrearRol" alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="234.0" styleClass="submenu-button" text="Crear rol">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                    <padding><Insets left="25.0" /></padding>
+                                </Button>
+                                <Button fx:id="modificarRolButton" onAction="#onButtonDashboardConsultarRol" alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="234.0" styleClass="submenu-button" text="Modificar rol">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                    <padding><Insets left="25.0" /></padding>
+                                </Button>
+                            </VBox>
+                        </content>
+                        <font>
+                            <Font size="14.0" />
+                        </font>
+                    </TitledPane>
+                </VBox>
+            </content>
+        </ScrollPane>
     </left>
 
     <center>

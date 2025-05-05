@@ -120,7 +120,8 @@ public class ConsultarRolController {
 
     private void cargarUsuariosDesdeAPI() {
         try {
-            URL url = new URL("http://localhost:8080/api/usuario/excluirPorTipo?tipoExcluido=estudiante");
+
+            URL url = new URL("http://localhost:8080/SaberPro/usuario/excluirPorTipo?tipoExcluido=estudiante");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");

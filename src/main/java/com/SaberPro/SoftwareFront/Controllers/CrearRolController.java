@@ -122,7 +122,7 @@ public class CrearRolController {
             String usuarioCodificado = java.net.URLEncoder.encode(usuarioSeleccionado, "UTF-8");
             String rolCodificado = java.net.URLEncoder.encode(nuevoRol, "UTF-8");
 
-            String endpoint = String.format("http://localhost:8080/api/usuario/cambiarRol?nombreUsuario=%s&nuevoRol=%s",
+            String endpoint = String.format("http://localhost:8080/SaberPro/usuario/cambiarRol?nombreUsuario=%s&nuevoRol=%s",
                     usuarioCodificado, rolCodificado);
 
             URL url = new URL(endpoint);

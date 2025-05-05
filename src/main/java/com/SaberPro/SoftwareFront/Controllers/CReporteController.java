@@ -101,7 +101,7 @@ public class CReporteController {
             int anio = Integer.parseInt(anioTexto);
             int periodo = Integer.parseInt(periodoTexto);
 
-            String url = "http://localhost:8080/api/upload/csv?year=" + anio + "&periodo=" + periodo;
+            String url = "http://localhost:8080/SaberPro/upload/csv?year=" + anio + "&periodo=" + periodo;
 
             try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
                 HttpPost uploadFile = new HttpPost(url);

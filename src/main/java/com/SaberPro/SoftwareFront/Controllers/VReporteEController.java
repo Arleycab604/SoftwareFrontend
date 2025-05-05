@@ -2,6 +2,7 @@ package com.SaberPro.SoftwareFront.Controllers;
 
 import com.SaberPro.SoftwareFront.Models.ReporteDTO;
 import com.SaberPro.SoftwareFront.Models.InputQueryDTO;
+import com.SaberPro.SoftwareFront.Utils.BuildRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,7 +25,7 @@ import java.util.*;
 
 public class VReporteEController implements Initializable {
     private final int MIN_PUNTAJE = 0, MAX_PUNTAJE = 300;
-
+    private final BuildRequest buildHTTP = new BuildRequest();
     //Filtros
     @FXML private TextField txtDocumento;
     @FXML private ComboBox<Integer> cmbAnio;
@@ -233,7 +234,7 @@ public class VReporteEController implements Initializable {
             // Configurar la URL del backend
             InputQueryDTO filtros = new InputQueryDTO();
             listaReportes.forEach(System.out::println);
-            HttpResponse<String> response = buildHTTP("http://localhost:8080/api/reportes/filtrar",filtros);
+            HttpResponse<String> response = buildHTTP.POSTInputDTO("http://localhost:8080/SaberPro/reportes/Query",filtros);
 
             if (response.statusCode() == 200) {
                 ObjectMapper objectMapper = new ObjectMapper();
@@ -247,48 +248,9 @@ public class VReporteEController implements Initializable {
             System.err.println("Error al conectar con el backend: " + e.getMessage());
         }
     }
-    @FXML
-    protected void buscarReporte() {
-        listaReportes.clear(); // Limpiar la tabla antes de cada búsqueda
-        InputQueryDTO filtros = new InputQueryDTO();
-        filtros.setYear(cmbAnio.getValue() != null ? cmbAnio.getValue() : 0);
-        filtros.setPeriodo(cmbPeriodo.getValue() != null ? Integer.parseInt(cmbPeriodo.getValue()) : 0);
-        filtros.setNombreUsuario(txtDocumento.getText().trim().isEmpty() ? null : txtDocumento.getText().trim());
-        filtros.setPuntajeGlobalMinimo(!txtPuntajeGlobalMin.getText().isEmpty() ? Integer.parseInt(txtPuntajeGlobalMin.getText()) : 0);
-        filtros.setPuntajeGlobalMaximo(!txtPuntajeGlobalMax.getText().isEmpty() ? Integer.parseInt(txtPuntajeGlobalMax.getText()) : 0);
-
-        // Obtener los módulos seleccionados de los CheckBox
-        List<String> modulosSeleccionados = tipoModuloOptions.stream()
-                .filter(CheckBox::isSelected)
-                .map(CheckBox::getText)
-                .toList();
-        filtros.setTipoModulo(modulosSeleccionados.isEmpty() ? null : String.join(",", modulosSeleccionados));
-
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            String json = objectMapper.writeValueAsString(filtros);
-
-            HttpResponse<String> response = buildHTTP("http://localhost:8080/api/reportes/filtrar",filtros);
-            // Verificar el código de respuesta
-            if (response.statusCode() == 200) {
-                // Convertir la respuesta JSON a una lista de ReporteDTO
-                List<ReporteDTO> resultados = objectMapper.readValue(response.body(), new TypeReference<List<ReporteDTO>>() {});
-
-                // Actualizar la tabla con los resultados
-                listaReportes.addAll(resultados);
-                tablaReportes.setItems(listaReportes);
-            } else {
-                System.err.println("Error en la respuesta del servidor: " + response.statusCode() + " - " + response.body());
-            }
-        } catch (Exception e) {
-            System.err.println("Error al realizar la solicitud HTTP: " + e.getMessage());
-        }
-    }
-    // Revisar
-
     private void buscarReporteConFiltros(InputQueryDTO filtros) {
         try {
-            HttpResponse<String> response = buildHTTP("http://localhost:8080/api/reportes/filtrar",filtros);
+            HttpResponse<String> response = buildHTTP.POSTInputDTO("http://localhost:8080/SaberPro/reportes/Query",filtros);
             ObjectMapper objectMapper = new ObjectMapper();
             String json = objectMapper.writeValueAsString(filtros);
             System.out.println("JSON enviado al backend: " + json);
@@ -307,24 +269,6 @@ public class VReporteEController implements Initializable {
         } catch (Exception e) {
             System.err.println("Error al realizar la solicitud HTTP: " + e.getMessage());
         }
-
-    }
-
-    private HttpResponse<String> buildHTTP(String url, InputQueryDTO filtros) throws IOException, InterruptedException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String json = objectMapper.writeValueAsString(filtros);
-        // Crear el cliente HTTP
-        HttpClient httpClient = HttpClient.newHttpClient();
-        // Convertir los filtros a JSON
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .header("Content-Type", "application/json")
-                .header("Authorization", "Basic " + Base64.getEncoder().encodeToString("user:password".getBytes()))
-                .POST(HttpRequest.BodyPublishers.ofString(json))
-                .build();
-
-        // Enviar la solicitud y obtener la respuesta
-        return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
     }
 }

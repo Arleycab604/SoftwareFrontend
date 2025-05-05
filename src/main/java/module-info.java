@@ -13,6 +13,7 @@ module com.example.front {
     requires org.apache.httpcomponents.core5.httpcore5;
     requires org.apache.httpcomponents.client5.httpclient5;
     requires static lombok;
+    requires java.compiler;
 
     opens com.SaberPro.SoftwareFront to javafx.fxml;
     opens com.SaberPro.SoftwareFront.Controllers to javafx.fxml;
