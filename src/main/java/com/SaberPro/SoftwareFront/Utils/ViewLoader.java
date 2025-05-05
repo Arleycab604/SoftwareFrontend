@@ -18,4 +18,9 @@ public class ViewLoader {
             e.printStackTrace();
         }
     }
+
+    // Nueva sobrecarga para usar tamaños por defecto definidos en ViewConstants
+    public static void loadView(String fxmlPath, Stage currentStage) {
+        loadView(fxmlPath, currentStage, ViewConstants.DEFAULT_WIDTH, ViewConstants.DEFAULT_HEIGHT);
+    }
 }
