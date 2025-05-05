@@ -21,7 +21,6 @@ public class LoginController {
     private PasswordField passwordField;
 
 
-
     @FXML
     private void onLoginButtonClick() {
         String username = usernameField.getText();
@@ -71,4 +70,5 @@ public class LoginController {
             System.out.println("Error al conectar con el backend.");
         }
     }
+}
 
