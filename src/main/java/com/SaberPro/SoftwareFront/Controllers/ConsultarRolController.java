@@ -1,6 +1,7 @@
 package com.SaberPro.SoftwareFront.Controllers;
 
 import com.SaberPro.SoftwareFront.Models.UsuarioDTO;
+import com.SaberPro.SoftwareFront.Utils.BuildRequest;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.collections.FXCollections;
@@ -18,6 +19,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.http.HttpResponse;
+import java.util.Map;
 import java.util.Scanner;
 
 public class ConsultarRolController {
@@ -120,22 +123,23 @@ public class ConsultarRolController {
 
     private void cargarUsuariosDesdeAPI() {
         try {
+            // Realizar la solicitud GET usando BuildRequest
+            HttpResponse<String> response = BuildRequest.getInstance().GETParams(
+                    "http://localhost:8080/SaberPro/usuario/cargarUsuarios",
+                    Map.of() // Sin parámetros adicionales
+            );
 
-            URL url = new URL("http://localhost:8080/SaberPro/usuario/excluirPorTipo?tipoExcluido=estudiante");
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("Accept", "application/json");
+            // Manejar la respuesta
+            int responseCode = response.statusCode();
+            System.out.println("Código de respuesta: " + responseCode);
 
-            if (conn.getResponseCode() == 200) {
-                Scanner scanner = new Scanner(conn.getInputStream());
-                StringBuilder jsonResponse = new StringBuilder();
-                while (scanner.hasNext()) {
-                    jsonResponse.append(scanner.nextLine());
-                }
-                scanner.close();
+            if (responseCode == 200) {
+                String jsonResponse = response.body();
+                System.out.println("Respuesta JSON: " + jsonResponse); // Depuración
 
+                // Procesar la respuesta JSON
                 ObjectMapper objectMapper = new ObjectMapper();
-                JsonNode rootNode = objectMapper.readTree(jsonResponse.toString());
+                JsonNode rootNode = objectMapper.readTree(jsonResponse);
                 for (JsonNode usuarioNode : rootNode) {
                     String nombreUsuario = usuarioNode.get("nombreUsuario").asText();
                     String tipoDeUsuario = usuarioNode.get("tipoDeUsuario").asText();
@@ -146,9 +150,9 @@ public class ConsultarRolController {
             } else {
                 showAlert(Alert.AlertType.ERROR, "Error", "No se pudieron cargar los usuarios.");
             }
-            conn.disconnect();
         } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Ocurrió un error al cargar los usuarios.");
+            showAlert(Alert.AlertType.ERROR, "Error", "Ocurrió un error al cargar los usuarios: " + e.getMessage());
+            e.printStackTrace(); // Depuración
         }
     }
     /**

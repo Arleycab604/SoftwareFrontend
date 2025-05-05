@@ -1,5 +1,6 @@
 package com.SaberPro.SoftwareFront.Controllers;
 
+import com.SaberPro.SoftwareFront.Utils.BuildRequest;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -10,7 +11,9 @@ import javafx.scene.control.TextField;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.http.HttpResponse;
 import java.time.LocalDate;
+import java.util.Map;
 import java.util.Scanner;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -45,32 +48,31 @@ public class CrearRolController {
 
     private void cargarUsuariosDesdeAPI() {
         try {
-            URL url = new URL("http://localhost:8080/api/usuario/excluirPorTipo?tipoExcluido=estudiante");
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("Accept", "application/json");
+            // Realizar la solicitud GET usando BuildRequest
+            HttpResponse<String> response = BuildRequest.getInstance().GETParams(
+                    "http://localhost:8080/SaberPro/usuario/cargarUsuarios",
+                    Map.of()
+            );
+            // Manejar la respuesta
+            int responseCode = response.statusCode();
+            System.out.println("Código de respuesta: " + responseCode);
 
-            if (conn.getResponseCode() == 200) {
-                Scanner scanner = new Scanner(conn.getInputStream());
-                StringBuilder jsonResponse = new StringBuilder();
-                while (scanner.hasNext()) {
-                    jsonResponse.append(scanner.nextLine());
-                }
-                scanner.close();
+            if (responseCode == 200) {
+                String jsonResponse = response.body();
+                System.out.println("Respuesta JSON: " + jsonResponse); // Depuración
 
-                System.out.println("Respuesta JSON: " + jsonResponse.toString()); // Depuración
-
+                // Procesar la respuesta JSON
                 ObjectMapper objectMapper = new ObjectMapper();
-                JsonNode rootNode = objectMapper.readTree(jsonResponse.toString());
+                JsonNode rootNode = objectMapper.readTree(jsonResponse);
                 for (JsonNode usuarioNode : rootNode) {
                     docenteComboBox.getItems().add(usuarioNode.get("nombreUsuario").asText());
                 }
             } else {
                 mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudieron cargar los usuarios.");
             }
-            conn.disconnect();
         } catch (Exception e) {
-            mostrarAlerta(Alert.AlertType.ERROR, "Error", "Ocurrió un error al cargar los usuarios.");
+            mostrarAlerta(Alert.AlertType.ERROR, "Error", "Ocurrió un error al cargar los usuarios: " + e.getMessage());
+            e.printStackTrace(); // Depuración
         }
     }
 
@@ -106,53 +108,36 @@ public class CrearRolController {
      */
     @FXML
     private void onModificarRolClick() {
+        // Obtener el usuario seleccionado y el nuevo rol
+        String usuarioSeleccionado = docenteComboBox.getValue();
+        String nuevoRol = tipoRolComboBox.getValue();
+        if (usuarioSeleccionado == null || nuevoRol == null) {
+            mostrarAlerta(Alert.AlertType.WARNING, "Advertencia", "Debe seleccionar un usuario y un rol.");
+            return;
+        }
+        System.out.println("Usuario seleccionado: " + usuarioSeleccionado);
+        System.out.println("Nuevo rol: " + nuevoRol);
         try {
-            // Obtener el usuario seleccionado y el nuevo rol
-            String usuarioSeleccionado = docenteComboBox.getValue();
-            String nuevoRol = tipoRolComboBox.getValue();
+            // Recibe la url del endpoint y un mapa con los paramentros
+            HttpResponse<String> response = BuildRequest.getInstance().PUTParams(
+                    "http://localhost:8080/SaberPro/usuario/cambiarRol",
+                    Map.of("nombreUsuario", usuarioSeleccionado,
+                            "nuevoRol", nuevoRol));
 
-            if (usuarioSeleccionado == null || nuevoRol == null) {
-                mostrarAlerta(Alert.AlertType.WARNING, "Advertencia", "Debe seleccionar un usuario y un rol.");
-                return;
-            }
+            // Manejar la respuesta
+            int responseCode = response.statusCode();
+            System.out.println("Código de respuesta: " + responseCode);
 
-            System.out.println("Usuario seleccionado: " + usuarioSeleccionado);
-            System.out.println("Nuevo rol: " + nuevoRol);
-
-            String usuarioCodificado = java.net.URLEncoder.encode(usuarioSeleccionado, "UTF-8");
-            String rolCodificado = java.net.URLEncoder.encode(nuevoRol, "UTF-8");
-
-            String endpoint = String.format("http://localhost:8080/SaberPro/usuario/cambiarRol?nombreUsuario=%s&nuevoRol=%s",
-                    usuarioCodificado, rolCodificado);
-
-            URL url = new URL(endpoint);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setDoOutput(true);
-            conn.setRequestMethod("PUT");
-            conn.setRequestProperty("Accept", "application/json");
-
-            if (conn.getResponseCode() == 200) {
+            if (responseCode == 200) {
                 mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Rol modificado correctamente.");
             } else {
-                // Verificar si el flujo de error no es nulo
-                InputStream errorStream = conn.getErrorStream();
-                if (errorStream != null) {
-                    Scanner scanner = new Scanner(errorStream);
-                    StringBuilder errorResponse = new StringBuilder();
-                    while (scanner.hasNext()) {
-                        errorResponse.append(scanner.nextLine());
-                    }
-                    scanner.close();
-                    mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo modificar el rol: " + errorResponse.toString());
-                } else {
-                    mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo modificar el rol. El servidor no proporcionó detalles.");
-                }
+                String responseBody = response.body();
+                System.out.println("Error en la respuesta: " + responseBody);
+                mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo modificar el rol: " + responseBody);
             }
-
-            conn.disconnect();
         } catch (Exception e) {
             mostrarAlerta(Alert.AlertType.ERROR, "Error", "Ocurrió un error al modificar el rol: " + e.getMessage());
-            e.printStackTrace(); // Depuración: Imprimir el stack trace
+            e.printStackTrace(); // Depuración
         }
     }
     /**
@@ -165,17 +150,14 @@ public class CrearRolController {
             mostrarAlerta(Alert.AlertType.ERROR, "Error de Validación", "Debe seleccionar un Tipo de Rol.");
             return false;
         }
-
         if (docenteComboBox.getValue() == null) {
             mostrarAlerta(Alert.AlertType.ERROR, "Error de Validación", "Debe seleccionar un Docente.");
             return false;
         }
-
         if (fechaInicioDatePicker.getValue() == null) {
             mostrarAlerta(Alert.AlertType.ERROR, "Error de Validación", "Debe seleccionar una Fecha de Inicio.");
             return false;
         }
-
         String duracion = duracionField.getText().trim();
         if (duracion.isEmpty()) {
             mostrarAlerta(Alert.AlertType.ERROR, "Error de Validación", "Debe ingresar la Duración del Rol.");
@@ -194,16 +176,6 @@ public class CrearRolController {
         }
 
         return true;
-    }
-
-    private void inicializarComboBoxDocentes() {
-        // TODO: Cargar docentes del sistema o base de datos
-        docenteComboBox.getItems().addAll(
-                "Docente Juan",
-                "Docente María",
-                "Docente Pedro",
-                "Docente Ana"
-        );
     }
 
     /**
