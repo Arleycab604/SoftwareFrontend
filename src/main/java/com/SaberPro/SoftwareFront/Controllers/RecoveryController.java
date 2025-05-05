@@ -13,7 +13,7 @@ public class RecoveryController {
     private void onNextButtonClick() {
         //despues de validar que el codigo sea correcto, se envia a Restore
         Stage stage = (Stage) codeField.getScene().getWindow();
-        ViewLoader.loadView("Restore-view.fxml", stage, 450, 480);
+        ViewLoader.loadView("Restore-view.fxml", stage, 600, 600);
 
         System.out.println("Biennnnnn");
     }
@@ -27,7 +27,7 @@ public class RecoveryController {
     @FXML
     private void onAtrasClick() {
         Stage stage = (Stage) codeField.getScene().getWindow();
-        ViewLoader.loadView("Login-view.fxml", stage, 450, 480);
+        ViewLoader.loadView("Login-view.fxml", stage, 600, 600);
     }
 }
 
