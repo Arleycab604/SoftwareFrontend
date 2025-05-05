@@ -18,58 +18,63 @@
     </padding>
 
     <!-- Botón para mostrar/ocultar filtros -->
-    <Button fx:id="btnToggleFilters" text="Mostrar Filtros" onAction="#toggleFilters" />
+    <Button fx:id="btnToggleFilters" text="Mostrar Filtros" onAction="#toggleFilters" style="-fx-font-weight: bold; -fx-padding: 8 20;" />
 
-    <!-- Sección de filtros -->
-    <VBox fx:id="filtersSection" spacing="15" visible="false" managed="false">
 
-        <GridPane hgap="10" vgap="10">
-            <!-- Documento -->
-            <Label text="Documento:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
-            <TextField fx:id="txtDocumento" promptText="Documento" GridPane.rowIndex="0" GridPane.columnIndex="1" />
-
-            <!-- Año -->
-            <Label text="Año:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
-            <ComboBox fx:id="cmbAnio" promptText="Año" GridPane.rowIndex="1" GridPane.columnIndex="1" />
-
-            <!-- Periodo -->
-            <Label text="Periodo:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
-            <ComboBox fx:id="cmbPeriodo" promptText="Periodo" GridPane.rowIndex="2" GridPane.columnIndex="1" />
-
-            <!-- Rango de puntaje global -->
-            <Label text="Puntaje Global:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
-            <VBox GridPane.rowIndex="3" GridPane.columnIndex="1">
-                <RangeSlider fx:id="rangeSliderPuntajeGlobal" min="0" max="200" showTickLabels="true" showTickMarks="true" />
-                <HBox spacing="10">
-                    <Label text="Mín:" />
-                    <TextField fx:id="txtPuntajeGlobalMin" promptText="Mín" prefWidth="50" />
-                    <Label text="Máx:" />
-                    <TextField fx:id="txtPuntajeGlobalMax" promptText="Máx" prefWidth="50" />
+    <VBox fx:id="filtersSection" spacing="15" visible="false" managed="false" style="-fx-padding: 15;" alignment="TOP_CENTER">
+        <!-- Documento, Periodo y Año -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Documento:"/>
+            <TextField fx:id="txtDocumento" promptText="Documento" prefWidth="180"/>
+            <Label text="Periodo:"/>
+            <ComboBox fx:id="cmbPeriodo" promptText="Periodo" prefWidth="100"/>
+            <Label text="Año:"/>
+            <ComboBox fx:id="cmbAnio" promptText="Año" prefWidth="100"/>
+        </HBox>
+        <!-- Contenedor Principal de los dos filtros -->
+        <HBox spacing="50" alignment="CENTER_LEFT">
+            <!-- Filtro Puntaje Global -->
+            <VBox spacing="8" alignment="CENTER_LEFT" prefWidth="400">
+                <Label text="Puntaje Global:" style="-fx-font-weight: bold;" />
+                <RangeSlider fx:id="rangeSliderPuntajeGlobal"
+                             min="0" max="200" blockIncrement="1"
+                             showTickLabels="true" showTickMarks="true" />
+                <HBox spacing="20" alignment="CENTER_LEFT">
+                    <Label text="Min:"/>
+                    <TextField fx:id="txtPuntajeGlobalMin" promptText="Min" prefWidth="60"/>
+                    <Label text="Max:"/>
+                    <TextField fx:id="txtPuntajeGlobalMax" promptText="Max" prefWidth="60"/>
                 </HBox>
             </VBox>
-
-            <!-- Rango de puntaje por módulo -->
-            <Label text="Puntaje Módulo:" GridPane.rowIndex="4" GridPane.columnIndex="0" />
-            <VBox GridPane.rowIndex="4" GridPane.columnIndex="1">
-                <RangeSlider fx:id="rangeSliderPuntajeModulo" min="0" max="200" showTickLabels="true" showTickMarks="true" />
-                <HBox spacing="10">
-                    <Label text="Mín:" />
-                    <TextField fx:id="txtPuntajeModuloMin" promptText="Mín" prefWidth="50" />
-                    <Label text="Máx:" />
-                    <TextField fx:id="txtPuntajeModuloMax" promptText="Máx" prefWidth="50" />
+            <!-- Filtro Puntaje Módulo -->
+            <VBox spacing="8" alignment="CENTER_LEFT" prefWidth="400">
+                <Label text="Puntaje Módulo:" style="-fx-font-weight: bold;" />
+                <RangeSlider fx:id="rangeSliderPuntajeModulo"
+                             min="0" max="200" blockIncrement="1"
+                             showTickLabels="true" showTickMarks="true" />
+                <HBox spacing="20" alignment="CENTER_LEFT">
+                    <Label text="Min:"/>
+                    <TextField fx:id="txtPuntajeModuloMin" promptText="Min" prefWidth="60"/>
+                    <Label text="Max:"/>
+                    <TextField fx:id="txtPuntajeModuloMax" promptText="Max" prefWidth="60"/>
                 </HBox>
             </VBox>
+        </HBox>
 
-            <!-- Tipo de Módulo -->
-            <Label text="Tipo de Módulo:" GridPane.rowIndex="5" GridPane.columnIndex="0" />
-            <VBox fx:id="tipoModuloCheckboxes" GridPane.rowIndex="5" GridPane.columnIndex="1" spacing="5">
-                <Label text="Seleccione los módulos:" />
-                <!-- Checkboxes se añaden dinámicamente desde el controlador -->
-            </VBox>
-        </GridPane>
+        <!-- Tipo de módulo -->
+        <VBox spacing="5" alignment="CENTER_LEFT">
+            <Label text="Tipo de Módulo:" style="-fx-font-weight: bold;"/>
+            <VBox fx:id="tipoModuloCheckboxes" spacing="3"/>
+        </VBox>
 
-        <Button fx:id="btnAplicarFiltros" text="Aplicar Filtros" onAction="#aplicarFiltros" />
+        <!-- Botón aplicar -->
+        <HBox alignment="CENTER">
+            <Button fx:id="btnAplicarFiltros" text="Aplicar Filtros" onAction="#aplicarFiltros" style="-fx-font-weight: bold; -fx-padding: 8 20;"/>
+        </HBox>
+
     </VBox>
+
+
 
     <Separator />
 

@@ -1,6 +1,5 @@
 package com.SaberPro.SoftwareFront.Utils;
 
-
 import com.SaberPro.SoftwareFront.Models.InputQueryDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -13,10 +12,6 @@ import java.net.http.HttpResponse;
 import java.util.Base64;
 
 public class BuildRequest {
-
-    public static Object getInstance() {
-    }
-
     //FUNCION principal
     public HttpResponse<String> JsonPOST(String url, String json) throws IOException, InterruptedException {
 

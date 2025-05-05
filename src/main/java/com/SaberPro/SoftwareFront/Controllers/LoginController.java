@@ -22,7 +22,6 @@ public class LoginController {
     private PasswordField passwordField;
 
 
-
     @FXML
     private void onLoginButtonClick() {
         String username = usernameField.getText();
@@ -30,9 +29,9 @@ public class LoginController {
 
         try {
             // Enviar la solicitud y obtener la respuesta
-            HttpResponse<String> response = BuildRequest.getInstance().POSTJson(
+            HttpResponse<String> response = buildRequest.JsonPOST(
                     "http://localhost:8080/SaberPro/usuario/login",
-                    String.format("{\"nombreUsuario\":\"%s\", \"password\":\"%s\"}", username, password));
+                     String.format("{\"nombreUsuario\":\"%s\", \"password\":\"%s\"}", username, password));
 
             // Manejar la respuesta
             int responseCode = response.statusCode();
@@ -60,7 +59,7 @@ public class LoginController {
 
                     // Cargar el Dashboard
                     Stage stage = (Stage) usernameField.getScene().getWindow();
-                    ViewLoader.loadView("Dashboard-view.fxml", stage, 450, 480);
+                    ViewLoader.loadView("Dashboard-view.fxml", stage);
                 } else {
                     System.out.println("Usuario o contraseña incorrectos.");
                 }
@@ -72,4 +71,9 @@ public class LoginController {
             System.out.println("Error al conectar con el backend.");
         }
     }
-
+    @FXML
+    private void onForgotPasswordClick() {
+        Stage stage = (Stage) usernameField.getScene().getWindow();
+        ViewLoader.loadView("Recovery-view.fxml", stage);
+    }
+}
