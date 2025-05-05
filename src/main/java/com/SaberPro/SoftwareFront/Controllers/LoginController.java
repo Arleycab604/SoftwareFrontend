@@ -8,17 +8,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URL;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Base64;
 import java.util.Map;
-import java.util.Scanner;
+
 
 public class LoginController {
     private final BuildRequest buildRequest = new BuildRequest();
@@ -28,6 +21,8 @@ public class LoginController {
     @FXML
     private PasswordField passwordField;
 
+
+
     @FXML
     private void onLoginButtonClick() {
         String username = usernameField.getText();
@@ -35,9 +30,9 @@ public class LoginController {
 
         try {
             // Enviar la solicitud y obtener la respuesta
-            HttpResponse<String> response = buildRequest.JsonPOST(
+            HttpResponse<String> response = BuildRequest.getInstance().POSTJson(
                     "http://localhost:8080/SaberPro/usuario/login",
-                     String.format("{\"nombreUsuario\":\"%s\", \"password\":\"%s\"}", username, password));
+                    String.format("{\"nombreUsuario\":\"%s\", \"password\":\"%s\"}", username, password));
 
             // Manejar la respuesta
             int responseCode = response.statusCode();
@@ -77,9 +72,4 @@ public class LoginController {
             System.out.println("Error al conectar con el backend.");
         }
     }
-    @FXML
-    private void onForgotPasswordClick() {
-        Stage stage = (Stage) usernameField.getScene().getWindow();
-        ViewLoader.loadView("Recovery-view.fxml", stage, 450, 480);
-    }
-}
+

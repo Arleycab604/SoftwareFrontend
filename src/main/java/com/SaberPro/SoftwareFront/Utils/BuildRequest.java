@@ -14,6 +14,9 @@ import java.util.Base64;
 
 public class BuildRequest {
 
+    public static Object getInstance() {
+    }
+
     //FUNCION principal
     public HttpResponse<String> JsonPOST(String url, String json) throws IOException, InterruptedException {
 

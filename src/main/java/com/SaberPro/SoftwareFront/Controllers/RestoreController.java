@@ -97,13 +97,13 @@ public class RestoreController implements Initializable {
     @FXML
     private void onRestore_passwordButtonClick() {
         Stage stage = (Stage) r1_passwordField.getScene().getWindow();
-        ViewLoader.loadView("login-view.fxml", stage, 600, 600);
+        ViewLoader.loadView("login-view.fxml", stage);
     }
     // Acción del botón atrás
     @FXML
     private void onBackButtonClick() {
         Stage stage = (Stage) r1_passwordField.getScene().getWindow();
-        ViewLoader.loadView("Recovery-view.fxml", stage, 600, 600);
+        ViewLoader.loadView("Recovery-view.fxml", stage);
     }
 }
 

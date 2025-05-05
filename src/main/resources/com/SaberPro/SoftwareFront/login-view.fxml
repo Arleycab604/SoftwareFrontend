@@ -27,7 +27,7 @@
                      <Image url="@../../../Images/logounillanos.png"/>
                   </image>
                </ImageView>
-               <ImageView fitHeight="60.0" fitWidth="140.0" preserveRatio="true">
+               <ImageView fitHeight="90.0" fitWidth="140.0" preserveRatio="true">
                   <image>
                      <Image url="@../../../Images/logoicfes.png"/>
                   </image>
