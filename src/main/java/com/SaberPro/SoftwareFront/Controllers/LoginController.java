@@ -21,7 +21,6 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class LoginController {
-    private final BuildRequest buildRequest = new BuildRequest();
     @FXML
     private TextField usernameField;
 
@@ -35,7 +34,7 @@ public class LoginController {
 
         try {
             // Enviar la solicitud y obtener la respuesta
-            HttpResponse<String> response = buildRequest.JsonPOST(
+            HttpResponse<String> response = BuildRequest.getInstance().POSTJson(
                     "http://localhost:8080/SaberPro/usuario/login",
                      String.format("{\"nombreUsuario\":\"%s\", \"password\":\"%s\"}", username, password));
 

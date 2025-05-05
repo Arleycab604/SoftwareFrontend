@@ -25,7 +25,6 @@ import java.util.*;
 
 public class VReporteEController implements Initializable {
     private final int MIN_PUNTAJE = 0, MAX_PUNTAJE = 300;
-    private final BuildRequest buildHTTP = new BuildRequest();
     //Filtros
     @FXML private TextField txtDocumento;
     @FXML private ComboBox<Integer> cmbAnio;
@@ -234,7 +233,7 @@ public class VReporteEController implements Initializable {
             // Configurar la URL del backend
             InputQueryDTO filtros = new InputQueryDTO();
             listaReportes.forEach(System.out::println);
-            HttpResponse<String> response = buildHTTP.POSTInputDTO("http://localhost:8080/SaberPro/reportes/Query",filtros);
+            HttpResponse<String> response = BuildRequest.getInstance().POSTInputDTO("http://localhost:8080/SaberPro/reportes/Query",filtros);
 
             if (response.statusCode() == 200) {
                 ObjectMapper objectMapper = new ObjectMapper();
@@ -250,7 +249,7 @@ public class VReporteEController implements Initializable {
     }
     private void buscarReporteConFiltros(InputQueryDTO filtros) {
         try {
-            HttpResponse<String> response = buildHTTP.POSTInputDTO("http://localhost:8080/SaberPro/reportes/Query",filtros);
+            HttpResponse<String> response = BuildRequest.getInstance().POSTInputDTO("http://localhost:8080/SaberPro/reportes/Query",filtros);
             ObjectMapper objectMapper = new ObjectMapper();
             String json = objectMapper.writeValueAsString(filtros);
             System.out.println("JSON enviado al backend: " + json);

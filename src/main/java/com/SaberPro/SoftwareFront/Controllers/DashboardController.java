@@ -9,111 +9,103 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
-
 import java.io.IOException;
+import javafx.scene.Node;
 
 public class DashboardController {
 
     @FXML
     private TitledPane cargarReportesPane, verReportesPane, accionesMejoraPane, crudPane;
+
     @FXML
     private Button subirReportesButton, subirInformesButton, generalesButton, especificosButton;
     @FXML
     private Button asignarAccionesButton, seguimientoAccionesButton, crearRolButton, modificarRolButton;
 
     @FXML
+    private StackPane contentArea;
+
+    @FXML
     public void initialize() {
-        if (cargarReportesPane == null) {
-            System.out.println("Error: cargarReportesPane no está inicializado. Verifica el archivo FXML.");
+        // Comprobación de inicialización de los nodos FXML
+        if (cargarReportesPane == null || verReportesPane == null || accionesMejoraPane == null || crudPane == null) {
+            System.out.println("Advertencia: Uno o más TitledPanes no están inicializados correctamente.");
+            return;
         }
-        if (verReportesPane == null) {
-            System.out.println("Error: verReportesPane no está inicializado. Verifica el archivo FXML.");
-        }
+
+        // Obtiene el tipo de usuario desde el token
         String tipoUsuario = TokenManager.getTipoUsuario();
 
         if (tipoUsuario == null) {
-            System.out.println("Error: tipoUsuario es null. Verifica que se haya establecido correctamente.");
-            return; // Detenemos la ejecución si no hay un tipo de usuario válido
+            System.out.println("Error: tipoUsuario no definido. Verifica los detalles del login.");
+            return;
         }
 
+        // Oculta los elementos según el tipo de usuario
         switch (tipoUsuario) {
             case "DECANATURA":
-                // Acceso completo, no se deshabilita nada
+                // Acceso completo: todos los elementos están visibles
                 break;
+
             case "OFICINA DE ACREDITACION":
-                //Subir reportes, ver reportes y acciones de mejora
-                assert crudPane != null;
-                crudPane.setVisible(false);
-
+                ocultarPane(crudPane); // No puede gestionar usuarios
                 break;
+
             case "COORDINADOR SABER PRO":
-                assert cargarReportesPane != null;
-                cargarReportesPane.setVisible(false);
-                assert crudPane != null;
-                crudPane.setVisible(false);
-                //Puede ver reportes y acciones de mejora
+                ocultarPane(cargarReportesPane); // Sin acceso para cargar reportes
+                ocultarPane(crudPane); // Sin acceso para gestionar usuarios
                 break;
+
             case "DIRECTOR DE ESCUELA":
-                // Ver reportes, acciones de mejora, ver informes de docentes sobre ello y el crud
-                assert cargarReportesPane != null;
-                cargarReportesPane.setVisible(false);
+                ocultarPane(cargarReportesPane); // No puede cargar reportes
                 break;
+
             case "DIRECTOR DE PROGRAMA":
-                //No puede crear usuarios de ningun tipo
-                assert crudPane != null;
-                crudPane.setVisible(false);
+                ocultarPane(crudPane); // Sin acceso para gestionar usuarios
                 break;
+
             case "DOCENTE":
-                //Puede subir sus reportes de implementacion e acciones de mejora
-                //Puede ver informes generales
-
-                assert especificosButton != null;
-                especificosButton.setVisible(false);
-
-                assert accionesMejoraPane != null;
-                accionesMejoraPane.setVisible(false);
-                assert cargarReportesPane != null;
-                cargarReportesPane.setVisible(false);
-
-                assert crudPane != null;
-                crudPane.setVisible(false);
+                ocultarPane(cargarReportesPane);
+                ocultarPane(accionesMejoraPane);
+                ocultarPane(crudPane);
+                ocultarButton(especificosButton); // Sin reportes específicos
                 break;
+
             case "ESTUDIANTE":
-                assert crudPane != null;
-                crudPane.setVisible(false);
-
-                assert cargarReportesPane != null;
-                cargarReportesPane.setVisible(false);
-
-                assert accionesMejoraPane != null;
-                accionesMejoraPane.setVisible(false);
-
+                ocultarPane(crudPane);
+                ocultarPane(cargarReportesPane);
+                ocultarPane(accionesMejoraPane);
                 break;
+
             default:
-                System.out.println("Error: tipoUsuario no reconocido.");
+                System.out.println("Advertencia: tipoUsuario no reconocido.");
                 break;
         }
     }
 
-    private void disableAll() {
-        cargarReportesPane.setDisable(true);
-        verReportesPane.setDisable(true);
-        accionesMejoraPane.setDisable(true);
-        crudPane.setDisable(true);
-
-        subirReportesButton.setDisable(true);
-        subirInformesButton.setDisable(true);
-        generalesButton.setDisable(true);
-        especificosButton.setDisable(true);
-        asignarAccionesButton.setDisable(true);
-        seguimientoAccionesButton.setDisable(true);
-        crearRolButton.setDisable(true);
-        modificarRolButton.setDisable(true);
+    /**
+     * Oculta el nodo especificado (Pane, TitledPane, etc.) y libera su espacio en la interfaz.
+     */
+    private void ocultarPane(Node node) {
+        if (node != null) {
+            node.setVisible(false);
+            node.setManaged(false); // Libera espacio en el layout
+        }
     }
 
-    @FXML
-    private StackPane contentArea;
+    /**
+     * Oculta el botón especificado y libera su espacio en la interfaz.
+     */
+    private void ocultarButton(Button button) {
+        if (button != null) {
+            button.setVisible(false);
+            button.setManaged(false);
+        }
+    }
 
+    /**
+     * Carga una vista en el área principal con el archivo FXML especificado.
+     */
     private void loadView(String fxml) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/SaberPro/SoftwareFront/" + fxml));
@@ -128,42 +120,51 @@ public class DashboardController {
     @FXML
     private void onAtrasClick() {
         Stage stage = (Stage) contentArea.getScene().getWindow();
-        ViewLoader.loadView("login-view.fxml", stage, 450, 480);
+        ViewLoader.loadView("login-view.fxml", stage);
     }
 
-    @FXML private void onButtonDashboardInicio() {
+    @FXML
+    private void onButtonDashboardInicio() {
         loadView("Login-view.fxml");
     }
 
-    @FXML private void onButtonDashboardSReporte() {
+    @FXML
+    private void onButtonDashboardSReporte() {
         loadView("CReporte-view.fxml");
     }
 
-    @FXML private void onButtonDashboardSInformes() {
+    @FXML
+    private void onButtonDashboardSInformes() {
         loadView("Login-view.fxml");
     }
 
-    @FXML private void onButtonDashboardGeneral() {
+    @FXML
+    private void onButtonDashboardGeneral() {
         loadView("VReporteG-view.fxml");
     }
 
-    @FXML private void onButtonDashboardEspecificos() {
+    @FXML
+    private void onButtonDashboardEspecificos() {
         loadView("VReporteE-view.fxml");
     }
 
-    @FXML private void onButtonDashboardAsignar() {
+    @FXML
+    private void onButtonDashboardAsignar() {
         loadView("Login-view.fxml");
     }
 
-    @FXML private void onButtonDashboardSeguimiento() {
+    @FXML
+    private void onButtonDashboardSeguimiento() {
         loadView("Login-view.fxml");
     }
 
-    @FXML private void onButtonDashboardCrearRol() {
+    @FXML
+    private void onButtonDashboardCrearRol() {
         loadView("CrearRol-view.fxml");
     }
 
-    @FXML private void onButtonDashboardConsultarRol() {
+    @FXML
+    private void onButtonDashboardConsultarRol() {
         loadView("ConsultarRol-view.fxml");
     }
 }
