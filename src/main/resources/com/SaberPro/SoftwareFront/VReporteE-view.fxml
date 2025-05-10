@@ -17,6 +17,8 @@
         <Insets top="20" right="20" bottom="20" left="20" />
     </padding>
 
+
+
     <!-- Botón para mostrar/ocultar filtros -->
     <Button fx:id="btnToggleFilters" text="Mostrar Filtros" onAction="#toggleFilters" style="-fx-font-weight: bold; -fx-padding: 8 20;" />
 
@@ -37,7 +39,7 @@
             <VBox spacing="8" alignment="CENTER_LEFT" prefWidth="400">
                 <Label text="Puntaje Global:" style="-fx-font-weight: bold;" />
                 <RangeSlider fx:id="rangeSliderPuntajeGlobal"
-                             min="0" max="300" blockIncrement="1"
+                             min="0" max="200" blockIncrement="1"
                              showTickLabels="true" showTickMarks="true" />
                 <HBox spacing="20" alignment="CENTER_LEFT">
                     <Label text="Min:"/>
@@ -50,7 +52,7 @@
             <VBox spacing="8" alignment="CENTER_LEFT" prefWidth="400">
                 <Label text="Puntaje Módulo:" style="-fx-font-weight: bold;" />
                 <RangeSlider fx:id="rangeSliderPuntajeModulo"
-                             min="0" max="300" blockIncrement="1"
+                             min="0" max="200" blockIncrement="1"
                              showTickLabels="true" showTickMarks="true" />
                 <HBox spacing="20" alignment="CENTER_LEFT">
                     <Label text="Min:"/>
@@ -73,9 +75,6 @@
         </HBox>
 
     </VBox>
-
-
-
     <Separator />
 
     <!-- Tabla de reportes -->

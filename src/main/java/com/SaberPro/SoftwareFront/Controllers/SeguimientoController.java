@@ -1,4 +1,5 @@
 package com.SaberPro.SoftwareFront.Controllers;
 
-public class VReporteController {
+public class SeguimientoController {
+
 }

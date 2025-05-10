@@ -103,3 +103,34 @@
 .button-siguiente:hover {
     -fx-background-color: #555;
 }
+
+/* Contenedor tarjeta */
+.tarjeta-formulario {
+    -fx-background-color: #ffffff;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.25), 20, 0, 0, 6);
+    -fx-padding: 30;
+}
+
+/* Título del formulario */
+.titulo-principal {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1a237e;
+}
+
+/* Etiquetas de campos */
+.label-campo {
+    -fx-font-size: 14px;
+    -fx-text-fill: #455a64;
+}
+
+/* ComboBox, TextField, DatePicker */
+.combo-personalizado {
+    -fx-background-color: #eceff1;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #cfd8dc;
+    -fx-padding: 8;
+}
