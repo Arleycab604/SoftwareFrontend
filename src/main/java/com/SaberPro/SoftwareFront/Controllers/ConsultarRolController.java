@@ -125,7 +125,7 @@ public class ConsultarRolController {
         try {
             // Realizar la solicitud GET usando BuildRequest
             HttpResponse<String> response = BuildRequest.getInstance().GETParams(
-                    "http://localhost:8080/SaberPro/usuario/cargarUsuarios",
+                    "http://localhost:8080/SaberPro/usuarios",
                     Map.of() // Sin parámetros adicionales
             );
 

@@ -50,7 +50,7 @@ public class CrearRolController {
         try {
             // Realizar la solicitud GET usando BuildRequest
             HttpResponse<String> response = BuildRequest.getInstance().GETParams(
-                    "http://localhost:8080/SaberPro/usuario/cargarUsuarios",
+                    "http://localhost:8080/SaberPro/usuarios",
                     Map.of()
             );
             // Manejar la respuesta
@@ -120,7 +120,7 @@ public class CrearRolController {
         try {
             // Recibe la url del endpoint y un mapa con los paramentros
             HttpResponse<String> response = BuildRequest.getInstance().PUTParams(
-                    "http://localhost:8080/SaberPro/usuario/cambiarRol",
+                    "http://localhost:8080/SaberPro/usuarios/assignRole",
                     Map.of("nombreUsuario", usuarioSeleccionado,
                             "nuevoRol", nuevoRol));
 

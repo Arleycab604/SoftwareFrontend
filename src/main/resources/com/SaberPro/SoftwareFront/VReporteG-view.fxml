@@ -1,42 +1,117 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import org.controlsfx.control.RangeSlider?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.SaberPro.SoftwareFront.Controllers.VReporteGController"
-            stylesheets="@../../../CSS/Carga.css"
-            prefHeight="600.0" prefWidth="1000.0">
+<?import java.net.URL?>
+    <VBox xmlns="http://javafx.com/javafx/23.0.1"
+          xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="com.SaberPro.SoftwareFront.Controllers.VReporteGController"
+          prefWidth="1000.0" prefHeight="700.0" spacing="20.0">
 
-    <VBox spacing="10" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
+        <stylesheets>
+            <URL value="@../../../CSS/Carga.css" />
+        </stylesheets>
 
-        <HBox spacing="10">
-            <TextField fx:id="campoBuscarPrograma" promptText="Programa o Competencia" />
-            <ComboBox fx:id="comboAnio" promptText="Año" />
-            <ComboBox fx:id="comboPeriodo" promptText="Periodo" />
-            <Button text="Buscar Reporte" fx:id="botonBuscar" />
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20" />
+        </padding>
+
+    <Button fx:id="btnToggleFilters" text="Mostrar Filtros" onAction="#toggleFilters" style="-fx-font-weight: bold; -fx-padding: 8 20;" />
+
+
+    <VBox fx:id="filtersSection" spacing="15" visible="false" managed="false" style="-fx-padding: 15;" alignment="TOP_CENTER">
+        <!-- Documento, Periodo y Año -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Documento:"/>
+            <TextField fx:id="txtDocumento" promptText="Documento" prefWidth="180"/>
+            <Label text="Periodo:"/>
+            <ComboBox fx:id="cmbPeriodo" promptText="Periodo" prefWidth="100"/>
+            <Label text="Año:"/>
+            <ComboBox fx:id="cmbAnio" promptText="Año" prefWidth="100"/>
         </HBox>
-
-        <HBox spacing="10">
-            <ComboBox fx:id="ordenarPor" promptText="Ordenar por" />
-            <ComboBox fx:id="direccionOrden" promptText="Ascendente/Descendente" />
+        <!-- Contenedor Principal de los dos filtros -->
+        <HBox spacing="50" alignment="CENTER_LEFT">
+            <!-- Filtro Puntaje Global -->
+            <VBox spacing="8" alignment="CENTER_LEFT" prefWidth="400">
+                <Label text="Media periodo:" style="-fx-font-weight: bold;" />
+                <RangeSlider fx:id="rangeMediaPeriodo"
+                             min="0" max="300" blockIncrement="1"
+                             showTickLabels="true" showTickMarks="true" />
+                <HBox spacing="20" alignment="CENTER_LEFT">
+                    <Label text="Min:"/>
+                    <TextField fx:id="txtMediaPeriodoMin" promptText="Min" prefWidth="60"/>
+                    <Label text="Max:"/>
+                    <TextField fx:id="txtMediaPeriodoMax" promptText="Max" prefWidth="60"/>
+                </HBox>
+            </VBox>
+            <!-- Filtro Puntaje Módulo -->
+            <VBox spacing="8" alignment="CENTER_LEFT" prefWidth="400">
+                <Label text="Puntaje Módulo:" style="-fx-font-weight: bold;" />
+                <RangeSlider fx:id="rangeCoefVarPeriodo"
+                             min="0" max="300" blockIncrement="1"
+                             showTickLabels="true" showTickMarks="true" />
+                <HBox spacing="20" alignment="CENTER_LEFT">
+                    <Label text="Min:"/>
+                    <TextField fx:id="txtCoefVarPeriodoMin" promptText="Min" prefWidth="60"/>
+                    <Label text="Max:"/>
+                    <TextField fx:id="txtCoefVarPeriodoMax" promptText="Max" prefWidth="60"/>
+                </HBox>
+            </VBox>
+            <!-- Filtro Puntaje Global -->
+            <VBox spacing="8" alignment="CENTER_LEFT" prefWidth="400">
+                <Label text="Media modulo:" style="-fx-font-weight: bold;" />
+                <RangeSlider fx:id="rangeMediaModulo"
+                             min="0" max="300" blockIncrement="1"
+                             showTickLabels="true" showTickMarks="true" />
+                <HBox spacing="20" alignment="CENTER_LEFT">
+                    <Label text="Min:"/>
+                    <TextField fx:id="txtMediaModuloMin" promptText="Min" prefWidth="60"/>
+                    <Label text="Max:"/>
+                    <TextField fx:id="txtMediaModuloMax" promptText="Max" prefWidth="60"/>
+                </HBox>
+            </VBox>
+            <!-- Filtro Puntaje Módulo -->
+            <VBox spacing="8" alignment="CENTER_LEFT" prefWidth="400">
+                <Label text="Puntaje Módulo:" style="-fx-font-weight: bold;" />
+                <RangeSlider fx:id="rangeCoefVarModulo"
+                             min="0" max="300" blockIncrement="1"
+                             showTickLabels="true" showTickMarks="true" />
+                <HBox spacing="20" alignment="CENTER_LEFT">
+                    <Label text="Min:"/>
+                    <TextField fx:id="txtCoefVarModuloMin" promptText="Min" prefWidth="60"/>
+                    <Label text="Max:"/>
+                    <TextField fx:id="txtCoefVarModuloMax" promptText="Max" prefWidth="60"/>
+                </HBox>
+            </VBox>
         </HBox>
+        <!-- Tipo de módulo -->
+        <VBox spacing="5" alignment="CENTER_LEFT">
+            <Label text="Tipo de Módulo:" style="-fx-font-weight: bold;"/>
+            <VBox fx:id="tipoModuloCheckboxes" spacing="3"/>
+        </VBox>
 
-        <TableView fx:id="tablaReporteGeneral" prefHeight="500" prefWidth="1000">
-            <columns>
-                <TableColumn fx:id="columnaCompetenciaPrograma" text="Competencia / Programa" prefWidth="250"/>
-                <TableColumn fx:id="columnaAnio" text="Año" prefWidth="100"/>
-                <TableColumn fx:id="columnaPeriodo" text="Periodo" prefWidth="100"/>
-                <TableColumn fx:id="columnaPromedioGlobal" text="Promedio Global" prefWidth="150"/>
-                <TableColumn fx:id="columnaNivelDesempeno" text="Nivel de Desempeño" prefWidth="200"/>
-                <TableColumn fx:id="columnaNumEstudiantes" text="N° Estudiantes" prefWidth="150"/>
-            </columns>
-        </TableView>
-
-        <Label fx:id="mensajeTablaVacia" text="Tabla sin contenido" visible="false" style="-fx-text-fill: gray;"/>
-
+        <!-- Botón aplicar -->
+        <HBox alignment="CENTER">
+            <Button fx:id="btnAplicarFiltros" text="Aplicar Filtros" onAction="#aplicarFiltros" style="-fx-font-weight: bold; -fx-padding: 8 20;"/>
+        </HBox>
     </VBox>
 
-</AnchorPane>
+    <Separator />
 
+    <!-- Tabla -->
+    <TableView fx:id="tablaReportes" prefHeight="600" prefWidth="1000">
+        <columns>
+            <TableColumn fx:id="colYear" text="Año" prefWidth="60"/>
+            <TableColumn fx:id="colPeriodo" text="Periodo" prefWidth="60"/>
+            <TableColumn fx:id="colMediaPeriodo" text="Media Periodo" prefWidth="100"/>
+            <TableColumn fx:id="colVarianzaPeriodo" text="Varianza Periodo" prefWidth="120"/>
+            <TableColumn fx:id="colCoefVarPeriodo" text="Coef. Var Periodo" prefWidth="120"/>
+            <TableColumn fx:id="colTipoModulo" text="Tipo Módulo" prefWidth="120"/>
+            <TableColumn fx:id="colMediaModulo" text="Media Módulo" prefWidth="100"/>
+            <TableColumn fx:id="colVarianzaModulo" text="Varianza Módulo" prefWidth="120"/>
+            <TableColumn fx:id="colCoefVarModulo" text="Coef. Var Módulo" prefWidth="120"/>
+        </columns>
+    </TableView>
+</VBox>

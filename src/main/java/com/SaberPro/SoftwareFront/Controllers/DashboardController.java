@@ -48,6 +48,7 @@ public class DashboardController {
                 break;
 
             case "OFICINA DE ACREDITACION":
+                //Cargar reportes, gestionari usarios
                 ocultarPane(crudPane); // No puede gestionar usuarios
                 break;
 

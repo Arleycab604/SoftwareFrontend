@@ -35,7 +35,7 @@ public class LoginController {
         try {
             // Enviar la solicitud y obtener la respuesta
             HttpResponse<String> response = BuildRequest.getInstance().POSTJson(
-                    "http://localhost:8080/SaberPro/usuario/login",
+                    "http://localhost:8080/SaberPro/usuarios/login",
                      String.format("{\"nombreUsuario\":\"%s\", \"password\":\"%s\"}", username, password));
 
             // Manejar la respuesta
@@ -64,7 +64,7 @@ public class LoginController {
 
                     // Cargar el Dashboard
                     Stage stage = (Stage) usernameField.getScene().getWindow();
-                    ViewLoader.loadView("Dashboard-view.fxml", stage, 450, 480);
+                    ViewLoader.loadView("Dashboard-view.fxml", stage);
                 } else {
                     System.out.println("Usuario o contraseña incorrectos.");
                 }
@@ -79,6 +79,6 @@ public class LoginController {
     @FXML
     private void onForgotPasswordClick() {
         Stage stage = (Stage) usernameField.getScene().getWindow();
-        ViewLoader.loadView("Recovery-view.fxml", stage, 450, 480);
+        ViewLoader.loadView("Recovery-view.fxml", stage);
     }
 }

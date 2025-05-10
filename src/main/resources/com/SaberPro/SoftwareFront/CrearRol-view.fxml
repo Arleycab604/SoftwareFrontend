@@ -39,7 +39,7 @@
 
             <!-- Lista para Docentes -->
             <VBox spacing="8.0" alignment="CENTER_LEFT">
-                <Label text="Docente:" style="-fx-font-size: 14px; -fx-text-fill: #455a64;" />
+                <Label text="Usuario:" style="-fx-font-size: 14px; -fx-text-fill: #455a64;" />
                 <ComboBox fx:id="docenteComboBox" promptText="Seleccione un docente" prefWidth="320.0"
                           style="-fx-background-color: #eceff1;
                                  -fx-background-radius: 10;

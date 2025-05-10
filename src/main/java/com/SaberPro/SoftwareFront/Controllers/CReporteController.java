@@ -1,5 +1,6 @@
 package com.SaberPro.SoftwareFront.Controllers;
 
+import com.SaberPro.SoftwareFront.Utils.BuildRequest;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -17,6 +18,8 @@ import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.core5.http.ContentType;
 import java.io.IOException;
+import java.net.http.HttpResponse;
+import java.util.Map;
 
 
 public class CReporteController {
@@ -99,41 +102,35 @@ public class CReporteController {
             int anio = Integer.parseInt(anioTexto);
             int periodo = Integer.parseInt(periodoTexto);
 
-            String url = "http://localhost:8080/SaberPro/upload/csv?year=" + anio + "&periodo=" + periodo;
+            String url = "http://localhost:8080/SaberPro/upload/csv";
+            Map<String, String> params = Map.of(
+                    "year", String.valueOf(anio),
+                    "periodo", String.valueOf(periodo)
+            );
 
-            try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-                HttpPost uploadFile = new HttpPost(url);
+            // Llamar al método de BuildRequest para subir el archivo
+            HttpResponse<String> response = BuildRequest.getInstance().uploadFile(url, archivoSeleccionado, params);
 
-                HttpEntity entity = EntityBuilder.create()
-                        .setFile(archivoSeleccionado)
-                        .setContentType(ContentType.MULTIPART_FORM_DATA)
-                        .build();
+            int statusCode = response.statusCode();
+            String responseBody = response.body();
 
-                uploadFile.setEntity(entity);
-
-                try (CloseableHttpResponse response = httpClient.execute(uploadFile)) {
-                    int statusCode = response.getCode();
-                    String reasonPhrase = response.getReasonPhrase();
-
-                    if (statusCode == 200) {
-                        mensajeError.setText("Archivo subido exitosamente.");
-                        mensajeError.setStyle("-fx-text-fill: green;");
-                        System.out.println("DEBUG: Archivo subido exitosamente. Respuesta del servidor: " + reasonPhrase);
-                    } else {
-                        mensajeError.setText("Error al subir el archivo. Servidor respondió: " + reasonPhrase);
-                        mensajeError.setStyle("-fx-text-fill: red;");
-                        System.out.println("DEBUG: Error al subir el archivo. Código de estado: " + statusCode + ", Razón: " + reasonPhrase);
-                    }
-                }
+            if (statusCode == 200) {
+                mensajeError.setText("Archivo subido exitosamente.");
+                mensajeError.setStyle("-fx-text-fill: green;");
+                System.out.println("DEBUG: Archivo subido exitosamente. Respuesta del servidor: " + responseBody);
+            } else {
+                mensajeError.setText("Error al subir el archivo. Servidor respondió: " + responseBody);
+                mensajeError.setStyle("-fx-text-fill: red;");
+                System.out.println("DEBUG: Error al subir el archivo. Código de estado: " + statusCode + ", Respuesta: " + responseBody);
             }
         } catch (NumberFormatException e) {
             mensajeError.setText("El año y el periodo deben ser números enteros.");
             mensajeError.setStyle("-fx-text-fill: red;");
             System.out.println("DEBUG: Error de formato en año o periodo. Detalles: " + e.getMessage());
-        } catch (IOException e) {
+        } catch (Exception e) {
             mensajeError.setText("Error al subir el archivo: " + e.getMessage());
             mensajeError.setStyle("-fx-text-fill: red;");
-            System.out.println("DEBUG: Error de IO al subir el archivo. Detalles: " + e.getMessage());
+            System.out.println("DEBUG: Error al subir el archivo. Detalles: " + e.getMessage());
         }
     }
 
