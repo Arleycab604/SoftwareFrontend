@@ -54,8 +54,7 @@
             </font>
          </PasswordField>
 
-         <Button text="Iniciar Sesión" onAction="#onLoginButtonClick"
-                 prefWidth="300.0" prefHeight="42.0"
+         <Button text="Iniciar Sesión" onAction="#onLoginButtonClick" prefWidth="300.0" prefHeight="42.0"
                  style="-fx-background-color: #1a73e8; -fx-text-fill: white;
                            -fx-font-size: 15px; -fx-background-radius: 12;">
             <font>

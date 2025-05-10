@@ -11,7 +11,6 @@
             <content>
                 <VBox alignment="TOP_LEFT" prefWidth="230" spacing="15" styleClass="sidebar">
                     <padding><Insets bottom="25" left="15" right="15" top="25" /></padding>
-
                     <Button onAction="#onAtrasClick" alignment="CENTER_LEFT" maxWidth="200" styleClass="menu-icon-button">
                         <text>Volver</text>
                         <font>
@@ -21,7 +20,6 @@
                     </Button>
 
                     <Label styleClass="sidebar-title" text="Menú" />
-
                     <Button onAction="#onButtonDashboardInicio" alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="234.0" styleClass="menu-button" text="Inicio">
                         <font>
                             <Font size="14.0" />

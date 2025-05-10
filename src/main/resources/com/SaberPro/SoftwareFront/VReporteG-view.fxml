@@ -8,7 +8,7 @@
 
 <VBox prefHeight="600.0" prefWidth="900.0" spacing="20.0"
       xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.SaberPro.SoftwareFront.Controllers.VReporteEController">
+      fx:controller="com.SaberPro.SoftwareFront.Controllers.VReporteGController">
     <stylesheets>
         <URL value="@../../../CSS/Carga.css" />
     </stylesheets>

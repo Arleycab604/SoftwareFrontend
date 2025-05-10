@@ -17,6 +17,8 @@
         <Insets top="20" right="20" bottom="20" left="20" />
     </padding>
 
+
+
     <!-- Botón para mostrar/ocultar filtros -->
     <Button fx:id="btnToggleFilters" text="Mostrar Filtros" onAction="#toggleFilters" style="-fx-font-weight: bold; -fx-padding: 8 20;" />
 
@@ -73,9 +75,6 @@
         </HBox>
 
     </VBox>
-
-
-
     <Separator />
 
     <!-- Tabla de reportes -->

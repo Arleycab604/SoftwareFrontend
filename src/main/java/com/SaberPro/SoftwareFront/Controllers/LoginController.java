@@ -8,17 +8,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URL;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Base64;
 import java.util.Map;
-import java.util.Scanner;
 
 public class LoginController {
     @FXML
@@ -64,7 +56,7 @@ public class LoginController {
 
                     // Cargar el Dashboard
                     Stage stage = (Stage) usernameField.getScene().getWindow();
-                    ViewLoader.loadView("Dashboard-view.fxml", stage, 450, 480);
+                    ViewLoader.loadView("Dashboard-view.fxml", stage);
                 } else {
                     System.out.println("Usuario o contraseña incorrectos.");
                 }
@@ -79,6 +71,6 @@ public class LoginController {
     @FXML
     private void onForgotPasswordClick() {
         Stage stage = (Stage) usernameField.getScene().getWindow();
-        ViewLoader.loadView("Recovery-view.fxml", stage, 450, 480);
+        ViewLoader.loadView("Recovery-view.fxml", stage);
     }
 }
