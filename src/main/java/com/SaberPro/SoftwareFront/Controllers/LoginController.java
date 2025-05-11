@@ -11,13 +11,17 @@ import javafx.stage.Stage;
 import java.net.http.HttpResponse;
 import java.util.Base64;
 import java.util.Map;
+import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+
 
 public class LoginController {
     @FXML
     private TextField usernameField;
-
     @FXML
     private PasswordField passwordField;
+    @FXML
+    private Label mensajeError;
 
     @FXML
     private void onLoginButtonClick() {
@@ -45,6 +49,9 @@ public class LoginController {
 
                 if (token != null && !token.equals("Credenciales inválidas.")) {
                     // Decodificar el payload del token
+
+                    // Ocultar mensaje de error si estaba visible
+                    mensajeError.setVisible(false);
                     String[] parts = token.split("\\.");
                     String payload = new String(Base64.getDecoder().decode(parts[1]));
                     Map<String, Object> payloadMap = objectMapper.readValue(payload, Map.class);
@@ -58,6 +65,8 @@ public class LoginController {
                     Stage stage = (Stage) usernameField.getScene().getWindow();
                     ViewLoader.loadView("Dashboard-view.fxml", stage);
                 } else {
+                    mensajeError.setText("Usuario o contraseña incorrectos.");
+                    mensajeError.setVisible(true);
                     System.out.println("Usuario o contraseña incorrectos.");
                 }
             } else {
@@ -68,9 +77,28 @@ public class LoginController {
             System.out.println("Error al conectar con el backend.");
         }
     }
+
+
+    @FXML
+    private void initialize() {
+        usernameField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                onLoginButtonClick();
+            }
+        });
+
+        passwordField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                onLoginButtonClick();
+            }
+        });
+    }
+
+
     @FXML
     private void onForgotPasswordClick() {
         Stage stage = (Stage) usernameField.getScene().getWindow();
         ViewLoader.loadView("Recovery-view.fxml", stage);
     }
+
 }
