@@ -1,126 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
-<BorderPane fx:id="root" stylesheets="@../../../CSS/dashboard.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.SaberPro.SoftwareFront.Controllers.DashboardController">
-    <left>
-        <ScrollPane fitToWidth="true" styleClass="sidebar-scrollpane">
-            <content>
-                <VBox alignment="TOP_LEFT" prefWidth="230" spacing="15" styleClass="sidebar">
-                    <padding><Insets bottom="25" left="15" right="15" top="25" /></padding>
-                    <Button onAction="#onAtrasClick" alignment="CENTER_LEFT" maxWidth="200" styleClass="menu-icon-button">
-                        <text>Volver</text>
-                        <font>
-                            <Font size="15.0" />
-                        </font>
-                        <padding><Insets left="10.0" /></padding>
-                    </Button>
+<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.SaberPro.SoftwareFront.Controllers.DashboardController" stylesheets="@../../../CSS/dashboard.css">
+    <top>
+        <VBox>
+            <!-- Barra superior -->
+            <HBox style="-fx-background-color: #1e293b; -fx-padding: 4px 4px; -fx-alignment: CENTER_LEFT;">
 
-                    <Label styleClass="sidebar-title" text="Menú" />
-                    <Button onAction="#onButtonDashboardInicio" alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="234.0" styleClass="menu-button" text="Inicio">
-                        <font>
-                            <Font size="14.0" />
-                        </font>
-                        <padding><Insets left="10.0" /></padding>
-                    </Button>
+                <!-- MenuBar alineado a la izquierda -->
+                <MenuBar style="-fx-background-color: transparent; -fx-font-size: 18px;">
+                    <Menu text="Menú" style="-fx-text-fill: white;">
+                        <MenuItem text="Inicio" onAction="#onButtonDashboardInicio" style="-fx-text-fill: white;"/>
+                        <Menu text="Cargar reportes" style="-fx-text-fill: white;">
+                            <MenuItem text="Subir reportes" onAction="#onButtonDashboardSReporte" style="-fx-text-fill: white;"/>
+                            <MenuItem text="Subir informes" onAction="#onButtonDashboardSInformes" style="-fx-text-fill: white;"/>
+                        </Menu>
+                        <Menu text="Ver reportes" style="-fx-text-fill: white;">
+                            <MenuItem text="Generales" onAction="#onButtonDashboardGeneral" style="-fx-text-fill: white;"/>
+                            <MenuItem text="Específicos" onAction="#onButtonDashboardEspecificos" style="-fx-text-fill: white;"/>
+                        </Menu>
+                        <Menu text="Acciones de mejora" style="-fx-text-fill: white;">
+                            <MenuItem text="Asignar" onAction="#onButtonDashboardAsignar" style="-fx-text-fill: white;"/>
+                            <MenuItem text="Seguimiento" onAction="#onButtonDashboardSeguimiento" style="-fx-text-fill: white;"/>
+                        </Menu>
+                        <Menu text="CRUD" style="-fx-text-fill: white;">
+                            <MenuItem text="Crear rol" onAction="#onButtonDashboardCrearRol" style="-fx-text-fill: white;"/>
+                            <MenuItem text="Modificar rol" onAction="#onButtonDashboardConsultarRol" style="-fx-text-fill: white;"/>
+                        </Menu>
+                    </Menu>
+                </MenuBar>
 
-                    <TitledPane fx:id="cargarReportesPane" expanded="false" prefWidth="230.0" styleClass="menu-titled-pane" text="Cargar reportes">
-                        <content>
-                            <VBox spacing="8" styleClass="submenu-vbox">
-                                <Button fx:id="subirReportesButton" onAction="#onButtonDashboardSReporte" alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="234.0" styleClass="submenu-button" text="Subir reportes">
-                                    <font>
-                                        <Font size="14.0" />
-                                    </font>
-                                    <padding><Insets left="25.0" /></padding>
-                                </Button>
-                                <Button fx:id="subirInformesButton" onAction="#onButtonDashboardSInformes" alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="234.0" styleClass="submenu-button" text="Subir informes">
-                                    <font>
-                                        <Font size="14.0" />
-                                    </font>
-                                    <padding><Insets left="25.0" /></padding>
-                                </Button>
-                            </VBox>
-                        </content>
-                        <font>
-                            <Font size="14.0" />
-                        </font>
-                    </TitledPane>
+                <!-- Espaciador que empuja el menú a la derecha -->
+                <Region HBox.hgrow="ALWAYS" />
 
-                    <TitledPane fx:id="verReportesPane" expanded="false" prefWidth="230.0" styleClass="menu-titled-pane" text="Ver reporte">
-                        <content>
-                            <VBox spacing="8" styleClass="submenu-vbox">
-                                <Button fx:id="generalesButton" onAction="#onButtonDashboardGeneral" alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="234.0" styleClass="submenu-button" text="Generales">
-                                    <font>
-                                        <Font size="14.0" />
-                                    </font>
-                                    <padding><Insets left="25.0" /></padding>
-                                </Button>
-                                <Button fx:id="especificosButton" onAction="#onButtonDashboardEspecificos" alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="234.0" styleClass="submenu-button" text="Específicos">
-                                    <font>
-                                        <Font size="14.0" />
-                                    </font>
-                                    <padding><Insets left="25.0" /></padding>
-                                </Button>
-                            </VBox>
-                        </content>
-                        <font>
-                            <Font size="14.0" />
-                        </font>
-                    </TitledPane>
+                <!-- Botón Volver a la derecha -->
+                <Button text="Volver" onAction="#onAtrasClick" style="-fx-background-color: #1e293b; -fx-font-size: 18px; -fx-text-fill: white; -fx-padding: 8px 20px; -fx-border-radius: 8px; -fx-background-radius: 8px;" HBox.hgrow="NEVER"/>
 
-                    <TitledPane fx:id="accionesMejoraPane" expanded="false" prefWidth="230.0" styleClass="menu-titled-pane" text="Acciones de mejora">
-                        <content>
-                            <VBox spacing="8" styleClass="submenu-vbox">
-                                <Button fx:id="asignarAccionesButton" onAction="#onButtonDashboardAsignar" alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="234.0" styleClass="submenu-button" text="Asignar acciones de mejora">
-                                    <font>
-                                        <Font size="14.0" />
-                                    </font>
-                                    <padding><Insets left="25.0" /></padding>
-                                </Button>
-                                <Button fx:id="seguimientoAccionesButton" onAction="#onButtonDashboardSeguimiento" alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="234.0" styleClass="submenu-button" text="Seguimiento de acciones de mejora">
-                                    <font>
-                                        <Font size="14.0" />
-                                    </font>
-                                    <padding><Insets left="25.0" /></padding>
-                                </Button>
-                            </VBox>
-                        </content>
-                        <font>
-                            <Font size="14.0" />
-                        </font>
-                    </TitledPane>
-
-                    <TitledPane fx:id="crudPane" expanded="false" prefWidth="230.0" styleClass="menu-titled-pane" text="CRUD">
-                        <content>
-                            <VBox spacing="8" styleClass="submenu-vbox">
-                                <Button fx:id="crearRolButton" onAction="#onButtonDashboardCrearRol" alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="234.0" styleClass="submenu-button" text="Crear rol">
-                                    <font>
-                                        <Font size="14.0" />
-                                    </font>
-                                    <padding><Insets left="25.0" /></padding>
-                                </Button>
-                                <Button fx:id="modificarRolButton" onAction="#onButtonDashboardConsultarRol" alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="234.0" styleClass="submenu-button" text="Modificar rol">
-                                    <font>
-                                        <Font size="14.0" />
-                                    </font>
-                                    <padding><Insets left="25.0" /></padding>
-                                </Button>
-                            </VBox>
-                        </content>
-                        <font>
-                            <Font size="14.0" />
-                        </font>
-                    </TitledPane>
-                </VBox>
-            </content>
-        </ScrollPane>
-    </left>
+            </HBox>
+        </VBox>
+    </top>
 
     <center>
-        <StackPane fx:id="contentArea" xmlns:fx="http://javafx.com/fxml" style="-fx-background-color: white;"/>
+        <StackPane fx:id="contentArea" style="-fx-background-color: white;" VBox.vgrow="ALWAYS" />
     </center>
-
 </BorderPane>
+
+

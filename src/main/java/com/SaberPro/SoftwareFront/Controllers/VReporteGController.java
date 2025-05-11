@@ -2,12 +2,12 @@ package com.SaberPro.SoftwareFront.Controllers;
 
 import com.SaberPro.SoftwareFront.Models.InputFilterYearDTO;
 import com.SaberPro.SoftwareFront.Models.InputQueryDTO;
-import com.SaberPro.SoftwareFront.Models.ReporteDTO;
+import javafx.scene.control.ScrollPane;
 import com.SaberPro.SoftwareFront.Models.ReporteYearDTO;
 import com.SaberPro.SoftwareFront.Utils.BuildRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import javafx.beans.property.SimpleObjectProperty;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -239,12 +239,25 @@ public class VReporteGController {
         }
     }
     @FXML
+    private ScrollPane filtersScrollPane; // Necesitas inyectar el ScrollPane
+
+    @FXML
+    private Separator separatorFiltros; // Necesitas inyectar el Separator
+
+    @FXML
     private void toggleFilters() {
         boolean isVisible = filtersSection.isVisible();
         filtersSection.setVisible(!isVisible);
         filtersSection.setManaged(!isVisible);
+        filtersScrollPane.setVisible(!isVisible);
+        filtersScrollPane.setManaged(!isVisible);
+        if (separatorFiltros != null) {
+            separatorFiltros.setVisible(isVisible);
+            separatorFiltros.setManaged(isVisible);
+        }
         btnToggleFilters.setText(isVisible ? "Mostrar Filtros" : "Ocultar Filtros");
     }
+
     private void mostrarAlerta(String titulo, String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(titulo);

@@ -1,0 +1,83 @@
+.root {
+    -fx-background-color: #f4f4f4;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+/* Sidebar */
+#sidebar {
+    -fx-background-color: #2c3e50;
+    -fx-padding: 20px;
+}
+
+#sidebar .label {
+    -fx-text-fill: #ecf0f1;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+#sidebar .button {
+    -fx-background-color: #34495e;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 8px 12px;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}
+
+#sidebar .button:hover {
+    -fx-background-color: #3d566e;
+}
+
+/* TitledPane */
+.titled-pane {
+    -fx-text-fill: white;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-font-weight: bold;
+}
+
+.titled-pane > .title {
+    -fx-background-color: #1abc9c;
+    -fx-padding: 8px;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-background-radius: 5px;
+}
+
+.titled-pane > .content {
+    -fx-background-color: #ecf0f1;
+    -fx-padding: 10px;
+}
+
+/* Botón Volver */
+#btnVolver {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+}
+
+#btnVolver:hover {
+    -fx-background-color: #c0392b;
+}
+
+/* Centro dinámico */
+#contentArea {
+    -fx-background-color: white;
+    -fx-padding: 20px;
+    -fx-border-color: #dcdcdc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+}
+
+/* Estilo general de botones dentro de TitledPane */
+.titled-pane .button {
+    -fx-background-color: #2980b9;
+    -fx-text-fill: white;
+    -fx-background-radius: 5px;
+    -fx-padding: 6px 10px;
+}
+
+.titled-pane .button:hover {
+    -fx-background-color: #3498db;
+}

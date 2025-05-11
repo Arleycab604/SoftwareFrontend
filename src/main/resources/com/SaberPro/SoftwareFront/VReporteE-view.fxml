@@ -6,19 +6,13 @@
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" spacing="20.0"
-      xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.SaberPro.SoftwareFront.Controllers.VReporteEController">
+<VBox prefHeight="600.0" prefWidth="900.0" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.SaberPro.SoftwareFront.Controllers.VReporteEController">
     <stylesheets>
         <URL value="@../../../CSS/Carga.css" />
     </stylesheets>
-
     <padding>
         <Insets top="20" right="20" bottom="20" left="20" />
     </padding>
-
-
-
     <!-- Botón para mostrar/ocultar filtros -->
     <Button fx:id="btnToggleFilters" text="Mostrar Filtros" onAction="#toggleFilters" style="-fx-font-weight: bold; -fx-padding: 8 20;" />
 
