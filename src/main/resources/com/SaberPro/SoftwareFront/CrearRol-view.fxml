@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="500.0" prefWidth="450.0" style="-fx-background-color: #f6f8fb;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.SaberPro.SoftwareFront.Controllers.ModificarRolController">
+<VBox alignment="CENTER" prefHeight="500.0" prefWidth="450.0" style="-fx-background-color: #f6f8fb;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.SaberPro.SoftwareFront.Controllers.CrearRolController">
 
     <children>
 

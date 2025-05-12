@@ -61,7 +61,7 @@ public class VReporteEController implements Initializable {
     @FXML private TableColumn<ReporteDTO, Integer> colPercentilModulo;
     @FXML private TableColumn<ReporteDTO, String> colNovedades;
 
-    @FXML private VBox filtersSection;
+    @FXML private ScrollPane filtersSection;
     @FXML private Button btnToggleFilters;
     @FXML private Button btnAplicarFiltros;
 

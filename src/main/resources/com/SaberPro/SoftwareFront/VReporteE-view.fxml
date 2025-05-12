@@ -1,93 +1,124 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import org.controlsfx.control.RangeSlider?>
-
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.SaberPro.SoftwareFront.Controllers.VReporteEController">
+<?import javafx.geometry.Insets?>
+<BorderPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.SaberPro.SoftwareFront.Controllers.VReporteEController">
     <stylesheets>
         <URL value="@../../../CSS/Carga.css" />
     </stylesheets>
-    <padding>
-        <Insets top="20" right="20" bottom="20" left="20" />
-    </padding>
-    <!-- Botón para mostrar/ocultar filtros -->
-    <Button fx:id="btnToggleFilters" text="Mostrar Filtros" onAction="#toggleFilters" style="-fx-font-weight: bold; -fx-padding: 8 20;" />
 
-
-    <VBox fx:id="filtersSection" spacing="15" visible="false" managed="false" style="-fx-padding: 15;" alignment="TOP_CENTER">
-        <!-- Documento, Periodo y Año -->
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <Label text="Documento:"/>
-            <TextField fx:id="txtDocumento" promptText="Documento" prefWidth="180"/>
-            <Label text="Periodo:"/>
-            <ComboBox fx:id="cmbPeriodo" promptText="Periodo" prefWidth="100"/>
-            <Label text="Año:"/>
-            <ComboBox fx:id="cmbAnio" promptText="Año" prefWidth="100"/>
-        </HBox>
-        <!-- Contenedor Principal de los dos filtros -->
-        <HBox spacing="50" alignment="CENTER_LEFT">
-            <!-- Filtro Puntaje Global -->
-            <VBox spacing="8" alignment="CENTER_LEFT" prefWidth="400">
-                <Label text="Puntaje Global:" style="-fx-font-weight: bold;" />
-                <RangeSlider fx:id="rangeSliderPuntajeGlobal"
-                             min="0" max="200" blockIncrement="1"
-                             showTickLabels="true" showTickMarks="true" />
-                <HBox spacing="20" alignment="CENTER_LEFT">
-                    <Label text="Min:"/>
-                    <TextField fx:id="txtPuntajeGlobalMin" promptText="Min" prefWidth="60"/>
-                    <Label text="Max:"/>
-                    <TextField fx:id="txtPuntajeGlobalMax" promptText="Max" prefWidth="60"/>
-                </HBox>
-            </VBox>
-            <!-- Filtro Puntaje Módulo -->
-            <VBox spacing="8" alignment="CENTER_LEFT" prefWidth="400">
-                <Label text="Puntaje Módulo:" style="-fx-font-weight: bold;" />
-                <RangeSlider fx:id="rangeSliderPuntajeModulo"
-                             min="0" max="200" blockIncrement="1"
-                             showTickLabels="true" showTickMarks="true" />
-                <HBox spacing="20" alignment="CENTER_LEFT">
-                    <Label text="Min:"/>
-                    <TextField fx:id="txtPuntajeModuloMin" promptText="Min" prefWidth="60"/>
-                    <Label text="Max:"/>
-                    <TextField fx:id="txtPuntajeModuloMax" promptText="Max" prefWidth="60"/>
-                </HBox>
-            </VBox>
+    <!-- Parte superior con el botón para mostrar u ocultar filtros -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Button fx:id="btnToggleFilters" text="Mostrar Filtros" onAction="#toggleFilters"
+                    style="-fx-font-weight: bold; -fx-padding: 8 20;"/>
         </HBox>
 
-        <!-- Tipo de módulo -->
-        <VBox spacing="5" alignment="CENTER_LEFT">
-            <Label text="Tipo de Módulo:" style="-fx-font-weight: bold;"/>
-            <VBox fx:id="tipoModuloCheckboxes" spacing="3"/>
+    </top>
+
+    <!-- Panel izquierdo (barra lateral de filtros) -->
+    <left>
+        <ScrollPane fx:id="filtersSection" hbarPolicy="NEVER" fitToWidth="true" visible="false" managed="false" styleClass="filters-container">
+
+            <VBox spacing="8">
+                <!-- Documento, Periodo y Año -->
+                <VBox spacing="15" alignment="CENTER_LEFT">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+                    <Label text="Documento:" styleClass="label"/>
+                    <TextField fx:id="txtDocumento" promptText="Documento" prefHeight="32" prefWidth="180" styleClass="combo-box"/>
+                    <HBox spacing="40" alignment="CENTER_LEFT">
+                        <VBox spacing="5">
+                            <Label text="Periodo:" styleClass="label"/>
+                            <ComboBox fx:id="cmbPeriodo" promptText="Periodo"  prefHeight="30" prefWidth="165" styleClass="combo-box"/>
+                        </VBox>
+                        <VBox spacing="5">
+                            <Label text="Año:" styleClass="label"/>
+                            <ComboBox fx:id="cmbAnio" promptText="Año" prefHeight="30" prefWidth="165" styleClass="combo-box"/>
+                        </VBox>
+                    </HBox>
+                </VBox>
+
+                <!-- Filtros de Puntaje Global y Módulo -->
+                <VBox spacing="15">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+                    <!-- Filtro Puntaje Global -->
+                    <VBox spacing="8" alignment="CENTER_LEFT">
+                        <Label text="Puntaje Global:" style="-fx-font-weight: bold;" styleClass="label"/>
+                        <RangeSlider fx:id="rangeSliderPuntajeGlobal" min="0" max="200" blockIncrement="1" showTickLabels="true" showTickMarks="true" />
+                        <HBox spacing="20" alignment="CENTER_LEFT">
+                            <Label text="Min:" styleClass="label"/>
+                            <TextField fx:id="txtPuntajeGlobalMin" promptText="Min" prefWidth="70" styleClass="text-field"/>
+                            <Label text="Max:" styleClass="label"/>
+                            <TextField fx:id="txtPuntajeGlobalMax" promptText="Max" prefWidth="70" styleClass="text-field"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Filtro Puntaje Módulo -->
+                    <VBox spacing="8" alignment="CENTER_LEFT">
+                        <Label text="Puntaje Módulo:" style="-fx-font-weight: bold;" styleClass="label"/>
+                        <RangeSlider fx:id="rangeSliderPuntajeModulo" min="0" max="200" blockIncrement="1" showTickLabels="true" showTickMarks="true" />
+                        <HBox spacing="20" alignment="CENTER_LEFT">
+                            <Label text="Min:" styleClass="label"/>
+                            <TextField fx:id="txtPuntajeModuloMin" promptText="Min" prefWidth="70" styleClass="text-field"/>
+                            <Label text="Max:" styleClass="label"/>
+                            <TextField fx:id="txtPuntajeModuloMax" promptText="Max" prefWidth="70" styleClass="text-field"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Tipo de módulo -->
+                    <VBox spacing="5" alignment="CENTER_LEFT">
+                        <Label text="Tipo de Módulo:" style="-fx-font-weight: bold;" styleClass="label"/>
+                        <VBox fx:id="tipoModuloCheckboxes" spacing="3"/>
+                    </VBox>
+
+                    <HBox alignment="CENTER" prefWidth="390" style="-fx-border-color: red; -fx-border-width: 2px;">
+                        <Button fx:id="btnAplicarFiltros" text="Aplicar"  prefWidth="390" onAction="#aplicarFiltros" style="-fx-font-weight: bold; -fx-padding: 8 10;"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+
+        </ScrollPane>
+    </left>
+
+    <!-- Centro con la tabla -->
+
+
+    <center>
+        <VBox spacing="10" alignment="CENTER" style="-fx-padding: 0;">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Separator />
+            <TableView fx:id="tablaReportes" prefHeight="600" prefWidth="850" styleClass="tableview">
+                <columns>
+                    <TableColumn fx:id="colDocumento" prefWidth="120" text="Documento" />
+                    <TableColumn fx:id="colNombre" prefWidth="150" text="Nombre" />
+                    <TableColumn fx:id="colRegistro" prefWidth="100" text="N° Registro" />
+                    <TableColumn fx:id="colAnio" prefWidth="70" text="Año" />
+                    <TableColumn fx:id="colPeriodo" prefWidth="50" text="Periodo" />
+                    <TableColumn fx:id="colNombrePrograma" prefWidth="150" text="Nombre Programa" />
+                    <TableColumn fx:id="colGrupoDeReferencia" prefWidth="150" text="Grupo de Referencia" />
+                    <TableColumn fx:id="colPuntajeGlobal" prefWidth="120" text="Puntaje Global" />
+                    <TableColumn fx:id="colDesempeno" prefWidth="150" text="Desempeño" />
+                    <TableColumn fx:id="colPercentilGlobal" prefWidth="120" text="Percentil Global" />
+                    <TableColumn fx:id="colTipoModulo" prefWidth="150" text="Tipo de Módulo" />
+                    <TableColumn fx:id="colPuntajeModulo" prefWidth="120" text="Puntaje Módulo" />
+                    <TableColumn fx:id="colPercentilModulo" prefWidth="120" text="Percentil Módulo" />
+                    <TableColumn fx:id="colNovedades" prefWidth="150" text="Novedades" />
+                </columns>
+            </TableView>
         </VBox>
+    </center>
+</BorderPane>
 
-        <!-- Botón aplicar -->
-        <HBox alignment="CENTER">
-            <Button fx:id="btnAplicarFiltros" text="Aplicar Filtros" onAction="#aplicarFiltros" style="-fx-font-weight: bold; -fx-padding: 8 20;"/>
-        </HBox>
 
-    </VBox>
-    <Separator />
-
-    <!-- Tabla de reportes -->
-    <TableView fx:id="tablaReportes" prefHeight="600" prefWidth="850" style="-fx-padding: 20px;">
-        <columns>
-            <TableColumn fx:id="colDocumento" prefWidth="120" text="Documento" />
-            <TableColumn fx:id="colNombre" prefWidth="150" text="Nombre" />
-            <TableColumn fx:id="colRegistro" prefWidth="100" text="N° Registro" />
-            <TableColumn fx:id="colAnio" prefWidth="70" text="Año" />
-            <TableColumn fx:id="colPeriodo" prefWidth="50" text="Periodo" />
-            <TableColumn fx:id="colNombrePrograma" prefWidth="150" text="Nombre Programa" />
-            <TableColumn fx:id="colGrupoDeReferencia" prefWidth="150" text="Grupo de Referencia" />
-            <TableColumn fx:id="colPuntajeGlobal" prefWidth="120" text="Puntaje Global" />
-            <TableColumn fx:id="colDesempeno" prefWidth="150" text="Desempeño" />
-            <TableColumn fx:id="colPercentilGlobal" prefWidth="120" text="Percentil Global" />
-            <TableColumn fx:id="colTipoModulo" prefWidth="150" text="Tipo de Módulo" />
-            <TableColumn fx:id="colPuntajeModulo" prefWidth="120" text="Puntaje Módulo" />
-            <TableColumn fx:id="colPercentilModulo" prefWidth="120" text="Percentil Módulo" />
-            <TableColumn fx:id="colNovedades" prefWidth="150" text="Novedades" />
-        </columns>
-    </TableView>
-</VBox>

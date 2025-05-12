@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="620.0" prefWidth="480.0" style="-fx-background-color: #3f51b5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.SaberPro.SoftwareFront.Controllers.CrearRolController">
+<VBox alignment="CENTER" prefHeight="620.0" prefWidth="480.0" style="-fx-background-color: #3f51b5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.SaberPro.SoftwareFront.Controllers.ModificaRolController">
     <children>
         <!-- Contenedor principal (tarjeta) -->
 
@@ -26,7 +26,7 @@
             <!-- Lista para Docentes -->
             <VBox spacing="8.0" alignment="CENTER_LEFT">
                 <Label text="Usuario:" style="-fx-font-size: 14px; -fx-text-fill: #455a64;" />
-                <ComboBox fx:id="docenteComboBox" promptText="Seleccione un docente" prefWidth="320.0" |style="-fx-background-color: #eceff1;-fx-background-radius: 10;-fx-border-radius: 10;-fx-border-color: #cfd8dc;-fx-padding: 8;"/>
+                <ComboBox fx:id="docenteComboBox" promptText="Seleccione un docente" prefWidth="320.0" style="-fx-background-color: #eceff1;-fx-background-radius: 10;-fx-border-radius: 10;-fx-border-color: #cfd8dc;-fx-padding: 8;"/>
             </VBox>
 
             <!-- Fecha de Inicio -->

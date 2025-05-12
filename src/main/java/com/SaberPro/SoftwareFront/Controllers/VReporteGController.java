@@ -19,11 +19,11 @@ import org.controlsfx.control.RangeSlider;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
 
 public class VReporteGController {
     private final int MIN_PUNTAJE = 0, MAX_PUNTAJE = 300;
-    public VBox filtersSection;
+    public ScrollPane filtersSection;
     @FXML private RangeSlider rangeMediaPeriodo, rangeCoefVarPeriodo, rangeMediaModulo, rangeCoefVarModulo;
     private ObservableList<ReporteYearDTO> listaReportes = FXCollections.observableArrayList();
     @FXML private TextField txtMediaPeriodoMin;
@@ -249,12 +249,6 @@ public class VReporteGController {
         boolean isVisible = filtersSection.isVisible();
         filtersSection.setVisible(!isVisible);
         filtersSection.setManaged(!isVisible);
-        filtersScrollPane.setVisible(!isVisible);
-        filtersScrollPane.setManaged(!isVisible);
-        if (separatorFiltros != null) {
-            separatorFiltros.setVisible(isVisible);
-            separatorFiltros.setManaged(isVisible);
-        }
         btnToggleFilters.setText(isVisible ? "Mostrar Filtros" : "Ocultar Filtros");
     }
 

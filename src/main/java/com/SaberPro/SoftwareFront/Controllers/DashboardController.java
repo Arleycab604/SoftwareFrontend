@@ -161,11 +161,11 @@ public class DashboardController {
 
     @FXML
     private void onButtonDashboardCrearRol() {
-        loadView("ModificaRol-view.fxml");
+        loadView("CrearRol-view.fxml");
     }
 
     @FXML
-    private void onButtonDashboardConsultarRol() {
-        loadView("ConsultarRol-view.fxml");
+    private void onButtonDashboardModificaRol() {
+        loadView("ModificaRol-view.fxml");
     }
 }
