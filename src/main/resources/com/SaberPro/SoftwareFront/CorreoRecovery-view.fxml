@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.SaberPro.SoftwareFront.Controllers.CorreoRecoveryController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <VBox alignment="CENTER" spacing="20" layoutX="100" layoutY="60">
+        <Label text="Restablecer contraseña" style="-fx-font-size: 24px;"/>
+
+        <Label text="Introduce tu nombre de usuario y te enviaremos instrucciones para restablecer tu contraseña"/>
+
+        <TextField fx:id="usuarioField" promptText="Usuario" maxWidth="300"/>
+
+        <Button text="Enviar" onAction="#onEnviarClick" style="-fx-background-color: #0057ff; -fx-text-fill: white;" />
+
+        <Hyperlink text="Iniciar sesión con tus credenciales" onAction="#onLoginClick"/>
+    </VBox>
+</AnchorPane>

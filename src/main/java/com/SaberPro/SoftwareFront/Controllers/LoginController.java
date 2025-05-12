@@ -16,6 +16,7 @@ import javafx.scene.input.KeyCode;
 
 
 public class LoginController {
+
     @FXML
     private TextField usernameField;
     @FXML
@@ -32,7 +33,7 @@ public class LoginController {
             // Enviar la solicitud y obtener la respuesta
             HttpResponse<String> response = BuildRequest.getInstance().POSTJson(
                     "http://localhost:8080/SaberPro/usuarios/login",
-                     String.format("{\"nombreUsuario\":\"%s\", \"password\":\"%s\"}", username, password));
+                     String.format("{\"nombreUsuario\":\"%s\", \"password\":\"%s\"}", username, password),false);
 
             // Manejar la respuesta
             int responseCode = response.statusCode();
@@ -98,7 +99,7 @@ public class LoginController {
     @FXML
     private void onForgotPasswordClick() {
         Stage stage = (Stage) usernameField.getScene().getWindow();
-        ViewLoader.loadView("Recovery-view.fxml", stage);
+        ViewLoader.loadView("CorreoRecovery-view.fxml", stage);
     }
 
 }

@@ -230,6 +230,7 @@ public class VReporteEController implements Initializable {
          * los filtros generados por este usuario, de modo que los filtros se guarden mientras la app esté abierta
         */
         try {
+
             // Configurar la URL del backend
             InputQueryDTO filtros = new InputQueryDTO();
             listaReportes.forEach(System.out::println);
