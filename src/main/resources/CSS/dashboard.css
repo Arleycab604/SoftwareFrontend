@@ -2,7 +2,9 @@
 .arrow {
     -fx-opacity: 0;
 }
-
+.menu-bar > .container > .menu > .label {
+    -fx-text-fill: white;
+}
 .menu-bar .menu {
     -fx-text-fill: white; /* Color del texto de los menús */
 }

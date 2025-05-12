@@ -10,25 +10,26 @@
 
                 <!-- MenuBar alineado a la izquierda -->
                 <MenuBar style="-fx-background-color: transparent; -fx-font-size: 18px;">
-                    <Menu text="Menú" style="-fx-text-fill: white;">
-                        <MenuItem text="Inicio" onAction="#onButtonDashboardInicio" style="-fx-text-fill: white;"/>
-                        <Menu text="Cargar reportes" style="-fx-text-fill: white;">
-                            <MenuItem text="Subir reportes" onAction="#onButtonDashboardSReporte" style="-fx-text-fill: white;"/>
-                            <MenuItem text="Subir informes" onAction="#onButtonDashboardSInformes" style="-fx-text-fill: white;"/>
+                    <Menu text="Menú" fx:id="menuPrincipal" style="-fx-text-fill: white;">
+                        <MenuItem text="Inicio" fx:id="inicioMenuItem" onAction="#onButtonDashboardInicio" style="-fx-text-fill: white;"/>
+                        <Menu text="Cargar reportes" fx:id="cargarReportesMenu" style="-fx-text-fill: white;">
+                            <MenuItem text="Subir reportes" fx:id="subirReportesMenuItem" onAction="#onButtonDashboardSReporte" style="-fx-text-fill: white;"/>
+                            <MenuItem text="Subir informes" fx:id="subirInformesMenuItem" onAction="#onButtonDashboardSInformes" style="-fx-text-fill: white;"/>
                         </Menu>
-                        <Menu text="Ver reportes" style="-fx-text-fill: white;">
-                            <MenuItem text="Generales" onAction="#onButtonDashboardGeneral" style="-fx-text-fill: white;"/>
-                            <MenuItem text="Específicos" onAction="#onButtonDashboardEspecificos" style="-fx-text-fill: white;"/>
+                        <Menu text="Ver reportes" fx:id="verReportesMenu" style="-fx-text-fill: white;">
+                            <MenuItem text="Generales" fx:id="generalesMenuItem" onAction="#onButtonDashboardGeneral" style="-fx-text-fill: white;"/>
+                            <MenuItem text="Específicos" fx:id="especificosMenuItem" onAction="#onButtonDashboardEspecificos" style="-fx-text-fill: white;"/>
                         </Menu>
-                        <Menu text="Acciones de mejora" style="-fx-text-fill: white;">
-                            <MenuItem text="Asignar" onAction="#onButtonDashboardAsignar" style="-fx-text-fill: white;"/>
-                            <MenuItem text="Seguimiento" onAction="#onButtonDashboardSeguimiento" style="-fx-text-fill: white;"/>
+                        <Menu text="Acciones de mejora" fx:id="accionesMejoraMenu" style="-fx-text-fill: white;">
+                            <MenuItem text="Asignar" fx:id="asignarMenuItem" onAction="#onButtonDashboardAsignar" style="-fx-text-fill: white;"/>
+                            <MenuItem text="Seguimiento" fx:id="seguimientoMenuItem" onAction="#onButtonDashboardSeguimiento" style="-fx-text-fill: white;"/>
                         </Menu>
-                        <Menu text="CRUD" style="-fx-text-fill: white;">
-                            <MenuItem text="Crear rol" onAction="#onButtonDashboardCrearRol" style="-fx-text-fill: white;"/>
-                            <MenuItem text="Modificar rol" onAction="#onButtonDashboardModificaRol" style="-fx-text-fill: white;"/>
+                        <Menu text="CRUD" fx:id="crudMenu" style="-fx-text-fill: white;">
+                            <MenuItem text="Crear rol" fx:id="crearRolMenuItem" onAction="#onButtonDashboardCrearRol" style="-fx-text-fill: white;"/>
+                            <MenuItem text="Modificar rol" fx:id="modificarRolMenuItem" onAction="#onButtonDashboardModificaRol" style="-fx-text-fill: white;"/>
                         </Menu>
                     </Menu>
+
                 </MenuBar>
 
                 <!-- Espaciador que empuja el menú a la derecha -->
