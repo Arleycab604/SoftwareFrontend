@@ -88,9 +88,6 @@ public class VReporteGController {
         configurarRangeSliderMediaModulo();
         configurarRangeSliderCoefVarModulo();
 
-        //configurarRangeSliderCoefVar(rangeCoefVarPeriodo);
-        //configurarRangeSlider(rangeMediaModulo);
-        //configurarRangeSliderCoefVar(rangeCoefVarModulo);
     }
     private void configurarRangeSliderMediaPeriodo() {
         // Sincronizar RangeSlider con los campos de texto

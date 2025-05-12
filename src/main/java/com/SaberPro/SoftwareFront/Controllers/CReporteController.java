@@ -1,6 +1,11 @@
 package com.SaberPro.SoftwareFront.Controllers;
 
+import com.SaberPro.SoftwareFront.Models.InputQueryDTO;
+import com.SaberPro.SoftwareFront.Models.ReporteDTO;
 import com.SaberPro.SoftwareFront.Utils.BuildRequest;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -19,6 +24,7 @@ import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.core5.http.ContentType;
 import java.io.IOException;
 import java.net.http.HttpResponse;
+import java.util.List;
 import java.util.Map;
 
 
@@ -29,8 +35,9 @@ public class CReporteController {
     private static final String MSG_DATOS_SUBIDOS = "¡Datos subidos exitosamente!";
     private static final String MSG_CANCELADO = "Operación cancelada.";
 
+    private List<ReporteDTO> resultadosSubidos;
     @FXML
-    private TableView<?> tablaVistaPrevia; // Tabla para vista previa (opcional por ahora)
+    private TableView<ReporteDTO> tablaReportesSubidos; // Tabla para vista previa (opcional por ahora)
     @FXML
     private Label mensajeConfirmacion; // Etiqueta para mensajes visibles de éxito
      @FXML
@@ -115,6 +122,16 @@ public class CReporteController {
             String responseBody = response.body();
 
             if (statusCode == 200) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                InputQueryDTO filtros = new InputQueryDTO();
+                filtros.setYear(anio); filtros.setPeriodo(periodo);
+                HttpResponse<String> resultadosData = BuildRequest.getInstance().POSTInputDTO("http://localhost:8080/SaberPro/reportes/Query",filtros);
+                List<ReporteDTO> resultados = objectMapper.readValue(resultadosData.body(), new TypeReference<List<ReporteDTO>>() {});
+
+                resultadosSubidos.clear();
+                resultadosSubidos.addAll(resultados);
+                tablaReportesSubidos.setItems((ObservableList<ReporteDTO>) resultadosSubidos);
+
                 mensajeError.setText("Archivo subido exitosamente.");
                 mensajeError.setStyle("-fx-text-fill: green;");
                 System.out.println("DEBUG: Archivo subido exitosamente. Respuesta del servidor: " + responseBody);
