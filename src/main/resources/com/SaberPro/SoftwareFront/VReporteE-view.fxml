@@ -34,14 +34,14 @@
                     </padding>
                     <Label text="Documento:" styleClass="label"/>
                     <TextField fx:id="txtDocumento" promptText="Documento" prefHeight="32" prefWidth="180" styleClass="combo-box"/>
-                    <HBox spacing="20" alignment="CENTER_LEFT">
+                    <HBox spacing="40" alignment="CENTER_LEFT">
                         <VBox spacing="5">
                             <Label text="Periodo:" styleClass="label"/>
-                            <ComboBox fx:id="cmbPeriodo" promptText="Periodo"  prefHeight="31" prefWidth="160" styleClass="combo-box"/>
+                            <ComboBox fx:id="cmbPeriodo" promptText="Periodo"  prefHeight="30" prefWidth="165" styleClass="combo-box"/>
                         </VBox>
                         <VBox spacing="5">
                             <Label text="Año:" styleClass="label"/>
-                            <ComboBox fx:id="cmbAnio" promptText="Año" prefHeight="31" prefWidth="160" styleClass="combo-box"/>
+                            <ComboBox fx:id="cmbAnio" promptText="Año" prefHeight="30" prefWidth="165" styleClass="combo-box"/>
                         </VBox>
                     </HBox>
                 </VBox>
@@ -81,9 +81,8 @@
                         <VBox fx:id="tipoModuloCheckboxes" spacing="3"/>
                     </VBox>
 
-                    <!-- Botón aplicar -->
-                    <HBox alignment="CENTER">
-                        <Button fx:id="btnAplicarFiltros" text="Aplicar"  prefWidth="350" onAction="#aplicarFiltros" style="-fx-font-weight: bold; -fx-padding: 8 10;"/>
+                    <HBox alignment="CENTER" prefWidth="390" style="-fx-border-color: red; -fx-border-width: 2px;">
+                        <Button fx:id="btnAplicarFiltros" text="Aplicar"  prefWidth="390" onAction="#aplicarFiltros" style="-fx-font-weight: bold; -fx-padding: 8 10;"/>
                     </HBox>
                 </VBox>
             </VBox>

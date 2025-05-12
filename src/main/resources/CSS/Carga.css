@@ -168,3 +168,44 @@
 .scroll-pane .scroll-bar:vertical .decrement-arrow {
     -fx-translate-y: 5px;
 }
+
+
+
+
+
+
+
+/* Estilo para el botón "Seleccionar Archivos" */
+#botonSeleccionarArchivos {
+    -fx-background-color: #4CAF50; /* Verde principal */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-padding: 8px 15px;
+    -fx-cursor: hand;
+    -fx-font-size: 14px;
+}
+
+#botonSeleccionarArchivos:hover {
+    -fx-background-color: #43A047; /* Verde más oscuro al pasar el ratón */
+}
+
+/* Estilo para el botón "Subir Datos" */
+#botonSubirDatos {
+    -fx-background-color: #8BC34A; /* Verde claro principal */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-padding: 8px 15px;
+    -fx-cursor: hand;
+    -fx-font-size: 14px;
+}
+
+#botonSubirDatos:hover {
+    -fx-background-color: #689F38; /* Verde más oscuro al pasar el ratón */
+}
+
+/* El botón "Cancelar" puede mantener su estilo o puedes definir uno diferente aquí */
+#botonCancelar {
+    /* Puedes añadir estilos específicos para el botón Cancelar si lo deseas */
+}

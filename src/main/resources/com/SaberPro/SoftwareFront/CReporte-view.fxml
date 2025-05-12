@@ -19,7 +19,7 @@
         <!-- Logo del sistema -->
         <ImageView fx:id="logoSistema" fitHeight="80" fitWidth="200" style="-fx-align: center;" />
 
-        <!-- Área de carga de archivos -->
+
         <HBox spacing="10" alignment="CENTER">
             <Button text="Seleccionar Archivos CSV/Excel" fx:id="botonSeleccionarArchivos" onAction="#handleSeleccionarArchivos"/>
             <Button text="Subir Datos" fx:id="botonSubirDatos" onAction="#handleSubirDatos" disable="true"/>
@@ -28,14 +28,23 @@
 
 
         <!-- Tablas para vista previa -->
-        <TableView fx:id="tablaVistaPrevia" prefHeight="400" prefWidth="800">
-            <columns>
-                <TableColumn text="Nombre Estudiante" prefWidth="250"/>
-                <TableColumn text="Documento" prefWidth="150"/>
-                <TableColumn text="Año" prefWidth="100"/>
-                <TableColumn text="Periodo" prefWidth="100"/>
-                <TableColumn text="Resultado" prefWidth="150"/>
-            </columns>
+        <TableView fx:id="tablaVistaPrevia" prefHeight="400" prefWidth="800" styleClass="tableview">
+              <columns>
+                    <TableColumn fx:id="colDocumento" prefWidth="120" text="Documento" />
+                    <TableColumn fx:id="colNombre" prefWidth="150" text="Nombre" />
+                    <TableColumn fx:id="colRegistro" prefWidth="100" text="N° Registro" />
+                    <TableColumn fx:id="colAnio" prefWidth="70" text="Año" />
+                    <TableColumn fx:id="colPeriodo" prefWidth="50" text="Periodo" />
+                    <TableColumn fx:id="colNombrePrograma" prefWidth="150" text="Nombre Programa" />
+                    <TableColumn fx:id="colGrupoDeReferencia" prefWidth="150" text="Grupo de Referencia" />
+                    <TableColumn fx:id="colPuntajeGlobal" prefWidth="120" text="Puntaje Global" />
+                    <TableColumn fx:id="colDesempeno" prefWidth="150" text="Desempeño" />
+                    <TableColumn fx:id="colPercentilGlobal" prefWidth="120" text="Percentil Global" />
+                    <TableColumn fx:id="colTipoModulo" prefWidth="150" text="Tipo de Módulo" />
+                    <TableColumn fx:id="colPuntajeModulo" prefWidth="120" text="Puntaje Módulo" />
+                    <TableColumn fx:id="colPercentilModulo" prefWidth="120" text="Percentil Módulo" />
+                    <TableColumn fx:id="colNovedades" prefWidth="150" text="Novedades" />
+                </columns>
         </TableView>
         <Label text="Formato del archivo: año-periodo.csv (Ejemplo: 2023-1.csv)" style="-fx-font-size: 12px; -fx-text-fill: gray;" />
         <Label text="Columnas requeridas: Nombre Estudiante, Documento, Año, Periodo, Resultado" style="-fx-font-size: 12px; -fx-text-fill: gray;" />
