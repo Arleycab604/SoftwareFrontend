@@ -8,15 +8,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.core5.http.HttpEntity;
 import java.io.File;
-import javafx.scene.control.TextField;
+
 import org.apache.hc.client5.http.entity.EntityBuilder;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
@@ -24,6 +23,7 @@ import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.core5.http.ContentType;
 import java.io.IOException;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +35,7 @@ public class CReporteController {
     private static final String MSG_DATOS_SUBIDOS = "¡Datos subidos exitosamente!";
     private static final String MSG_CANCELADO = "Operación cancelada.";
 
-    private List<ReporteDTO> resultadosSubidos;
+    private List<ReporteDTO> resultadosSubidos = new ArrayList<ReporteDTO>();
     @FXML
     private TableView<ReporteDTO> tablaReportesSubidos; // Tabla para vista previa (opcional por ahora)
     @FXML
@@ -56,6 +56,10 @@ public class CReporteController {
         mensajeError.setVisible(false);
     }
 
+    public void initialize(){
+        // Inicializar la tabla
+        configurarColumnasTabla();
+    }
     private void mostrarMensajeError(String mensaje) {
         mensajeError.setText(mensaje);
         mensajeError.setVisible(true);
@@ -88,6 +92,37 @@ public class CReporteController {
     @FXML
     private TextField campoPeriodo;
 
+    @FXML private TableColumn<ReporteDTO, Long> colDocumento;
+    @FXML private TableColumn<ReporteDTO, String> colNombre;
+    @FXML private TableColumn<ReporteDTO, String> colRegistro;
+    @FXML private TableColumn<ReporteDTO, Integer> colAnio;
+    @FXML private TableColumn<ReporteDTO, String> colPeriodo;
+    @FXML private TableColumn<ReporteDTO, Double> colPuntajeGlobal;
+    @FXML private TableColumn<ReporteDTO, String> colTipoModulo;
+    @FXML private TableColumn<ReporteDTO, String> colDesempeno;
+    @FXML private TableColumn<ReporteDTO, String> colNombrePrograma;
+    @FXML private TableColumn<ReporteDTO, String> colGrupoDeReferencia;
+    @FXML private TableColumn<ReporteDTO, Integer> colPercentilGlobal;
+    @FXML private TableColumn<ReporteDTO, Integer> colPuntajeModulo;
+    @FXML private TableColumn<ReporteDTO, Integer> colPercentilModulo;
+    @FXML private TableColumn<ReporteDTO, String> colNovedades;
+    private void configurarColumnasTabla() {
+        // Configurar columnas con los atributos de ReporteDTO
+        colDocumento.setCellValueFactory(new PropertyValueFactory<>("documento"));
+        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombreUsuario"));
+        colRegistro.setCellValueFactory(new PropertyValueFactory<>("numeroRegistro"));
+        colAnio.setCellValueFactory(new PropertyValueFactory<>("anio"));
+        colPeriodo.setCellValueFactory(new PropertyValueFactory<>("periodo"));
+        colNombrePrograma.setCellValueFactory(new PropertyValueFactory<>("nombrePrograma"));
+        colGrupoDeReferencia.setCellValueFactory(new PropertyValueFactory<>("grupoDeReferencia"));
+        colPuntajeGlobal.setCellValueFactory(new PropertyValueFactory<>("puntajeGlobal"));
+        colPercentilGlobal.setCellValueFactory(new PropertyValueFactory<>("percentilGlobal"));
+        colTipoModulo.setCellValueFactory(new PropertyValueFactory<>("tipoModulo"));
+        colPuntajeModulo.setCellValueFactory(new PropertyValueFactory<>("puntajeModulo"));
+        colPercentilModulo.setCellValueFactory(new PropertyValueFactory<>("percentilModulo"));
+        colDesempeno.setCellValueFactory(new PropertyValueFactory<>("nivelDesempeno"));
+        colNovedades.setCellValueFactory(new PropertyValueFactory<>("novedades"));
+    }
     @FXML
     public void handleSubirDatos() {
         if (archivoSeleccionado == null) {
@@ -109,7 +144,7 @@ public class CReporteController {
             int anio = Integer.parseInt(anioTexto);
             int periodo = Integer.parseInt(periodoTexto);
 
-            String url = "http://localhost:8080/SaberPro/upload/csv";
+            String url = "http://localhost:8080/SaberPro/upload";
             Map<String, String> params = Map.of(
                     "year", String.valueOf(anio),
                     "periodo", String.valueOf(periodo)
@@ -128,7 +163,10 @@ public class CReporteController {
                 HttpResponse<String> resultadosData = BuildRequest.getInstance().POSTInputDTO("http://localhost:8080/SaberPro/reportes/Query",filtros);
                 List<ReporteDTO> resultados = objectMapper.readValue(resultadosData.body(), new TypeReference<List<ReporteDTO>>() {});
 
-                resultadosSubidos.clear();
+                if(!resultadosSubidos.isEmpty()){
+                    resultadosSubidos.clear();
+                }
+                assert resultadosSubidos != null;
                 resultadosSubidos.addAll(resultados);
                 tablaReportesSubidos.setItems((ObservableList<ReporteDTO>) resultadosSubidos);
 

@@ -28,7 +28,7 @@
 
 
         <!-- Tablas para vista previa -->
-        <TableView fx:id="tablaVistaPrevia" prefHeight="400" prefWidth="800" styleClass="tableview">
+        <TableView fx:id="tablaReportesSubidos" prefHeight="400" prefWidth="800" styleClass="tableview">
               <columns>
                     <TableColumn fx:id="colDocumento" prefWidth="120" text="Documento" />
                     <TableColumn fx:id="colNombre" prefWidth="150" text="Nombre" />
