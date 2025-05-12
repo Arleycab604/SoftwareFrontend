@@ -4,43 +4,69 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="500.0" prefWidth="450.0" style="-fx-background-color: #f6f8fb;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.SaberPro.SoftwareFront.Controllers.CrearRolController">
+<VBox alignment="CENTER" prefHeight="600.0" prefWidth="500.0"
+      style="-fx-background-color: #f1f3f6;"
+      xmlns="http://javafx.com/javafx/23.0.1"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.SaberPro.SoftwareFront.Controllers.CrearRolController">
 
     <children>
 
-        <!-- Contenedor principal -->
-        <VBox alignment="TOP_CENTER" spacing="20.0" maxWidth="360.0"
-              style="-fx-background-color: white; -fx-border-color: #E0E0E0;
-                  -fx-border-radius: 12; -fx-background-radius: 12;
-                  -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 12, 0, 0, 4);">
+        <!-- Tarjeta contenedora -->
+        <VBox alignment="TOP_CENTER" spacing="20.0" maxWidth="380.0"
+              style="-fx-background-color: white;
+                     -fx-background-radius: 16;
+                     -fx-border-radius: 16;
+                     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.12), 12, 0, 0, 6);">
             <padding>
-                <Insets top="25.0" bottom="25.0" left="30.0" right="30.0"/>
+                <Insets top="35.0" bottom="35.0" left="40.0" right="40.0"/>
             </padding>
 
-            <!-- Título del formulario -->
-            <Label text="Asignar Rol" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #37474F;" />
+            <!-- Encabezado -->
+            <Label text="Asignar Rol"
+                   style="-fx-font-size: 22px;
+                          -fx-font-weight: bold;
+                          -fx-text-fill: #263238;" />
 
-            <!-- Selector del Tipo de Rol -->
-            <VBox spacing="10.0" alignment="CENTER_LEFT">
-                <Label text="Seleccione el Tipo de Rol:" style="-fx-font-size: 14px; -fx-text-fill: #37474F;" />
-                <ComboBox fx:id="tipoRolComboBox" promptText="Seleccione un rol" prefWidth="300.0"
-                          style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #B0BEC5; -fx-padding: 8;"/>
+            <!-- Campo: Nombre -->
+            <VBox spacing="8.0" alignment="CENTER_LEFT">
+                <Label text="Nombre completo"
+                       style="-fx-font-size: 13px;
+                              -fx-text-fill: #455A64;" />
+                <TextField promptText="Ej. Derly Novoa"
+                           prefWidth="300.0"
+                           style="-fx-background-radius: 10;
+                                  -fx-border-radius: 10;
+                                  -fx-border-color: #CFD8DC;
+                                  -fx-padding: 10;" />
             </VBox>
 
-            <!-- Lista desplegable para Docentes -->
-            <VBox spacing="10.0" alignment="CENTER_LEFT">
-                <Label text="Seleccione el Docente:" style="-fx-font-size: 14px; -fx-text-fill: #37474F;" />
-                <ComboBox fx:id="docenteComboBox" promptText="Seleccione un docente" prefWidth="300.0"
-                          style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #B0BEC5; -fx-padding: 8;"/>
+            <!-- Campo: Correo -->
+            <VBox spacing="8.0" alignment="CENTER_LEFT">
+                <Label text="Correo institucional"
+                       style="-fx-font-size: 13px;
+                              -fx-text-fill: #455A64;" />
+                <TextField promptText="Ej. dlynovoa@unillanos.edu.co"
+                           prefWidth="300.0"
+                           style="-fx-background-radius: 10;
+                                  -fx-border-radius: 10;
+                                  -fx-border-color: #CFD8DC;
+                                  -fx-padding: 10;" />
             </VBox>
 
-            <!-- Botón Guardar -->
-            <Button text="Crear Usuario" onAction="#onGuardarRolClick" prefWidth="300.0" prefHeight="32.0"
-                    style="-fx-background-color: #0D6EFD; -fx-text-fill: white; -fx-background-radius: 8;">
+            <!-- Botón -->
+            <Button text="Crear Usuario"
+                    onAction="#onGuardarRolClick"
+                    prefWidth="300.0"
+                    prefHeight="36.0"
+                    style="-fx-background-color: #1976D2;
+                           -fx-text-fill: white;
+                           -fx-background-radius: 10;">
                 <font>
                     <Font name="Segoe UI Semibold" size="14.0"/>
                 </font>
             </Button>
+
         </VBox>
 
     </children>

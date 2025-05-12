@@ -14,37 +14,8 @@ public class CrearRolController {
     @FXML
     private ComboBox<String> docenteComboBox;
 
-    @FXML
-    public void initialize() {
-        // Cargar datos iniciales (tipos de rol y docentes)
-        cargarTiposDeRol();
-        cargarDocentes();
-    }
 
-    /**
-     * Carga los tipos de rol disponibles en el ComboBox.
-     */
-    private void cargarTiposDeRol() {
-        ObservableList<String> tiposDeRol = FXCollections.observableArrayList(
-                "Director de Programa",
-                "Director de Escuela",
-                "Coordinador Saber Pro"
-        );
-        tipoRolComboBox.setItems(tiposDeRol);
-    }
 
-    /**
-     * Carga la lista de docentes en el ComboBox.
-     */
-    private void cargarDocentes() {
-        ObservableList<String> docentes = FXCollections.observableArrayList(
-                "Docente 1",
-                "Docente 2",
-                "Docente 3",
-                "Docente 4"
-        );
-        docenteComboBox.setItems(docentes);
-    }
 
     /**
      * Evento accionado al hacer clic en el botón "Guardar Rol".

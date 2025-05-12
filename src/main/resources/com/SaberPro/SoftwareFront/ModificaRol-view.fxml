@@ -4,7 +4,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="620.0" prefWidth="480.0" style="-fx-background-color: #3f51b5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.SaberPro.SoftwareFront.Controllers.ModificaRolController">
+<VBox alignment="CENTER" prefHeight="620.0" prefWidth="480.0"
+      style="-fx-background-color: linear-gradient(to bottom right, #3f51b5, #5c6bc0);" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.SaberPro.SoftwareFront.Controllers.ModificaRolController">
+
     <children>
         <!-- Contenedor principal (tarjeta) -->
 

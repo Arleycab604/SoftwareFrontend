@@ -207,5 +207,76 @@
 
 /* El botón "Cancelar" puede mantener su estilo o puedes definir uno diferente aquí */
 #botonCancelar {
-    /* Puedes añadir estilos específicos para el botón Cancelar si lo deseas */
+    -fx-background-color: #df4452; /* Verde claro principal */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-padding: 8px 15px;
+    -fx-cursor: hand;
+    -fx-font-size: 14px;
+}
+
+
+/* Estilo general para la tabla de reportes subidos (verde) */
+#tablaReportesSubidos {
+    -fx-background-color: #f0fff0; /* Un verde muy claro como fondo */
+    -fx-border-color: #8bc34a; /* Verde claro para el borde */
+    -fx-border-radius: 7px;
+    -fx-background-radius: 7px;
+    -fx-padding: 9px;
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 13px;
+    -fx-text-fill: #388e3c; /* Un verde oscuro para el texto */
+}
+
+/* Alternancia de colores en las filas (verde claro y blanco) */
+#tablaReportesSubidos .table-row-cell:odd {
+    -fx-background-color: #e8f5e9; /* Verde muy claro para filas impares */
+}
+
+#tablaReportesSubidos .table-row-cell:even {
+    -fx-background-color: #f0fff0; /* Blanco verdoso para filas pares */
+}
+
+/* Estilo al pasar el mouse sobre una fila (verde más claro con borde verde oscuro) */
+#tablaReportesSubidos .table-row-cell:hover {
+    -fx-background-color: #c8e6c9; /* Verde claro al pasar el mouse */
+    -fx-border-color: #43a047; /* Verde oscuro para el borde al pasar el mouse */
+    -fx-border-width: 1px;
+    -fx-cursor: hand;
+}
+
+/* Encabezados de columnas (verde principal) */
+#tablaReportesSubidos .column-header {
+    -fx-background-color: #4CAF50; /* Verde principal para el encabezado */
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 15px;
+    -fx-border-color: #4CAF50;
+    -fx-alignment: CENTER;
+}
+
+/* Líneas divisorias para las celdas de la tabla (verde claro) */
+#tablaReportesSubidos .table-cell {
+    -fx-border-color: #a5d6a7; /* Verde claro para las líneas de las celdas */
+    -fx-border-width: 0 0 0.5px 0;
+    -fx-padding: 8px 15px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-text-fill: #388e3c;
+}
+
+/* ScrollBar personalizada para la tabla (verde oscuro) */
+#tablaReportesSubidos .scroll-bar {
+    -fx-background-color: transparent;
+}
+
+#tablaReportesSubidos .scroll-bar:vertical .thumb {
+    -fx-background-color: #388e3c; /* Verde oscuro para el thumb vertical */
+    -fx-background-radius: 5px;
+}
+
+#tablaReportesSubidos .scroll-bar:horizontal .thumb {
+    -fx-background-color: #388e3c; /* Verde oscuro para el thumb horizontal */
+    -fx-background-radius: 5px;
 }
