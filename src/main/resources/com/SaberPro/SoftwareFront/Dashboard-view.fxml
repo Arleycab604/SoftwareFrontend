@@ -26,7 +26,7 @@
                         </Menu>
                         <Menu text="CRUD" style="-fx-text-fill: white;">
                             <MenuItem text="Crear rol" onAction="#onButtonDashboardCrearRol" style="-fx-text-fill: white;"/>
-                            <MenuItem text="Modificar rol" onAction="#onButtonDashboardConsultarRol" style="-fx-text-fill: white;"/>
+                            <MenuItem text="Modificar rol" onAction="#onButtonDashboardModificaRol" style="-fx-text-fill: white;"/>
                         </Menu>
                     </Menu>
                 </MenuBar>
