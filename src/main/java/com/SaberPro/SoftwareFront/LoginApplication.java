@@ -18,6 +18,6 @@ public class LoginApplication extends Application {
     }
 
     public static void main(String[] args) {
-        launch(); // Inicia la aplicación
+        launch();
     }
 }

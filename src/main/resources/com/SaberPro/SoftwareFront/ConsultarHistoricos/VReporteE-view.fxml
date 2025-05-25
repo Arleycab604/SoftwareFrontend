@@ -51,7 +51,7 @@
                 </padding>
                 <VBox spacing="8" alignment="CENTER_LEFT">
                     <Label text="Puntaje Global:" style="-fx-font-weight: bold;" styleClass="label"/>
-                    <RangeSlider fx:id="rangeSliderPuntajeGlobal" min="0" max="200" blockIncrement="1" showTickLabels="true" showTickMarks="true" />
+                    <RangeSlider fx:id="rangeSliderPuntajeGlobal" min="0" max="300" blockIncrement="1" showTickLabels="true" showTickMarks="true" />
                     <HBox spacing="20" alignment="CENTER_LEFT">
                         <Label text="Min:" styleClass="label"/>
                         <TextField fx:id="txtPuntajeGlobalMin" promptText="Min" prefWidth="70" styleClass="text-field"/>
@@ -62,7 +62,7 @@
 
                 <VBox spacing="8" alignment="CENTER_LEFT">
                     <Label text="Puntaje Módulo:" style="-fx-font-weight: bold;" styleClass="label"/>
-                    <RangeSlider fx:id="rangeSliderPuntajeModulo" min="0" max="200" blockIncrement="1" showTickLabels="true" showTickMarks="true" />
+                    <RangeSlider fx:id="rangeSliderPuntajeModulo" min="0" max="300" blockIncrement="1" showTickLabels="true" showTickMarks="true" />
                     <HBox spacing="20" alignment="CENTER_LEFT">
                         <Label text="Min:" styleClass="label"/>
                         <TextField fx:id="txtPuntajeModuloMin" promptText="Min" prefWidth="70" styleClass="text-field"/>
@@ -73,13 +73,13 @@
 
                 <VBox spacing="5" alignment="CENTER_LEFT">
                     <Label text="Tipo de Módulo:" style="-fx-font-weight: bold;" styleClass="label"/>
-                    <VBox fx:id="tipoModuloCheckboxes" spacing="3"/>
+                    <ComboBox fx:id="cmbTipoModulo" promptText="Seleccione un Módulo" prefHeight="30" prefWidth="250" styleClass="combo-box"/>
                 </VBox>
 
-                <HBox alignment="CENTER" prefWidth="390" >
+                <HBox alignment="CENTER" >
                     <Button fx:id="btnAplicarFiltros" onAction="#aplicarFiltros" text="Aplicar Filtros"
                             style="-fx-font-weight: bold; -fx-padding: 8 10;"
-                            maxWidth="Infinity" />
+                            HBox.hgrow="ALWAYS" maxWidth="Infinity" />
                 </HBox>
             </VBox>
         </VBox>
@@ -87,11 +87,12 @@
 </left>
 
 <center>
-    <VBox><HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 10;">
-        <Button fx:id="btnTablas" text="TABLAS" onAction="#mostrarVistaTablas" styleClass="botonVista" />
-        <Button fx:id="btnGraficos" text="GRÁFICOS" onAction="#mostrarVistaGraficos" styleClass="botonVista" />
-        <Label fx:id="lblVistaActual" text="TABLAS" style="-fx-font-weight: bold; -fx-text-fill: #333;" />
-    </HBox>
+    <VBox>
+        <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 10;">
+            <Button fx:id="btnTablas" text="TABLAS" onAction="#mostrarVistaTablas" styleClass="botonVista" />
+            <Button fx:id="btnGraficos" text="GRÁFICOS" onAction="#mostrarVistaGraficos" styleClass="botonVista" />
+            <Label fx:id="lblVistaActual" text="TABLAS" style="-fx-font-weight: bold; -fx-text-fill: #333;" />
+        </HBox>
         <StackPane fx:id="contenedorCentro" VBox.vgrow="ALWAYS">
 
             <VBox fx:id="vistaTabla" spacing="10" alignment="CENTER" style="-fx-padding: 0;">
@@ -125,11 +126,9 @@
                     <ComboBox fx:id="comboAnioGrafico"/>
                     <Label text="Periodo:"/>
                     <ComboBox fx:id="comboPeriodoGrafico"/>
-                    <Label text="Módulo:"/>
-                    <ComboBox fx:id="comboModuloGrafico"/>
                 </HBox>
 
-                <BarChart fx:id="graficoBarras" title="Puntajes por Módulo" prefHeight="500" prefWidth="850">
+                <BarChart fx:id="graficoBarras" title="Puntajes por Módulo: Estudiante vs. Promedio General" prefHeight="500" prefWidth="850">
                     <xAxis>
                         <CategoryAxis fx:id="ejeX" label="Módulo"/>
                     </xAxis>
