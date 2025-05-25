@@ -60,14 +60,13 @@ public class RecoveryController {
 
     @FXML
     private void onReenviarClick() {
-        // Puedes implementar lógica para reenviar desde el backend
-        mostrarAlerta(Alert.AlertType.INFORMATION, "Reenvío", "Código reenviado (simulado).");
+        mostrarAlerta(Alert.AlertType.INFORMATION, "Reenvío", "Código reenviado.");
     }
 
     @FXML
     private void onAtrasClick() {
         Stage stage = (Stage) codeField.getScene().getWindow();
-        ViewLoader.loadView("Login-view.fxml", stage);
+        ViewLoader.loadView("/com/SaberPro/SoftwareFront/Login/CorreoRecovery-view.fxml", stage);
     }
 
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {

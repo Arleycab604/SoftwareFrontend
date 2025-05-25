@@ -62,7 +62,7 @@ public class CorreoRecoveryController {
     @FXML
     private void onLoginClick() {
         Stage stage = (Stage) usuarioField.getScene().getWindow();
-        ViewLoader.loadView("Login-view.fxml", stage);
+        ViewLoader.loadView("/com/SaberPro/SoftwareFront/Login/Login-view.fxml", stage);
     }
 
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
