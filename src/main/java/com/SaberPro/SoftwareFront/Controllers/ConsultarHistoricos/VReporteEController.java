@@ -20,7 +20,9 @@ import org.controlsfx.control.RangeSlider;
 import java.net.URL;
 import java.net.http.HttpResponse;
 import java.util.*;
-        import java.util.stream.Collectors; // Necesario para Collectors
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+import java.util.stream.Collectors; // Necesario para Collectors
 
 public class VReporteEController implements Initializable {
     private final int MIN_PUNTAJE = 0, MAX_PUNTAJE = 300;
@@ -79,29 +81,65 @@ public class VReporteEController implements Initializable {
     @FXML private javafx.scene.chart.BarChart<String, Number> graficoBarras;
     @FXML private CategoryAxis ejeX;
     @FXML private NumberAxis ejeY;
-    // FIN MODIFICACIÓN
 
-
+    //Yo soy rabiosa - shakira ft. no se quien
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        mostrarVistaTablas(); // Esto es correcto para iniciar mostrando la tabla
+        mostrarVistaTablas();
 
-        configurarComboBoxes(); // Inicializar ComboBoxes de filtro (izquierda)
-        configurarRangeSliderPuntajeGlobal(); // Configurar RangeSlider para puntaje global
-        configurarRangeSliderPuntajeModulo(); // Configurar RangeSlider para puntaje módulo
-        configurarTipoModuloOptions(); // Configurar opciones de tipo de módulo (checkboxes)
-        configurarColumnasTabla(); // Configurar columnas de la tabla
-        cargarDatosIniciales(); // Cargar datos iniciales para la tabla
+        configurarComboBoxes();
+        configurarTipoModuloOptions();
+        configurarColumnasTabla();
 
-        // INICIO MODIFICACIÓN: Configurar ComboBoxes del gráfico y sus listeners
-        configurarComboBoxesGrafico(); // Nuevo método para poblar los ComboBox del gráfico
-        // Añadir listeners a los ComboBoxes del gráfico para actualizarlo
+        // Usar la función general para sincronizar sliders y campos de texto
+        sincronizarRangeSliderConTextFields(rangeSliderPuntajeGlobal, txtPuntajeGlobalMin, txtPuntajeGlobalMax);
+        sincronizarRangeSliderConTextFields(rangeSliderPuntajeModulo, txtPuntajeModuloMin, txtPuntajeModuloMax);
+
+        cargarDatosIniciales();
+        configurarComboBoxesGrafico();
         comboAnioGrafico.valueProperty().addListener((obs, oldVal, newVal) -> actualizarGrafico());
         comboPeriodoGrafico.valueProperty().addListener((obs, oldVal, newVal) -> actualizarGrafico());
         comboModuloGrafico.valueProperty().addListener((obs, oldVal, newVal) -> actualizarGrafico());
-        // FIN MODIFICACIÓN
     }
 
+    private void sincronizarRangeSliderConTextFields(RangeSlider rangeSlider, TextField txtMin, TextField txtMax) {
+        // Actualizar campos de texto al mover slider
+        rangeSlider.lowValueProperty().addListener((obs, oldVal, newVal) -> {
+            txtMin.setText(String.valueOf(newVal.intValue()));
+        });
+        rangeSlider.highValueProperty().addListener((obs, oldVal, newVal) -> {
+            txtMax.setText(String.valueOf(newVal.intValue()));
+        });
+
+        // Agregar listeners a TextFields con la función generalizada
+        agregarListenerTextField(txtMin,
+                rangeSlider::getHighValue,
+                rangeSlider::setLowValue,
+                true);
+
+        agregarListenerTextField(txtMax,
+                rangeSlider::getLowValue,
+                rangeSlider::setHighValue,
+                false);
+    }
+    private void agregarListenerTextField(TextField txtField, Supplier<Double> getValorSliderContrario,
+                                          Consumer<Double> setValorSliderPropio,
+                                          boolean esMinimo) {
+        txtField.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (esNumeroValido(newVal)) {
+                double val = Double.parseDouble(newVal);
+                double valorContrario = getValorSliderContrario.get();
+                boolean valido = esMinimo ? (val <= valorContrario) : (val >= valorContrario);
+                if (valido) {
+                    setValorSliderPropio.accept(val);
+                } else {
+                    txtField.setText(oldVal);
+                }
+            } else {
+                txtField.setText(oldVal);
+            }
+        });
+    }
     @FXML
     private void mostrarVistaTablas() {
         vistaTabla.setVisible(true);
@@ -119,60 +157,6 @@ public class VReporteEController implements Initializable {
         lblVistaActual.setText("GRÁFICOS");
         actualizarGrafico(); // Llama a la función para cargar/actualizar el gráfico cuando se cambia a esta vista
         // FIN MODIFICACIÓN
-    }
-
-
-    private void configurarRangeSliderPuntajeGlobal() {
-        // ... (Tu código existente para RangeSlider) ...
-        // Sincronizar RangeSlider con los campos de texto
-        rangeSliderPuntajeGlobal.lowValueProperty().addListener((obs, oldVal, newVal) -> {
-            txtPuntajeGlobalMin.setText(String.valueOf(newVal.intValue()));
-        });
-        rangeSliderPuntajeGlobal.highValueProperty().addListener((obs, oldVal, newVal) -> {
-            txtPuntajeGlobalMax.setText(String.valueOf(newVal.intValue()));
-        });
-
-        // Actualizar RangeSlider cuando se editen los campos de texto
-        txtPuntajeGlobalMin.textProperty().addListener((obs, oldVal, newVal) -> {
-            if (esNumeroValido(newVal)) {
-                rangeSliderPuntajeGlobal.setLowValue(Double.parseDouble(newVal));
-            } else {
-                txtPuntajeGlobalMin.setText(oldVal);
-            }
-        });
-        txtPuntajeGlobalMax.textProperty().addListener((obs, oldVal, newVal) -> {
-            if (esNumeroValido(newVal)) {
-                rangeSliderPuntajeGlobal.setHighValue(Double.parseDouble(newVal));
-            } else {
-                txtPuntajeGlobalMax.setText(oldVal);
-            }
-        });
-    }
-    private void configurarRangeSliderPuntajeModulo() {
-        // ... (Tu código existente para RangeSlider) ...
-        // Sincronizar RangeSlider con los campos de texto
-        rangeSliderPuntajeModulo.lowValueProperty().addListener((obs, oldVal, newVal) -> {
-            txtPuntajeModuloMin.setText(String.valueOf(newVal.intValue()));
-        });
-        rangeSliderPuntajeModulo.highValueProperty().addListener((obs, oldVal, newVal) -> {
-            txtPuntajeModuloMax.setText(String.valueOf(newVal.intValue()));
-        });
-
-        // Actualizar RangeSlider cuando se editen los campos de texto
-        txtPuntajeModuloMin.textProperty().addListener((obs, oldVal, newVal) -> {
-            if (esNumeroValido(newVal)) {
-                rangeSliderPuntajeModulo.setLowValue(Double.parseDouble(newVal));
-            } else {
-                txtPuntajeModuloMin.setText(oldVal);
-            }
-        });
-        txtPuntajeModuloMax.textProperty().addListener((obs, oldVal, newVal) -> {
-            if (esNumeroValido(newVal)) {
-                rangeSliderPuntajeModulo.setHighValue(Double.parseDouble(newVal));
-            } else {
-                txtPuntajeModuloMax.setText(oldVal);
-            }
-        });
     }
 
     private boolean esNumeroValido(String valor) {
@@ -281,7 +265,6 @@ public class VReporteEController implements Initializable {
         buscarReporteConFiltros(filtros);
     }
     private void configurarColumnasTabla() {
-        // Configurar columnas con los atributos de ReporteDTO
         colDocumento.setCellValueFactory(new PropertyValueFactory<>("documento"));
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombreUsuario"));
         colRegistro.setCellValueFactory(new PropertyValueFactory<>("numeroRegistro"));
@@ -294,56 +277,41 @@ public class VReporteEController implements Initializable {
         colTipoModulo.setCellValueFactory(new PropertyValueFactory<>("tipoModulo"));
         colPuntajeModulo.setCellValueFactory(new PropertyValueFactory<>("puntajeModulo"));
         colPercentilModulo.setCellValueFactory(new PropertyValueFactory<>("percentilModulo"));
-        colDesempeno.setCellValueFactory(new PropertyValueFactory<>("nivelDesempeno"));
+        colDesempeno.setCellValueFactory(new PropertyValueFactory<>("desempeno"));
         colNovedades.setCellValueFactory(new PropertyValueFactory<>("novedades"));
+        tablaReportes.setItems(listaReportes);
     }
+
     // Método para cargar datos iniciales desde el backend
     private void cargarDatosIniciales() {
-        /*
-         * FALTA ALGO IMPORTANTE, sería recomendable guardar en memoria
-         * los filtros generados por este usuario, de modo que los filtros se guarden mientras la app esté abierta
-         */
-        try {
-
-            // Configurar la URL del backend
-            InputQueryDTO filtros = new InputQueryDTO();
-            listaReportes.forEach(System.out::println);
-            HttpResponse<String> response = BuildRequest.getInstance().POSTInputDTO("http://localhost:8080/SaberPro/reportes/Query",filtros);
-
-            if (response.statusCode() == 200) {
-                ObjectMapper objectMapper = new ObjectMapper();
-                List<ReporteDTO> resultados = objectMapper.readValue(response.body(), new TypeReference<List<ReporteDTO>>() {});
-                listaReportes.addAll(resultados);
-                tablaReportes.setItems(listaReportes);
-            } else {
-                System.err.println("Error al cargar datos iniciales: " + response.statusCode());
-            }
-        } catch (Exception e) {
-            System.err.println("Error al conectar con el backend: " + e.getMessage());
-        }
+        buscarReporteConFiltros(new InputQueryDTO());
     }
     private void buscarReporteConFiltros(InputQueryDTO filtros) {
+        ObjectMapper mapper = new ObjectMapper();
         try {
-            HttpResponse<String> response = BuildRequest.getInstance().POSTInputDTO("http://localhost:8080/SaberPro/reportes/Query",filtros);
-            ObjectMapper objectMapper = new ObjectMapper();
-            String json = objectMapper.writeValueAsString(filtros);
-            System.out.println("JSON enviado al backend: " + json);
-            // Verificar el código de respuesta
+            String requestBody = mapper.writeValueAsString(filtros);
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("http://localhost:8080/SaberPro/reportes/Query"))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                    .build();
+
+            HttpClient client = HttpClient.newHttpClient();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
             if (response.statusCode() == 200) {
-                // Convertir la respuesta JSON a una lista de ReporteDTO
-                List<ReporteDTO> resultados = objectMapper.readValue(response.body(), new TypeReference<List<ReporteDTO>>() {});
-
-                // Actualizar la tabla con los resultados
-                listaReportes.clear();
-                listaReportes.addAll(resultados);
-                tablaReportes.setItems(listaReportes);
+                List<ReporteDTO> reportes = mapper.readValue(response.body(), new TypeReference<>() {});
+                listaReportes.setAll(reportes);
             } else {
-                System.err.println("Error en la respuesta del servidor: " + response.statusCode() + " - " + response.body());
+                mostrarAlerta("Error", "No se pudieron obtener los reportes.");
             }
-        } catch (Exception e) {
-            System.err.println("Error al realizar la solicitud HTTP: " + e.getMessage());
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            mostrarAlerta("Error", "Error al procesar los filtros.");
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            mostrarAlerta("Error", "Error al comunicarse con el servidor.");
         }
-
     }
 
     // INICIO MODIFICACIÓN: Método para actualizar el gráfico
@@ -372,9 +340,9 @@ public class VReporteEController implements Initializable {
                 if (response.statusCode() == 200) {
                     List<ReporteDTO> resultados = objectMapper.readValue(response.body(), new TypeReference<List<ReporteDTO>>() {});
 
-                    // Agrupar los datos por módulo y calcular el puntaje promedio
+                    // Derly como te fokin odio para eso estan los reportes generales
                     Map<String, Double> puntajesPorModulo = resultados.stream()
-                            .filter(r -> r.getPuntajeModulo() != 0) // Asegúrate de que el puntaje del módulo no sea nulo
+                            .filter(r -> r.getPuntajeModulo() != 0) //Esta linea es redundante, los puntajes no pueden ser nulos
                             .collect(Collectors.groupingBy(
                                     ReporteDTO::getTipoModulo,
                                     Collectors.averagingDouble(ReporteDTO::getPuntajeModulo)
@@ -409,5 +377,11 @@ public class VReporteEController implements Initializable {
             }
         }
     }
-    // FIN MODIFICACIÓN
+
+    private void mostrarAlerta(String titulo, String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(titulo);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
 }
