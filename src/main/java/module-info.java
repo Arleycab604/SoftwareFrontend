@@ -26,5 +26,7 @@ module com.example.front {
     opens com.SaberPro.SoftwareFront.Controllers.Login to javafx.fxml;
     opens com.SaberPro.SoftwareFront.Controllers.ConsultarHistoricos to javafx.fxml;
     opens com.SaberPro.SoftwareFront.Controllers.Roles to javafx.fxml;
-
+    // --- LÍNEA AGREGADA ---
+    opens com.SaberPro.SoftwareFront.Controllers.Cumplimiento to javafx.fxml; // Permite a FXMLLoader acceder a los controladores de cumplimiento
+    // --- FIN LÍNEA AGREGADA ---
 }

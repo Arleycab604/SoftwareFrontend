@@ -1,6 +1,7 @@
 package com.SaberPro.SoftwareFront.Controllers.AccionesMejora;
 
 import com.SaberPro.SoftwareFront.Models.EntregaAccion; // Necesitas un modelo para las entregas
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-public class VerEnvioAccionController {
+public class VerEnvioAccionController {}/*
 
     @FXML private Label nombreTareaLabel;
     @FXML private TableView<EntregaAccion> entregasTableView;
@@ -165,5 +166,4 @@ public class VerEnvioAccionController {
             System.err.println("Error al abrir la ventana de calificación: " + e.getMessage());
             e.printStackTrace();
         }
-    }*/
-}
+    }}*/

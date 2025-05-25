@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-public class VerTarjetaAccionController {
+public class VerTarjetaAccionController {}/*
 
     @FXML private Label nombreTareaHeaderLabel;
     @FXML private Label navegacionTareaLabel;
@@ -124,4 +124,4 @@ public class VerTarjetaAccionController {
     // Puedes añadir métodos para manejar las otras pestañas si son funcionales
     // @FXML private void handleConfiguracionTabSelected() { ... }
     // @FXML private void handleCalificacionAvanzadaTabSelected() { ... }
-}
+}*/

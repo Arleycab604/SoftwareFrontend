@@ -129,8 +129,9 @@
     -fx-font-weight: bold;
     -fx-text-fill: #333;
     -fx-padding: 15px 0 10px 0;
-    -fx-border-bottom: 1px solid #ddd;
-    -fx-border-width: 0 0 1 0;
+    /* Corrected: Use individual border properties */
+    -fx-border-width: 0 0 1px 0; /* Only bottom border, 1px */
+    -fx-border-color: #ddd;
 }
 
 .hyperlink {
@@ -246,5 +247,7 @@
 /* Header HBox specific styling */
 .header-box {
     -fx-padding: 0 0 10px 0; /* Add some bottom padding to the header */
-    -fx-border-bottom: 1px solid #D0D9E1; /* A subtle line under the header */
+    /* Corrected: Use individual border properties */
+    -fx-border-width: 0 0 1px 0; /* Only bottom border, 1px */
+    -fx-border-color: #D0D9E1;
 }

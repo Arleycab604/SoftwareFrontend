@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.VBox; // Mantener si 'contenedor' es una referencia al VBox principal del login
 import javafx.stage.Stage;
 import java.net.http.HttpResponse;
 import java.util.Base64;
@@ -18,7 +18,7 @@ import javafx.scene.input.KeyCode;
 
 public class LoginController {
 
-    public VBox contenedor;
+    public VBox contenedor; // Mantener si es el contenedor raíz de Login-view.fxml
     @FXML
     private TextField usernameField;
     @FXML
@@ -35,7 +35,7 @@ public class LoginController {
             // Enviar la solicitud y obtener la respuesta
             HttpResponse<String> response = BuildRequest.getInstance().POSTJson(
                     "http://localhost:8080/SaberPro/usuarios/login",
-                     String.format("{\"nombreUsuario\":\"%s\", \"password\":\"%s\"}", username, password),false);
+                    String.format("{\"nombreUsuario\":\"%s\", \"password\":\"%s\"}", username, password),false);
 
             // Manejar la respuesta
             int responseCode = response.statusCode();
@@ -45,76 +45,72 @@ public class LoginController {
                 String responseBody = response.body();
                 System.out.println("Respuesta del servidor: " + responseBody);
 
-                // Procesar el token (si es necesario)
+                // Procesar el token
                 ObjectMapper objectMapper = new ObjectMapper();
                 Map<String, Object> jsonMap = objectMapper.readValue(responseBody, Map.class);
                 String token = (String) jsonMap.get("token");
 
                 if (token != null && !token.equals("Credenciales inválidas.")) {
-                    // Decodificar el payload del token
-
                     // Ocultar mensaje de error si estaba visible
                     mensajeError.setVisible(false);
+
+                    // Decodificar el payload del token y guardar el tipo de usuario
                     String[] parts = token.split("\\.");
                     String payload = new String(Base64.getDecoder().decode(parts[1]));
                     Map<String, Object> payloadMap = objectMapper.readValue(payload, Map.class);
                     String tipoUsuario = (String) payloadMap.get("tipoDeUsuario");
 
-                    // Guardar el token y el tipo de usuario
                     TokenManager.setToken(token);
                     TokenManager.setTipoUsuario(tipoUsuario);
 
                     // Cargar el Dashboard
                     Stage stage = (Stage) usernameField.getScene().getWindow();
-                    ViewLoader.loadView("Dashboard-view.fxml", stage);
+                    // Asegúrate de que esta ruta al Dashboard-view.fxml sea la correcta y absoluta.
+                    ViewLoader.loadView("/com/SaberPro/SoftwareFront/Dashboard-view.fxml", stage); // Asumiendo que ahora se llama Dashboard.fxml
                 } else {
                     mensajeError.setText("Usuario o contraseña incorrectos.");
                     mensajeError.setVisible(true);
                     System.out.println("Usuario o contraseña incorrectos.");
                 }
             } else {
+                mensajeError.setText("Error al iniciar sesión. Código: " + responseCode); // Mensaje más descriptivo para el usuario
+                mensajeError.setVisible(true);
                 System.out.println("Error en la solicitud: " + responseCode + " - " + response.body());
             }
         } catch (Exception e) {
             e.printStackTrace();
+            mensajeError.setText("Error de conexión. Intente más tarde."); // Mensaje para el usuario
+            mensajeError.setVisible(true);
             System.out.println("Error al conectar con el backend.");
         }
     }
 
     @FXML
-    private Label bienvenidaLabel;
-
-    @FXML
-    private void onSalirClick() {
-        Stage stage = (Stage) usernameField.getScene().getWindow();
-        stage.close(); // o puedes redirigir a otra vista de login
-    }
-
-    @FXML
     private void initialize() {
-        if (usernameField != null && bienvenidaLabel != null) {
-            bienvenidaLabel.setText("Bienvenido a SaberPro, " + usernameField.getText());
+        // ELIMINADO: if (usernameField != null && bienvenidaLabel != null) { bienvenidaLabel.setText("Bienvenido a SaberPro, " + usernameField.getText()); }
+        // La lógica de bienvenida se maneja en BienvenidaController
+
+        // Configuración de eventos de teclado (mantener)
+        if (usernameField != null) { // Agregado null check para seguridad
+            usernameField.setOnKeyPressed(event -> {
+                if (event.getCode() == KeyCode.ENTER) {
+                    onLoginButtonClick();
+                }
+            });
         }
 
-        // Mantiene tu funcionalidad actual
-        usernameField.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                onLoginButtonClick();
-            }
-        });
-
-        passwordField.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                onLoginButtonClick();
-            }
-        });
+        if (passwordField != null) { // Agregado null check para seguridad
+            passwordField.setOnKeyPressed(event -> {
+                if (event.getCode() == KeyCode.ENTER) {
+                    onLoginButtonClick();
+                }
+            });
+        }
     }
-
 
     @FXML
     private void onForgotPasswordClick() {
         Stage stage = (Stage) usernameField.getScene().getWindow();
-        ViewLoader.loadView("CorreoRecovery-view.fxml", stage);
+        ViewLoader.loadView("/com/SaberPro/SoftwareFront/Login/CorreoRecovery-view.fxml", stage);
     }
-
 }

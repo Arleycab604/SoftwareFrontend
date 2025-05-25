@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            xmlns="http://javafx.com/javafx"
+            fx:controller="com.SaberPro.SoftwareFront.Controllers.Login.BienvenidaController"> <children>
+    <VBox fx:id="contenedor" alignment="CENTER" spacing="20.0" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <padding>
+            <Insets top="40" right="20" bottom="40" left="20"/>
+        </padding>
+
+        <Label fx:id="bienvenidaLabel" text="Bienvenido a SaberPro">
+            <font>
+                <Font name="Arial Bold" size="24"/>
+            </font>
+        </Label>
+
+    </VBox>
+</children>
+</AnchorPane>

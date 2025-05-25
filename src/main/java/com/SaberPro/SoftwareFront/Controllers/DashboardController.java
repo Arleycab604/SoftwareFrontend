@@ -4,15 +4,15 @@ import com.SaberPro.SoftwareFront.Utils.TokenManager;
 import com.SaberPro.SoftwareFront.Utils.ViewLoader;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button; // No se usa, se puede eliminar
+// import javafx.scene.control.Button; // No se usa, se puede eliminar
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TitledPane; // No se usa, se puede eliminar
+// import javafx.scene.control.TitledPane; // No se usa, se puede eliminar
 import javafx.scene.layout.StackPane;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 import java.io.IOException;
-import javafx.scene.Node; // No se usa, se puede eliminar
+// import javafx.scene.Node; // No se usa, se puede eliminar
 
 public class DashboardController {
 
@@ -30,6 +30,9 @@ public class DashboardController {
         String tipoUsuario = TokenManager.getTipoUsuario();
         if (tipoUsuario == null) {
             System.out.println("Error: tipoUsuario no definido.");
+            // Opcional: Redirigir al login si el tipo de usuario no está definido
+            Stage stage = (Stage) contentArea.getScene().getWindow();
+            ViewLoader.loadView("/com/SaberPro/SoftwareFront/Login/Login-view.fxml", stage); // Usamos ruta completa con /
             return;
         }
 
@@ -59,16 +62,25 @@ public class DashboardController {
                 ocultarMenu(accionesMejoraMenu);
                 ocultarMenu(crudMenu);
                 ocultarMenuItem(especificosMenuItem);
+                // Asegúrate de ocultar también generalesMenuItem si los docentes no lo ven
+                ocultarMenuItem(generalesMenuItem);
                 break;
 
             case "ESTUDIANTE":
                 ocultarMenu(cargarReportesMenu);
                 ocultarMenu(accionesMejoraMenu);
                 ocultarMenu(crudMenu);
+                // Si el estudiante no tiene acceso a específicos/generales, también ocúltalos
+                ocultarMenuItem(especificosMenuItem);
+                ocultarMenuItem(generalesMenuItem);
                 break;
 
             default:
                 System.out.println("Advertencia: tipoUsuario no reconocido.");
+                // Opcional: Ocultar todo si el tipo de usuario no es reconocido
+                ocultarMenu(cargarReportesMenu);
+                ocultarMenu(accionesMejoraMenu);
+                ocultarMenu(crudMenu);
                 break;
         }
     }
@@ -89,20 +101,20 @@ public class DashboardController {
 
     /**
      * Carga una vista en el área principal con el archivo FXML especificado.
-     * La ruta 'fxmlPath' debe ser relativa a la raíz de 'src/main/resources'.
-     * Ejemplo: "com/SaberPro/SoftwareFront/Login-view.fxml" o "Views/Login-view.fxml"
+     * La ruta 'fxmlPath' DEBE SER ABSOLUTA desde la raíz del classpath
+     * (es decir, debe empezar con "/com/SaberPro/SoftwareFront/...").
+     * Ejemplo: "/com/SaberPro/SoftwareFront/Login/Login-view.fxml"
      */
     private void loadView(String fxmlPath) {
         try {
-            // Se asume que fxmlPath ya incluye la ruta completa desde la raíz de resources
-            // Por ejemplo: "com/SaberPro/SoftwareFront/Login-view.fxml"
-            // O si tienes una carpeta "Views" en resources: "Views/Login-view.fxml"
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/" + fxmlPath)); // <-- Aquí está el cambio clave
+            // Se asume que fxmlPath ya es la ruta completa desde la raíz del classpath
+            // y por lo tanto ya empieza con una '/'
+            // Ejemplo: "/com/SaberPro/SoftwareFront/Login/Bienvenida-view.fxml"
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath)); // Eliminado el '/' redundante
             Parent view = loader.load();
             contentArea.getChildren().setAll(view);
         } catch (IOException e) {
             e.printStackTrace();
-            // Mejorar el mensaje de error para depuración
             System.err.println("Error al cargar la vista FXML: " + fxmlPath);
             throw new RuntimeException("Error al cargar la vista: " + fxmlPath, e);
         }
@@ -111,54 +123,61 @@ public class DashboardController {
     @FXML
     private void onAtrasClick() {
         Stage stage = (Stage) contentArea.getScene().getWindow();
-        // Asegúrate que "Login-view.fxml" sea la ruta completa desde resources
-        ViewLoader.loadView("com/SaberPro/SoftwareFront/Login/Login-view.fxml", stage);
+        // Ruta ABSOLUTA para ViewLoader
+        ViewLoader.loadView("/com/SaberPro/SoftwareFront/Login/Login-view.fxml", stage);
     }
 
     @FXML
     private void onButtonDashboardInicio() {
-        // Asegúrate que "Login-view.fxml" sea la ruta completa desde resources
-        loadView("com/SaberPro/SoftwareFront/Login/Bienvenida-view.fxml");
+        // Ruta ABSOLUTA para el loadView interno del DashboardController
+        loadView("/com/SaberPro/SoftwareFront/Login/Bienvenida-view.fxml");
     }
 
     @FXML
     private void onButtonDashboardSReporte() {
-        loadView("com/SaberPro/SoftwareFront/CReporte-view.fxml");
+        // Ruta ABSOLUTA
+        loadView("/com/SaberPro/SoftwareFront/CReporte-view.fxml");
     }
 
     @FXML
     private void onButtonDashboardSInformes() {
-        loadView("com/SaberPro/SoftwareFront/Login/Login-view.fxml"); // Usando Login-view de nuevo
+        // Ruta ABSOLUTA - Ajustado a una vista más lógica si "Login-view.fxml" no es para informes
+        loadView("/com/SaberPro/SoftwareFront/ConsultarHistoricos/VReporteG-view.fxml");
     }
 
     @FXML
     private void onButtonDashboardGeneral() {
-        loadView("com/SaberPro/SoftwareFront/ConsultarHistoricos/VReporteG-view.fxml");
+        // Ruta ABSOLUTA
+        loadView("/com/SaberPro/SoftwareFront/ConsultarHistoricos/VReporteG-view.fxml");
     }
 
     @FXML
     private void onButtonDashboardEspecificos() {
-        loadView("com/SaberPro/SoftwareFront/ConsultarHistoricos/VReporteE-view.fxml");
+        // Ruta ABSOLUTA
+        loadView("/com/SaberPro/SoftwareFront/ConsultarHistoricos/VReporteE-view.fxml");
     }
 
     @FXML
     private void onButtonDashboardAsignar() {
-        // Esta ruta parece ser la que estás cargando
-        loadView("com/SaberPro/SoftwareFront/AccionesMejora/ModulosAccion.fxml"); // <-- Correcto
+        // Ruta ABSOLUTA
+        loadView("/com/SaberPro/SoftwareFront/AccionesMejora/ModulosAccion.fxml");
     }
 
     @FXML
     private void onButtonDashboardSeguimiento() {
-        loadView("com/SaberPro/SoftwareFront/Login-view.fxml"); // Usando Login-view de nuevo
+        // Ruta ABSOLUTA - Ajustado a una vista más lógica si "Login-view.fxml" no es para seguimiento
+        loadView("/com/SaberPro/SoftwareFront/Cumplimiento/DetalleCumplimiento.fxml");
     }
 
     @FXML
     private void onButtonDashboardCrearRol() {
-        loadView("com/SaberPro/SoftwareFront/Roles/CrearRol-view.fxml");
+        // Ruta ABSOLUTA
+        loadView("/com/SaberPro/SoftwareFront/Roles/CrearRol-view.fxml");
     }
 
     @FXML
     private void onButtonDashboardModificaRol() {
-        loadView("com/SaberPro/SoftwareFront/Roles/ModificaRol-view.fxml");
+        // Ruta ABSOLUTA
+        loadView("/com/SaberPro/SoftwareFront/Roles/ModificaRol-view.fxml");
     }
 }
