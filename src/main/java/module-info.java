@@ -22,5 +22,9 @@ module com.example.front {
     exports com.SaberPro.SoftwareFront.Models;
     exports com.SaberPro.SoftwareFront;
     opens com.SaberPro.SoftwareFront.Models to com.fasterxml.jackson.databind, javafx.fxml;
+    opens com.SaberPro.SoftwareFront.Controllers.AccionesMejora to javafx.fxml;
+    opens com.SaberPro.SoftwareFront.Controllers.Login to javafx.fxml;
+    opens com.SaberPro.SoftwareFront.Controllers.ConsultarHistoricos to javafx.fxml;
+    opens com.SaberPro.SoftwareFront.Controllers.Roles to javafx.fxml;
 
 }

@@ -36,7 +36,7 @@
                 <Region HBox.hgrow="ALWAYS" />
 
                 <!-- Botón Volver a la derecha -->
-                <Button text="Volver" onAction="#onAtrasClick" style="-fx-background-color: #1e293b; -fx-font-size: 18px; -fx-text-fill: white; -fx-padding: 8px 20px; -fx-border-radius: 8px; -fx-background-radius: 8px;" HBox.hgrow="NEVER"/>
+                <Button text="Cerrar sesión" onAction="#onAtrasClick" style="-fx-background-color: #1e293b; -fx-font-size: 18px; -fx-text-fill: white; -fx-padding: 8px 20px; -fx-border-radius: 8px; -fx-background-radius: 8px;" HBox.hgrow="NEVER"/>
 
             </HBox>
         </VBox>

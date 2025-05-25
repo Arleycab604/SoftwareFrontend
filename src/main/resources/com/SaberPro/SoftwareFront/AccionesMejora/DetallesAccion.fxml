@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import java.net.URL?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.SaberPro.SoftwareFront.Controllers.AccionesMejora.DetallesAccionController"
+            prefHeight="1000" prefWidth="1400" styleClass="background-main-pane">
+<stylesheets>
+    <URL value="@../../../../CSS/seguimiento.css"/>
+</stylesheets>
+
+<VBox AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+      spacing="15" style="-fx-padding: 20px;">
+
+    <Label fx:id="lblModuloTitle" text="Vista General de Acciones de Mejora" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+    <Separator/>
+
+    <HBox alignment="CENTER_LEFT" spacing="15">
+        <TextField fx:id="txtBuscar" promptText="Buscar por nombre o descripción" prefWidth="250"/>
+
+        <ComboBox fx:id="cmbOrdenarPor" promptText="Ordenar por"/>
+
+        <HBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT" spacing="10">
+            <Button text="Crear Nueva Acción" onAction="#handleNuevaAccion" styleClass="btn-primary"/>
+            <ComboBox fx:id="cmbVista" promptText="Vista"/>
+        </HBox>
+    </HBox>
+
+    <Separator/>
+
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="scroll-pane">
+        <VBox fx:id="vbContenedorAcciones" spacing="10" style="-fx-padding: 5px;">
+        </VBox>
+    </ScrollPane>
+</VBox>
+</AnchorPane>

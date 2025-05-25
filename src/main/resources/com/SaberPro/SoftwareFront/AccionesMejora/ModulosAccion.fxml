@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import java.net.URL?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.SaberPro.SoftwareFront.Controllers.AccionesMejora.ModulosAccionController"
+            prefHeight="750.0" prefWidth="1100.0" styleClass="background-main-pane">
+    <stylesheets>
+        <URL value="@../../../../CSS/seguimiento.css" />
+    </stylesheets>
+
+    <ScrollPane fitToWidth="true" fitToHeight="true" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+                AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                styleClass="scroll-pane">
+        <HBox alignment="CENTER" spacing="50" styleClass="main-container">
+            <padding>
+                <Insets top="50" right="50" bottom="50" left="50"/>
+            </padding>
+
+            <VBox alignment="TOP_CENTER" HBox.hgrow="ALWAYS" styleClass="column-container">
+                <HBox alignment="CENTER" onMouseClicked="#handleModuloClick" userData="ComunicacionEscrita"
+                      styleClass="module-card">
+                    <VBox styleClass="module-content-vbox">
+                        <ImageView styleClass="module-image">
+                            <Image url="@../../../../Images/comunicacionEscrita.jpg"/>
+                        </ImageView>
+                        <Label text="COMUNICACIÓN ESCRITA" styleClass="module-text" textAlignment="CENTER"/>
+                    </VBox>
+                </HBox>
+
+                <HBox alignment="CENTER" onMouseClicked="#handleModuloClick" userData="LecturaCritica"
+                      styleClass="module-card">
+                    <VBox styleClass="module-content-vbox">
+                        <ImageView styleClass="module-image">
+                            <Image url="@../../../../Images/lecturaCritica.jpg"/>
+                        </ImageView>
+                        <Label text="LECTURA CRÍTICA" styleClass="module-text" textAlignment="CENTER"/>
+                    </VBox>
+                </HBox>
+
+                <HBox alignment="CENTER" onMouseClicked="#handleModuloClick" userData="FormulacionProyectos"
+                      styleClass="module-card">
+                    <VBox styleClass="module-content-vbox">
+                        <ImageView styleClass="module-image">
+                            <Image url="@../../../../Images/formulacionProyectos.jpg"/>
+                        </ImageView>
+                        <Label text="FORMULACIÓN DE PROYECTOS DE INGENIERÍA" styleClass="module-text"
+                               textAlignment="CENTER"/>
+                    </VBox>
+                </HBox>
+
+                <HBox alignment="CENTER" onMouseClicked="#handleModuloClick" userData="CompetenciasCiudadanas"
+                      styleClass="module-card">
+                    <VBox styleClass="module-content-vbox">
+                        <ImageView styleClass="module-image">
+                            <Image url="@../../../../Images/competenciasCiudadanas.jpg"/>
+                        </ImageView>
+                        <Label text="COMPETENCIAS CIUDADANAS" styleClass="module-text" textAlignment="CENTER"/>
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <VBox alignment="TOP_CENTER" HBox.hgrow="ALWAYS" styleClass="column-container">
+                <HBox alignment="CENTER" onMouseClicked="#handleModuloClick" userData="Ingles" styleClass="module-card">
+                    <VBox styleClass="module-content-vbox">
+                        <ImageView styleClass="module-image">
+                            <Image url="@../../../../Images/Ingles.png"/>
+                        </ImageView>
+                        <Label text="INGLÉS" styleClass="module-text" textAlignment="CENTER"/>
+                    </VBox>
+                </HBox>
+
+                <HBox alignment="CENTER" onMouseClicked="#handleModuloClick" userData="DisenoSoftware"
+                      styleClass="module-card">
+                    <VBox styleClass="module-content-vbox">
+                        <ImageView styleClass="module-image">
+                            <Image url="@../../../../Images/diseñoSoftware.jpg"/>
+                        </ImageView>
+                        <Label text="DISEÑO DE SOFTWARE" styleClass="module-text" textAlignment="CENTER"/>
+                    </VBox>
+                </HBox>
+
+                <HBox alignment="CENTER" onMouseClicked="#handleModuloClick" userData="RazonamientoCuantitativo"
+                      styleClass="module-card">
+                    <VBox styleClass="module-content-vbox">
+                        <ImageView styleClass="module-image">
+                            <Image url="@../../../../Images/RazonamientoCuantitativo.jpg"/>
+                        </ImageView>
+                        <Label text="RAZONAMIENTO CUANTITATIVO" styleClass="module-text" textAlignment="CENTER"/>
+                    </VBox>
+                </HBox>
+
+                <HBox alignment="CENTER" onMouseClicked="#handleModuloClick" userData="PensamientoCientifico"
+                      styleClass="module-card">
+                    <VBox styleClass="module-content-vbox">
+                        <ImageView styleClass="module-image">
+                            <Image url="@../../../../Images/pensamientoCientifico.jpg"/>
+                        </ImageView>
+                        <Label text="PENSAMIENTO CIENTÍFICO - MATEMÁTICAS Y ESTADÍSTICA" styleClass="module-text"
+                               textAlignment="CENTER"/>
+                    </VBox>
+                </HBox>
+            </VBox>
+        </HBox>
+    </ScrollPane>
+</AnchorPane>

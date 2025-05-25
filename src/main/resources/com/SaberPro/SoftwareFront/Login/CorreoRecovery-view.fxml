@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.SaberPro.SoftwareFront.Controllers.Login.CorreoRecoveryController"
+            prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(to bottom, #dfe9f3, #ffffff);">
+
+    <children>
+        <VBox alignment="CENTER" spacing="28.0" maxWidth="450.0" layoutX="75.0" layoutY="50.0"
+              style="-fx-background-color: white; -fx-background-radius: 20;
+                     -fx-border-radius: 20; -fx-border-color: #cfd8dc;
+                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 30, 0.3, 0, 6);">
+            <padding>
+                <Insets top="40.0" bottom="40.0" left="30.0" right="30.0"/>
+            </padding>
+
+            <Label text="Restablecer contraseña" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #1a237e;" />
+
+            <Label text="Introduce tu nombre de usuario y te enviaremos instrucciones para restablecer tu contraseña"
+                   wrapText="true" style="-fx-text-fill: #455a64; -fx-font-size: 14px;" maxWidth="360"/>
+
+            <TextField fx:id="usuarioField" promptText="Usuario" maxWidth="300"
+                       style="-fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: #90a4ae; -fx-padding: 10 14;">
+                <font>
+                    <Font name="Segoe UI" size="14.0"/>
+                </font>
+            </TextField>
+
+            <Button text="Enviar" onAction="#onEnviarClick" prefWidth="300.0" prefHeight="42.0"
+                    style="-fx-background-color: #0057ff; -fx-text-fill: white;
+                           -fx-font-size: 15px; -fx-background-radius: 12;">
+                <font>
+                    <Font name="Segoe UI Semibold" size="15.0"/>
+                </font>
+            </Button>
+
+            <Hyperlink text="Iniciar sesión con tus credenciales" onAction="#onLoginClick"
+                       style="-fx-text-fill: #1a73e8;">
+                <font>
+                    <Font name="Segoe UI" size="13.0"/>
+                </font>
+            </Hyperlink>
+        </VBox>
+    </children>
+</AnchorPane>
+
+
+
+
+
+

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="CENTER" prefHeight="650.0" prefWidth="600.0" spacing="20.0"
+      style="-fx-background-color: linear-gradient(to bottom, #dfe9f3, #ffffff);"
+      xmlns="http://javafx.com/javafx/17.0.12"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.SaberPro.SoftwareFront.Controllers.Login.RecoveryController">
+
+    <children>
+        <VBox alignment="TOP_CENTER" maxWidth="420.0" spacing="25.0"
+              style="-fx-background-color: white; -fx-background-radius: 20;
+                     -fx-border-radius: 20; -fx-border-color: #cfd8dc;
+                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 30, 0.3, 0, 6);">
+            <padding>
+                <Insets top="40.0" right="45.0" bottom="40.0" left="45.0"/>
+            </padding>
+
+            <HBox alignment="CENTER" spacing="25.0">
+                <children>
+                    <ImageView fitHeight="80.0" fitWidth="80.0" preserveRatio="true">
+                        <image>
+                            <Image url="@../../../../Images/logounillanos.png"/>
+                        </image>
+                    </ImageView>
+                    <ImageView fitHeight="90.0" fitWidth="140.0" preserveRatio="true">
+                        <image>
+                            <Image url="@../../../../Images/logoicfes.png"/>
+                        </image>
+                    </ImageView>
+                </children>
+            </HBox>
+
+            <Label text="Recuperación del Usuario"
+                   style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #1a237e;" />
+
+            <Label wrapText="true"
+                   text="Ingrese el código enviado a su correo electrónico. Este código vence en 5 minutos."
+                   style="-fx-text-fill: #455a64; -fx-font-size: 13px;"/>
+
+            <TextField fx:id="codeField" promptText="Introduce el código" prefWidth="300.0"
+                       style="-fx-background-radius: 10; -fx-border-radius: 10;
+                              -fx-border-color: #90a4ae; -fx-padding: 10 14;">
+                <font>
+                    <Font name="Segoe UI" size="14.0"/>
+                </font>
+            </TextField>
+
+            <Button onAction="#onNextButtonClick" prefHeight="42.0" prefWidth="300.0"
+                    style="-fx-background-color: #1a73e8; -fx-text-fill: white;
+                           -fx-background-radius: 12;">
+                <font>
+                    <Font name="Segoe UI Semibold" size="15.0"/>
+                </font>
+                <text>Siguiente</text>
+            </Button>
+
+            <HBox alignment="CENTER" spacing="10.0">
+                <children>
+                    <Hyperlink text="⟵ Atrás" textFill="#607D8B" onAction="#onAtrasClick">
+                        <font>
+                            <Font name="Segoe UI" size="13.0"/>
+                        </font>
+                    </Hyperlink>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Hyperlink text="Reenviar" textFill="#607D8B" onAction="#onReenviarClick">
+                        <font>
+                            <Font name="Segoe UI" size="13.0"/>
+                        </font>
+                    </Hyperlink>
+                </children>
+            </HBox>
+        </VBox>
+    </children>
+</VBox>

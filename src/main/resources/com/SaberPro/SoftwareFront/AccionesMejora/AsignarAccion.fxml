@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.SaberPro.SoftwareFront.Controllers.AccionesMejora.AsignarAccionController">
+<top>
+    <VBox style="-fx-background-color: #3f51b5; -fx-padding: 10;">
+        <Label fx:id="moduloLabel" text="Actualizando Tarea en REPORTE DE NOTAS - DEFINITIVAS 1-2025 (Módulo: X)" textFill="WHITE">
+            <font>
+                <Font name="System Bold" size="18.0"/>
+            </font>
+            <VBox.margin>
+                <Insets bottom="5.0"/>
+            </VBox.margin>
+        </Label>
+    </VBox>
+</top>
+<center>
+    <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+        <VBox spacing="20" alignment="TOP_CENTER" style="-fx-background-color: #ffffff; -fx-padding: 20;">
+            <VBox alignment="TOP_LEFT" spacing="15.0">
+                <padding>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </padding>
+                <VBox spacing="10">
+                    <Label text="General" style="-fx-font-weight: bold; -fx-font-size: 14; -fx-text-fill: #333;"/>
+                    <GridPane hgap="10" vgap="10">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="30"/>
+                            <ColumnConstraints percentWidth="70"/>
+                        </columnConstraints>
+                        <Label text="Nombre de la tarea:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <TextField fx:id="nombreTareaField" promptText="Ingrese el nombre de la tarea" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                        <Label text="Descripción:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                        <TextArea fx:id="descripcionArea" promptText="Ingrese la descripción general" wrapText="true" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                        <HBox alignment="CENTER_LEFT" spacing="5" GridPane.rowIndex="2" GridPane.columnIndex="1">
+                            <CheckBox fx:id="mostrarDescripcionCheck" text="Muestra la descripción en la página del curso"/>
+                        </HBox>
+
+                        <Label text="Instrucciones de la actividad:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                        <TextArea fx:id="instruccionesActividadArea" promptText="Detalles y requisitos para la actividad" wrapText="true" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                    </GridPane>
+                </VBox>
+
+                <Separator/>
+
+                <VBox spacing="10">
+                    <Label text="Disponibilidad" style="-fx-font-weight: bold; -fx-font-size: 14; -fx-text-fill: #333;"/>
+                    <GridPane hgap="10" vgap="10">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="30"/>
+                            <ColumnConstraints percentWidth="70"/>
+                        </columnConstraints>
+
+                        <HBox alignment="CENTER_LEFT" spacing="5" GridPane.rowIndex="0" GridPane.columnIndex="0">
+                            <CheckBox fx:id="habilitarDesdeCheck" text="Permitir entregas desde"/>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="5" GridPane.rowIndex="0" GridPane.columnIndex="1">
+                            <DatePicker fx:id="fechaInicioPicker" prefWidth="120"/>
+                            <ComboBox fx:id="horaInicioCombo" prefWidth="60"/>
+                            <ComboBox fx:id="minutoInicioCombo" prefWidth="60"/>
+                        </HBox>
+
+                        <HBox alignment="CENTER_LEFT" spacing="5" GridPane.rowIndex="1" GridPane.columnIndex="0">
+                            <CheckBox fx:id="habilitarEntregaCheck" text="Fecha de entrega"/>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="5" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                            <DatePicker fx:id="fechaEntregaPicker" prefWidth="120"/>
+                            <ComboBox fx:id="horaEntregaCombo" prefWidth="60"/>
+                            <ComboBox fx:id="minutoEntregaCombo" prefWidth="60"/>
+                        </HBox>
+
+                        <HBox alignment="CENTER_LEFT" spacing="5" GridPane.rowIndex="2" GridPane.columnIndex="0">
+                            <CheckBox fx:id="habilitarLimiteCheck" text="Fecha límite"/>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="5" GridPane.rowIndex="2" GridPane.columnIndex="1">
+                            <DatePicker fx:id="fechaLimitePicker" prefWidth="120"/>
+                            <ComboBox fx:id="horaLimiteCombo" prefWidth="60"/>
+                            <ComboBox fx:id="minutoLimiteCombo" prefWidth="60"/>
+                        </HBox>
+
+                        <HBox alignment="CENTER_LEFT" spacing="5" GridPane.rowIndex="3" GridPane.columnIndex="0">
+                            <CheckBox fx:id="habilitarRecordatorioCheck" text="Recordar calificar en"/>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="5" GridPane.rowIndex="3" GridPane.columnIndex="1">
+                            <DatePicker fx:id="fechaRecordatorioPicker" prefWidth="120"/>
+                            <ComboBox fx:id="horaRecordatorioCombo" prefWidth="60"/>
+                            <ComboBox fx:id="minutoRecordatorioCombo" prefWidth="60"/>
+                        </HBox>
+                    </GridPane>
+                </VBox>
+
+                <Separator/>
+
+                <VBox spacing="10">
+                    <Label text="Tipos de entrega" style="-fx-font-weight: bold; -fx-font-size: 14; -fx-text-fill: #333;"/>
+                    <GridPane hgap="10" vgap="10">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="30"/>
+                            <ColumnConstraints percentWidth="70"/>
+                        </columnConstraints>
+
+                        <Label text="Tipos de entrega:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <HBox alignment="CENTER_LEFT" spacing="10" GridPane.rowIndex="0" GridPane.columnIndex="1">
+                            <CheckBox fx:id="textoEnLineaCheck" text="Texto en línea"/>
+                            <CheckBox fx:id="archivosEnviadosCheck" text="Archivos enviados"/>
+                        </HBox>
+
+                        <Label text="Número máximo de archivos:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                        <Spinner fx:id="maxArchivosSpinner" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                        <Label text="Tamaño máximo de archivo:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                        <ComboBox fx:id="maxTamanoCombo" prefWidth="150" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                        <Label text="Tipos de archivo aceptados:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                        <TextField fx:id="tiposArchivoField" promptText="ej. .pdf, .docx, .png" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                    </GridPane>
+                </VBox>
+
+                <Separator/>
+
+                <VBox spacing="10">
+                    <Label text="Archivos adicionales" style="-fx-font-weight: bold; -fx-font-size: 14; -fx-text-fill: #333;"/>
+                    <GridPane hgap="10" vgap="10">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="30"/>
+                            <ColumnConstraints percentWidth="70"/>
+                        </columnConstraints>
+
+                        <VBox fx:id="archivosContainer" alignment="CENTER" prefHeight="100"
+                              style="-fx-border-color: #CCC; -fx-border-style: dashed; -fx-border-width: 2; -fx-background-color: #F9F9F9; -fx-background-radius: 5;"
+                              GridPane.rowIndex="0" GridPane.columnIndex="0" GridPane.columnSpan="2"
+                              onDragOver="#handleDragOver" onDragDropped="#handleDragDropped"
+                              onDragExited="#handleDragExited"> <Label fx:id="dropMessageLabel" text="Arrastra y suelta archivos aquí" style="-fx-text-fill: #888;"/>
+                            <Label text="o haz click en el botón 'Archivos'" style="-fx-text-fill: #888;"/>
+                            <ListView fx:id="listaArchivos" prefHeight="80" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-border-color: transparent;"/>
+                            <padding>
+                                <Insets top="10" right="10" bottom="10" left="10"/>
+                            </padding>
+                        </VBox>
+
+                        <HBox alignment="CENTER_RIGHT" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                            <Button fx:id="btnSeleccionarArchivos" text="Archivos" onAction="#handleSeleccionarArchivos" style="-fx-background-color: #E0E0E0; -fx-text-fill: #555; -fx-border-radius: 3; -fx-padding: 5 10; -fx-font-size: 12;"/>
+                        </HBox>
+                    </GridPane>
+                </VBox>
+
+                <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                    <Button text="Cancelar" onAction="#handleCancel" style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-background-radius: 5; -fx-padding: 8 15;"/>
+                    <Button text="Guardar cambios" onAction="#handleGuardar" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 5; -fx-padding: 8 15;"/>
+                </HBox>
+            </VBox>
+        </VBox>
+    </ScrollPane>
+</center>
+</BorderPane>
+

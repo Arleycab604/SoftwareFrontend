@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.SaberPro.SoftwareFront.Controllers.AccionesMejora.CalificarAccionController"
+      spacing="15" prefHeight="650.0" prefWidth="950.0" style="-fx-background-color: #F4F6F9;">
+
+    <padding>
+        <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+    </padding>
+
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Button text="Atrás" onAction="#handleAtras" style="-fx-background-color: #6C757D; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 3;"/>
+        <Label fx:id="nombreEntregaLabel" text="." style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Cambiar usuario" style="-fx-background-color: #007BFF; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 3;"/>
+        <CheckBox text="Restablecer preferencias de tabla"/>
+    </HBox>
+
+    <HBox VBox.vgrow="ALWAYS" spacing="15">
+        <VBox HBox.hgrow="ALWAYS" style="-fx-background-color: #E0E0E0; -fx-border-color: #CCC; -fx-border-width: 1;">
+            <Label text="Visor de Documentos (PDF)" alignment="CENTER" maxWidth="Infinity" maxHeight="Infinity"
+                   VBox.vgrow="ALWAYS" style="-fx-font-size: 18px; -fx-text-fill: #666;"/>
+        </VBox>
+
+        <VBox minWidth="350" maxWidth="400" spacing="10" style="-fx-background-color: #FFFFFF; -fx-padding: 15; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);">
+            <Label text="Entrega" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+            <HBox spacing="5" alignment="CENTER_LEFT">
+                <Label fx:id="estadoEntregaLabel" text="Enviado para calificar" style="-fx-font-weight: bold; -fx-text-fill: #28A745;"/>
+                <Label fx:id="tiempoRestanteEntregaLabel" text="La tarea fue enviada 1h antes de la fecha límite"
+                       style="-fx-font-size: 11px; -fx-text-fill: #555;"/>
+            </HBox>
+            <Label text="El Docente no puede editar esta entrega" style="-fx-font-size: 11px; -fx-text-fill: #777;"/>
+            <HBox alignment="CENTER_LEFT" spacing="5">
+                <Hyperlink fx:id="nombreArchivoHyperlink" text="borrar.pptx" onAction="#handleVerArchivo" style="-fx-font-size: 12px;"/>
+                <Label fx:id="fechaEnvioArchivoLabel" text="24 de marzo de 2025, 21:39" style="-fx-font-size: 11px; -fx-text-fill: #777;"/>
+            </HBox>
+
+            <Label text="Comentarios (0)" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #555;"/>
+            <Region style="-fx-border-color: #EEE; -fx-border-width: 0 0 1 0; -fx-padding: 0 0 5 0;"/>
+
+            <!--<Label text="Calificación" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+            <HBox alignment="CENTER_LEFT" spacing="5">
+                <Label text="Calificación sobre 5" style="-fx-font-size: 12px; -fx-text-fill: #555;"/>
+                <TextField fx:id="calificacionTextField" prefWidth="80"/>
+                <Label text="Calificación actual en el libro de calificaciones" style="-fx-font-size: 11px; -fx-text-fill: #777;"/>
+            </HBox>
+            <Label fx:id="estadoRetroalimentacionLabel" text="Sin calificar" style="-fx-font-size: 11px; -fx-text-fill: #777;"/>
+-->
+            <Label fx:id="estadoRetroalimentacionLabel" text="Faltante" style="-fx-font-size: 11px; -fx-text-fill: #777;"/>
+
+            <Label text="Comentario de retroalimentación" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+            <TextArea fx:id="retroalimentacionTextArea" VBox.vgrow="ALWAYS" prefHeight="150" wrapText="true"/>
+            <HBox alignment="CENTER_RIGHT" spacing="5">
+                <Button text="Adjuntar archivo" style="-fx-background-color: #007BFF; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 3;"/>
+            </HBox>
+        </VBox>
+    </HBox>
+
+    <HBox alignment="CENTER_RIGHT" spacing="10" VBox.vgrow="NEVER">
+        <CheckBox text="Notificar a los Docentes"/>
+        <Button text="Guardar cambios" onAction="#handleGuardarCambios" style="-fx-background-color: #28A745; -fx-text-fill: white; -fx-padding: 8 15; -fx-background-radius: 5;"/>
+        <Button text="Guardar y mostrar siguiente" onAction="#handleGuardarYSiguiente" style="-fx-background-color: #17A2B8; -fx-text-fill: white; -fx-padding: 8 15; -fx-background-radius: 5;"/>
+        <Button text="Reiniciar" onAction="#handleReiniciar" style="-fx-background-color: #DC3545; -fx-text-fill: white; -fx-padding: 8 15; -fx-background-radius: 5;"/>
+    </HBox>
+
+</VBox>

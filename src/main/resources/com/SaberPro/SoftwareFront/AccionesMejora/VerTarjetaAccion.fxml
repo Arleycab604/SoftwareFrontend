@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+
+<AnchorPane prefHeight="650.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.SaberPro.SoftwareFront.Controllers.TaskOverviewController" styleClass="anchor-pane">
+    <stylesheets>
+        <URL value="@../../../../CSS/seguimiento.css" /> </stylesheets>
+    <VBox layoutX="20.0" layoutY="20.0" prefWidth="810.0" spacing="15" styleClass="vbox">
+        <HBox alignment="CENTER_LEFT" spacing="15" styleClass="header-box">
+            <Label text="TAREA: Subir Diapositivas para Exposición" styleClass="header-label"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Marcar como hecho" onAction="#handleMarcarComoHecho" styleClass="button, mark-as-done-button"/>
+        </HBox>
+
+        <GridPane hgap="15" vgap="8" styleClass="grid-pane">
+            <Label text="Apertura:" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="label-bold"/>
+            <Label fx:id="fechaAperturaLabel" text="viernes, 21 de marzo de 2025, 00:00" GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="label"/>
+            <Label text="Cierre:" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="label-bold"/>
+            <Label fx:id="fechaCierreLabel" text="lunes, 24 de marzo de 2025, 23:59" GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="label"/>
+        </GridPane>
+
+        <Label text="Debe subir por este medio, las diapositivas que va a exponer - 1 sola persona por grupo!" wrapText="true" styleClass="label-instructions"/>
+
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Button text="Ver todos los envios" onAction="#handleVerTodosLosEnvios" styleClass="button"/>
+            <Button text="Calificar" onAction="#handleCalificar" styleClass="button, primary-button"/>
+        </HBox>
+
+        <Separator/>
+
+        <Label text="Sumario de calificaciones" styleClass="section-header-label"/>
+
+        <GridPane hgap="15" vgap="8" styleClass="grade-summary-grid">
+            <Label text="Ocultado a los estudiantes" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="label-bold"/>
+            <Label fx:id="ocultadoEstudiantesLabel" text="No" GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="label"/>
+
+            <Label text="Participantes" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="label-bold"/>
+            <Label fx:id="participantesLabel" text="25" GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="label"/>
+
+            <Label text="Borradores" GridPane.rowIndex="2" GridPane.columnIndex="0" styleClass="label-bold"/>
+            <Label fx:id="borradoresLabel" text="1" GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="label"/>
+
+            <Label text="Enviados" GridPane.rowIndex="3" GridPane.columnIndex="0" styleClass="label-bold"/>
+            <Label fx:id="enviadosLabel" text="12" GridPane.rowIndex="3" GridPane.columnIndex="1" styleClass="label"/>
+
+            <Label text="Pendientes por calificar" GridPane.rowIndex="4" GridPane.columnIndex="0" styleClass="label-bold"/>
+            <Label fx:id="pendientesCalificarLabel" text="12" GridPane.rowIndex="4" GridPane.columnIndex="1" styleClass="label"/>
+
+            <Label text="Tiempo restante" GridPane.rowIndex="5" GridPane.columnIndex="0" styleClass="label-bold"/>
+            <Label fx:id="tiempoRestanteLabel" text="Tarea, pendiente" GridPane.rowIndex="5" GridPane.columnIndex="1" styleClass="label"/>
+        </GridPane>
+
+        <Region VBox.vgrow="ALWAYS"/> </VBox>
+</AnchorPane>
+
+

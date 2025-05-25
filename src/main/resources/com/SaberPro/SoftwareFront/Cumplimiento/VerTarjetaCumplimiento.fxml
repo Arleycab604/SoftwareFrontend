@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+
+<AnchorPane prefHeight="650.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.SaberPro.SoftwareFront.Controllers.Cumplimiento.VerTarjetaCumplimientoController" styleClass="anchor-pane">
+    <stylesheets>
+        <URL value="@../../../../CSS/seguimiento.css" />
+    </stylesheets>
+    <VBox layoutX="20.0" layoutY="20.0" prefWidth="810.0" spacing="15" styleClass="vbox">
+        <HBox alignment="CENTER_LEFT" spacing="15" styleClass="header-box">
+            <Label text="Parcial II" styleClass="header-label"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Marcar como hecho" onAction="#handleMarcarComoHecho" styleClass="button, mark-as-done-button"/>
+        </HBox>
+
+        <GridPane hgap="15" vgap="8" styleClass="grid-pane">
+            <Label text="Apertura:" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="label"/>
+            <Label fx:id="fechaAperturaLabel" text="miércoles, 14 de mayo de 2025, 00:00" GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="label"/>
+            <Label text="Cierre:" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="label"/>
+            <Label fx:id="fechaCierreLabel" text="domingo, 18 de mayo de 2025, 20:00" GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="label"/>
+        </GridPane>
+
+        <Label text="Enviar un integrante del grupo con los códigos y nombres de todos los integrantes." wrapText="true" styleClass="label"/>
+
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Hyperlink fx:id="existingFileHyperlink" text="Parcial II PS_.pdf" onAction="#handleVerArchivoExistente" styleClass="hyperlink"/>
+            <Label fx:id="existingFileDateLabel" text="14 de mayo de 2025, 20:48" styleClass="label"/>
+        </HBox>
+
+        <Separator/>
+
+        <Label text="Agregar entrega" styleClass="section-header-label"/>
+        <Label text="Archivos enviados" styleClass="label"/>
+        <HBox alignment="TOP_LEFT" spacing="10">
+            <StackPane prefHeight="120" prefWidth="450" styleClass="stack-pane">
+                <Label text="Arrastre y suelte archivos aquí o haga clic para seleccionar." alignment="CENTER" textFill="gray"/>
+                <Button fx:id="uploadFileButton" opacity="0.0" prefHeight="120" prefWidth="450" onAction="#handleSelectFile" styleClass="transparent-button"/>
+            </StackPane>
+            <VBox fx:id="selectedFilesVBox" spacing="5" alignment="CENTER">
+            </VBox>
+        </HBox>
+
+        <HBox alignment="CENTER_RIGHT" spacing="15" styleClass="hbox-controls">
+            <Label text="Tamaño máximo de archivo: 10 MB, número máximo de archivos: 20" styleClass="label"/>
+        </HBox>
+
+        <Region VBox.vgrow="ALWAYS"/>
+
+        <HBox alignment="BOTTOM_RIGHT" spacing="10">
+            <Button text="Guardar cambios" onAction="#handleGuardarCambios" styleClass="button"/>
+            <Button text="Cancelar" onAction="#handleCancelar" styleClass="button, cancel-button"/>
+        </HBox>
+    </VBox>
+</AnchorPane>

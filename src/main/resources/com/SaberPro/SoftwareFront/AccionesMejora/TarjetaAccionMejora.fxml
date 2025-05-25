@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.Button?>
+
+<?import java.lang.Double?>
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.SaberPro.SoftwareFront.Controllers.AccionesMejora.TarjetaAccionMejoraController"
+      style="-fx-background-color: #FFFFFF; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);">
+    <padding>
+        <Insets top="15.0" right="15.0" bottom="15.0" left="15.0"/>
+    </padding>
+    <spacing>
+        <Double fx:value="10.0"/>
+    </spacing>
+
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label fx:id="nombreTareaLabel" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2196F3;"/>
+        <HBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT">
+            <Button text="Editar" onAction="#handleEditarAccion" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 3; -fx-font-size: 10px;"/>
+        </HBox>
+    </HBox>
+
+    <VBox spacing="5" style="-fx-border-color: #EEE; -fx-border-width: 0 0 1 0; -fx-padding: 0 0 10 0;">
+        <Label text="Fechas de Disponibilidad:" style="-fx-font-weight: bold; -fx-font-size: 12px; -fx-text-fill: #555;"/>
+        <HBox spacing="5">
+            <Label text="Apertura:" style="-fx-font-weight: bold; -fx-font-size: 11px; -fx-text-fill: #777;"/>
+            <Label fx:id="fechaAperturaLabel" style="-fx-font-size: 11px; -fx-text-fill: #777;"/>
+        </HBox>
+        <HBox spacing="5">
+            <Label text="Cierre:" style="-fx-font-weight: bold; -fx-font-size: 11px; -fx-text-fill: #777;"/>
+            <Label fx:id="fechaCierreLabel" style="-fx-font-size: 11px; -fx-text-fill: #777;"/>
+        </HBox>
+        <HBox spacing="5">
+            <Label text="Límite:" style="-fx-font-weight: bold; -fx-font-size: 11px; -fx-text-fill: #777;"/>
+            <Label fx:id="fechaLimiteLabel" style="-fx-font-size: 11px; -fx-text-fill: #777;"/>
+        </HBox>
+        <HBox spacing="5">
+            <Label text="Recordar calificar:" style="-fx-font-weight: bold; -fx-font-size: 11px; -fx-text-fill: #777;"/>
+            <Label fx:id="recordarCalificarLabel" style="-fx-font-size: 11px; -fx-text-fill: #777;"/>
+        </HBox>
+    </VBox>
+
+    <VBox spacing="5">
+        <Label text="Descripción:" style="-fx-font-weight: bold; -fx-font-size: 12px; -fx-text-fill: #555;"/>
+        <Label fx:id="descripcionLabel" wrapText="true" style="-fx-font-size: 11px; -fx-text-fill: #333;"/>
+    </VBox>
+</VBox>
