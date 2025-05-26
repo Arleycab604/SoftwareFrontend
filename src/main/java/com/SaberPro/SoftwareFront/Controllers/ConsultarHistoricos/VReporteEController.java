@@ -2,6 +2,8 @@ package com.SaberPro.SoftwareFront.Controllers.ConsultarHistoricos;
 
 import com.SaberPro.SoftwareFront.Models.ReporteDTO;
 import com.SaberPro.SoftwareFront.Models.InputQueryDTO;
+import com.SaberPro.SoftwareFront.Models.UserDto;
+import com.SaberPro.SoftwareFront.Models.UsuarioDTO;
 import com.SaberPro.SoftwareFront.Utils.BuildRequest;
 import com.SaberPro.SoftwareFront.Utils.TokenManager;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -22,10 +24,12 @@ import org.controlsfx.control.RangeSlider;
 import java.io.IOException;
 import java.net.URL;
 import java.net.http.HttpResponse;
+import java.text.Normalizer;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors; // Necesario para Collectors
+import java.util.stream.Stream;
 
 public class VReporteEController implements Initializable {
     private final int MIN_PUNTAJE = 0, MAX_PUNTAJE = 300;
@@ -101,8 +105,24 @@ public class VReporteEController implements Initializable {
 
         cargarDatosIniciales();
         configurarComboBoxesGrafico();
-        comboAnioGrafico.valueProperty().addListener((obs, oldVal, newVal) -> actualizarGrafico());
-        comboPeriodoGrafico.valueProperty().addListener((obs, oldVal, newVal) -> actualizarGrafico());
+        comboAnioGrafico.valueProperty().addListener((obs, oldVal, newVal) -> {
+            try {
+                actualizarGrafico();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        comboPeriodoGrafico.valueProperty().addListener((obs, oldVal, newVal) -> {
+            try {
+                actualizarGrafico();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     private void sincronizarRangeSliderConTextFields(RangeSlider rangeSlider, TextField txtMin, TextField txtMax) {
@@ -153,13 +173,12 @@ public class VReporteEController implements Initializable {
     }
 
     @FXML
-    private void mostrarVistaGraficos() {
+    private void mostrarVistaGraficos() throws IOException, InterruptedException {
         vistaTabla.setVisible(false);
         vistaGrafico.setVisible(true);
-        // INICIO MODIFICACIÓN: Actualizar lblVistaActual y cargar/actualizar gráfico
+
         lblVistaActual.setText("GRÁFICOS");
-        actualizarGrafico(); // Llama a la función para cargar/actualizar el gráfico cuando se cambia a esta vista
-        // FIN MODIFICACIÓN
+        actualizarGrafico();
     }
 
     private boolean esNumeroValido(String valor) {
@@ -312,42 +331,45 @@ public class VReporteEController implements Initializable {
     }
 
     // INICIO MODIFICACIÓN: Método para actualizar el gráfico
-    private void actualizarGrafico() {
-        graficoBarras.getData().clear(); // Limpiar datos anteriores del gráfico
-        graficoBarras.setTitle("Puntajes por Módulo: Estudiante vs. Promedio General"); // Asegurar título
+    private void actualizarGrafico() throws IOException, InterruptedException {
+        graficoBarras.getData().clear();
+        graficoBarras.setTitle("Puntajes por Módulo: Estudiante vs. Promedio General");
 
         Integer anioSeleccionado = comboAnioGrafico.getValue();
         String periodoSeleccionado = comboPeriodoGrafico.getValue();
 
-        // Validar que se haya seleccionado año y periodo
         if (anioSeleccionado == null || periodoSeleccionado == null) {
             mostrarAlerta("Información", "Por favor, seleccione un Año y un Periodo para visualizar el gráfico.");
             return;
         }
-
-        // 1. Obtener los datos del estudiante
-        String documentoEstudiante = txtDocumento.getText();
-        if (documentoEstudiante == null || documentoEstudiante.trim().isEmpty()) {
-            mostrarAlerta("Información", "Por favor, ingrese el *documento del estudiante* en la sección de filtros para ver el gráfico de comparación.");
-            return;
+        String documentoEstudiante;
+        if(TokenManager.getNombreUsuario().equals("ESTUDIANTE")){
+            HttpResponse<String> respEst = BuildRequest.getInstance().GETJson("http://localhost:8080/SaberPro/usuarios/findByName?nombreUsuario=" + TokenManager.getNombreUsuario(),null);
+            ObjectMapper mapper = new ObjectMapper();
+            UserDto usuario = mapper.readValue(respEst.body(), UserDto.class);
+            documentoEstudiante = usuario.getDocumento();
+        }else{
+            documentoEstudiante = txtDocumento.getText();
+            if ((documentoEstudiante == null || documentoEstudiante.trim().isEmpty())  ) {
+                mostrarAlerta("Información", "Por favor, ingrese el *documento del estudiante* en la sección de filtros para ver el gráfico de comparación.");
+                return;
+            }
         }
 
         InputQueryDTO filtrosEstudiante = new InputQueryDTO();
-        filtrosEstudiante.setNombreUsuario(documentoEstudiante.trim());
+        if(TokenManager.getTipoUsuario().equals("ESTUDIANTE")){
+            filtrosEstudiante.setNombreUsuario(TokenManager.getNombreUsuario());
+        } else{
+            filtrosEstudiante.setNombreUsuario(documentoEstudiante.trim());
+        }
         filtrosEstudiante.setYear(anioSeleccionado);
         filtrosEstudiante.setPeriodo(Integer.parseInt(periodoSeleccionado));
-        // No filtrar por tipo de módulo aquí, queremos todos los módulos del estudiante
 
-        // 2. Obtener los promedios generales (para el cálculo en el frontend)
-        // Se realizará una consulta general sin el filtro de documento para obtener todos los reportes
-        // de ese año y periodo, y así calcular los promedios.
         InputQueryDTO filtrosPromedios = new InputQueryDTO();
         filtrosPromedios.setYear(anioSeleccionado);
         filtrosPromedios.setPeriodo(Integer.parseInt(periodoSeleccionado));
 
-
         try {
-            // Realizar las dos consultas al backend
             HttpResponse<String> responseEstudiante = BuildRequest.getInstance().POSTInputDTO("http://localhost:8080/SaberPro/reportes/Query", filtrosEstudiante);
             HttpResponse<String> responseGeneral = BuildRequest.getInstance().POSTInputDTO("http://localhost:8080/SaberPro/reportes/Query", filtrosPromedios);
 
@@ -367,26 +389,21 @@ public class VReporteEController implements Initializable {
                 resultadosGenerales = objectMapper.readValue(responseGeneral.body(), new TypeReference<List<ReporteDTO>>() {});
             } else {
                 System.err.println("Error al cargar datos generales para el gráfico: " + responseGeneral.statusCode() + " - " + responseGeneral.body());
-                // Si hay un error al cargar promedios, se continuará solo con los datos del estudiante o se mostrará un 0.
             }
 
-            // Calcular promedios de los resultados generales
             Map<String, Double> promediosGenerales = resultadosGenerales.stream()
-                    // Assuming ReporteDTO.getPuntajeModulo() returns int, no null check needed.
                     .filter(r -> r.getPuntajeModulo() >= MIN_PUNTAJE && r.getPuntajeModulo() <= MAX_PUNTAJE)
                     .collect(Collectors.groupingBy(
-                            ReporteDTO::getTipoModulo,
+                            r -> normalizar(r.getTipoModulo()),
                             Collectors.averagingDouble(ReporteDTO::getPuntajeModulo)
                     ));
 
-            // Configurar las series del gráfico
             XYChart.Series<String, Number> serieEstudiante = new XYChart.Series<>();
             serieEstudiante.setName("Puntaje del Estudiante");
 
             XYChart.Series<String, Number> seriePromedio = new XYChart.Series<>();
             seriePromedio.setName("Promedio General");
 
-            // Lista de todos los módulos para asegurar el orden y la completitud en el gráfico
             List<String> todosLosModulos = List.of(
                     "COMUNICACIÓN ESCRITA",
                     "LECTURA CRÍTICA",
@@ -398,35 +415,30 @@ public class VReporteEController implements Initializable {
                     "PENSAMIENTO CIENTÍFICO - MATEMÁTICAS Y ESTADÍSTICA"
             );
 
-            // Poblar las series
             for (String modulo : todosLosModulos) {
-                // Puntaje del estudiante para este módulo
-                Optional<ReporteDTO> reporteEstudianteModulo = resultadosEstudiante.stream()
-                        .filter(r -> modulo.equals(r.getTipoModulo()))
-                        .findFirst(); // Asume un solo reporte por estudiante por módulo
+                String moduloNormalizado = normalizar(modulo);
 
-                // If getPuntajeModulo() returns primitive int, no null check is possible or needed.
+                Optional<ReporteDTO> reporteEstudianteModulo = resultadosEstudiante.stream()
+                        .filter(r -> moduloNormalizado.equals(normalizar(r.getTipoModulo())))
+                        .findFirst();
+
                 if (reporteEstudianteModulo.isPresent()) {
                     serieEstudiante.getData().add(new XYChart.Data<>(modulo, reporteEstudianteModulo.get().getPuntajeModulo()));
                 } else {
                     serieEstudiante.getData().add(new XYChart.Data<>(modulo, 0));
                 }
 
-                // Promedio general para este módulo
-                Double promedio = promediosGenerales.getOrDefault(modulo, 0.0); // 0.0 si no hay promedio para este módulo
+                Double promedio = promediosGenerales.getOrDefault(moduloNormalizado, 0.0);
                 seriePromedio.getData().add(new XYChart.Data<>(modulo, promedio));
             }
 
-            // Añadir las series al gráfico
             graficoBarras.getData().addAll(serieEstudiante, seriePromedio);
 
-            // Configurar etiquetas del eje X para que no se superpongan
             ejeX.setLabel("Módulo");
-            ejeX.setTickLabelRotation(90); // Rotar etiquetas para que quepan si son largas
+            ejeX.setTickLabelRotation(90);
             ejeY.setLabel("Puntaje");
             ejeY.setLowerBound(MIN_PUNTAJE);
             ejeY.setUpperBound(MAX_PUNTAJE);
-
 
         } catch (Exception e) {
             System.err.println("Error al solicitar datos para el gráfico: " + e.getMessage());
@@ -434,7 +446,13 @@ public class VReporteEController implements Initializable {
         }
     }
 
-
+    private String normalizar(String texto) {
+        if (texto == null) return "";
+        return Normalizer.normalize(texto, Normalizer.Form.NFD)
+                .replaceAll("\\p{InCombiningDiacriticalMarks}+", "") // elimina tildes
+                .toLowerCase()
+                .trim();
+    }
     private void mostrarAlerta(String titulo, String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(titulo);

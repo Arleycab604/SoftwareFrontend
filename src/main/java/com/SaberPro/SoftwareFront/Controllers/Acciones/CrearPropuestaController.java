@@ -8,11 +8,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.file.Files;
 import java.time.LocalDate;
+import java.util.List;
 
 public class CrearPropuestaController {
 
@@ -52,35 +61,88 @@ public class CrearPropuestaController {
                 return;
             }
 
-            PropuestaMejoraDTO propuesta = new PropuestaMejoraDTO();
-            propuesta.setNombrePropuesta(nombre);
-            if(TokenManager.getNombreUsuario() == null){
-                System.out.println("ERROR que wea paso aca");
+            // Abre selector de archivos para arrastrar/subir
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Selecciona archivos para subir");
+            List<File> archivosSeleccionados = fileChooser.showOpenMultipleDialog(null); // Puedes mover esto a un botón separado si prefieres
+
+            String boundary = "----WebKitFormBoundary" + System.currentTimeMillis();
+            String lineSeparator = "\r\n";
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            DataOutputStream dos = new DataOutputStream(baos);
+
+            // Campos de texto
+            writeTextPart(dos, "nombrePropuesta", nombre, boundary);
+            writeTextPart(dos, "descripcion", descripcion, boundary);
+            writeTextPart(dos, "moduloPropuesta", modulo, boundary);
+            writeTextPart(dos, "fechaCreacion", LocalDate.now().toString(), boundary);
+            writeTextPart(dos, "fechaLimiteEntrega", fechaLimite.toString(), boundary);
+            writeTextPart(dos, "estadoPropuesta", "PENDIENTE", boundary);
+            writeTextPart(dos, "usuarioProponente", "usuario123", boundary); // Si lo tienes dinámico, cámbialo
+
+            // URLs de documentos existentes (si aplica)
+            List<String> urls = List.of("http://miapp.com/doc1.pdf", "http://miapp.com/doc2.pdf");
+            for (String url : urls) {
+                writeTextPart(dos, "urlsDocumentoDetalles", url, boundary);
             }
-            propuesta.setUsuarioProponente(TokenManager.getNombreUsuario());
-            propuesta.setDescripcion(descripcion);
-            propuesta.setModuloPropuesta(ModulosSaberPro.valueOf(modulo));
-            propuesta.setFechaLimiteEntrega(fechaLimite.atStartOfDay());
 
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.registerModule(new JavaTimeModule());
-            String json = mapper.writeValueAsString(propuesta);
+            // Archivos
+            if (archivosSeleccionados != null) {
+                for (File file : archivosSeleccionados) {
+                    writeFilePart(dos, "archivos", file, boundary);
+                }
+            }
 
-            HttpResponse<String> response = BuildRequest.getInstance().POSTJson("http://localhost:8080/SaberPro/propuestas/crear", json);
-            System.out.println(response.body());
+            // Cerrar multipart
+            dos.writeBytes("--" + boundary + "--" + lineSeparator);
+            dos.flush();
+
+            // Crear solicitud HTTP
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("http://localhost:8080/SaberPro/propuestas/crear"))
+                    .header("Content-Type", "multipart/form-data; boundary=" + boundary)
+                    .header("Authorization", "Bearer " + TokenManager.getToken())
+                    .POST(HttpRequest.BodyPublishers.ofByteArray(baos.toByteArray()))
+                    .build();
+
+            HttpClient client = HttpClient.newHttpClient();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() == 200) {
                 mostrarError("Propuesta creada con éxito.");
-                parentController.cargarPropuestas(); // Actualizar la lista en el controlador principal
+                parentController.cargarPropuestas();
                 cerrarVentana();
             } else {
                 mostrarError("Error al crear la propuesta: " + response.body());
             }
+
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             mostrarError("Error al enviar la propuesta.");
         }
     }
+    private void writeTextPart(DataOutputStream dos, String name, String value, String boundary) throws IOException {
+        String lineSeparator = "\r\n";
+        dos.writeBytes("--" + boundary + lineSeparator);
+        dos.writeBytes("Content-Disposition: form-data; name=\"" + name + "\"" + lineSeparator);
+        dos.writeBytes(lineSeparator);
+        dos.writeBytes(value + lineSeparator);
+    }
+
+    private void writeFilePart(DataOutputStream dos, String name, File file, String boundary) throws IOException {
+        String lineSeparator = "\r\n";
+        String fileName = file.getName();
+        String mimeType = Files.probeContentType(file.toPath());
+
+        dos.writeBytes("--" + boundary + lineSeparator);
+        dos.writeBytes("Content-Disposition: form-data; name=\"" + name + "\"; filename=\"" + fileName + "\"" + lineSeparator);
+        dos.writeBytes("Content-Type: " + (mimeType != null ? mimeType : "application/octet-stream") + lineSeparator);
+        dos.writeBytes(lineSeparator);
+        Files.copy(file.toPath(), dos);
+        dos.writeBytes(lineSeparator);
+    }
+
 
     @FXML
     private void handleCancelar() {
