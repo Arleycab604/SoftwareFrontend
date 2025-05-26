@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.SaberPro.SoftwareFront.Controllers.Acciones.PropuestaMejoraItemController" onMouseClicked="#handleClick">
-    <children>
-        <VBox fx:id="contentBox" styleClass="tarjeta" spacing="5" padding="10">
-            <Label fx:id="nombreLabel" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
-        </VBox>
-    </children>
-</AnchorPane>
+<!-- Este VBox actúa como la tarjeta individual -->
+<VBox fx:id="contentBox"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.SaberPro.SoftwareFront.Controllers.Acciones.PropuestaMejoraItemController"
+      onMouseClicked="#handleClick"
+      spacing="10"
+      styleClass="card"> <!-- Aquí puedes aplicar estilos CSS -->
+
+    <Label fx:id="nombreLabel"
+           style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+</VBox>

@@ -71,8 +71,6 @@ public class DashboardController {
                 ocultarMenu(accionesMejoraMenu);
                 ocultarMenu(crudMenu);
                 // Si el estudiante no tiene acceso a específicos/generales, también ocúltalos
-                ocultarMenuItem(especificosMenuItem);
-                ocultarMenuItem(generalesMenuItem);
                 break;
 
             default:

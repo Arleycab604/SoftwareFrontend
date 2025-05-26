@@ -3,6 +3,7 @@ package com.SaberPro.SoftwareFront.Controllers.ConsultarHistoricos;
 import com.SaberPro.SoftwareFront.Models.ReporteDTO;
 import com.SaberPro.SoftwareFront.Models.InputQueryDTO;
 import com.SaberPro.SoftwareFront.Utils.BuildRequest;
+import com.SaberPro.SoftwareFront.Utils.TokenManager;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -227,7 +228,9 @@ public class VReporteEController implements Initializable {
         InputQueryDTO filtros = new InputQueryDTO();
 
         // Validar y asignar valores solo si no son nulos o vacíos
-        if (txtDocumento.getText() != null && !txtDocumento.getText().trim().isEmpty()) {
+        if(TokenManager.getTipoUsuario().equals("ESTUDIANTE")) {
+            filtros.setNombreUsuario(TokenManager.getNombreUsuario());
+        } else if(txtDocumento.getText() != null && !txtDocumento.getText().trim().isEmpty()) {
             filtros.setNombreUsuario(txtDocumento.getText().trim());
         }
         if (cmbAnio.getValue() != null) {
@@ -277,6 +280,12 @@ public class VReporteEController implements Initializable {
 
     // Método para cargar datos iniciales desde el backend
     private void cargarDatosIniciales() {
+        if(TokenManager.getTipoUsuario().equals("ESTUDIANTE")) {
+            InputQueryDTO filtros = new InputQueryDTO();
+            filtros.setNombreUsuario(TokenManager.getNombreUsuario());
+            buscarReporteConFiltros(filtros);
+            return;
+        }
         buscarReporteConFiltros(new InputQueryDTO());
     }
     private void buscarReporteConFiltros(InputQueryDTO filtros) {

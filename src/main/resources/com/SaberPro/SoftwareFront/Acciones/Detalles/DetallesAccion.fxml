@@ -7,8 +7,12 @@
 <AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.SaberPro.SoftwareFront.Controllers.Acciones.Detalles.DetallesAccionController"
             prefHeight="600.0" prefWidth="800.0" styleClass="background-main-pane">
     <children>
-        <VBox spacing="20" alignment="TOP_LEFT" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="10" padding="20">
-
+        <VBox spacing="20" alignment="TOP_LEFT"
+              AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10"
+              AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="10">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20" />
+            </padding>
             <!-- Título Principal -->
             <Label fx:id="tituloLabel" text="Título de la Propuesta" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
 

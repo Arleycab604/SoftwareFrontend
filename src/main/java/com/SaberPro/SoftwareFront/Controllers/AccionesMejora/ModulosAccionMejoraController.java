@@ -11,7 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import java.io.IOException;
 
-public class ModulosAccController {
+public class ModulosAccionMejoraController {
     @FXML
     private void handleModuloClick(MouseEvent event) {
         if (event.getSource() instanceof HBox) {

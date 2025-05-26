@@ -6,10 +6,11 @@
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.SaberPro.SoftwareFront.Controllers.Acciones.ModulosAccionController">
     <children>
-        <VBox prefWidth="800" spacing="10" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
+        <VBox spacing="10" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
             <padding>
-                <Insets top="10" right="10" bottom="10" left="10"/>
+                <Insets top="15" right="15" bottom="15" left="15"/>
             </padding>
+
             <HBox spacing="10">
                 <Label text="Buscar:" />
                 <TextField fx:id="txtBuscar" promptText="Buscar..." />
@@ -17,15 +18,12 @@
                 <ComboBox fx:id="cmbModulos" />
             </HBox>
 
-            <ScrollPane fitToWidth="true" prefHeight="600">
+            <ScrollPane fitToWidth="true" fitToHeight="true">
                 <content>
-                    <VBox fx:id="vboxPropuestas" spacing="15">
-                        <padding>
-                            <Insets top="10" right="10" bottom="10" left="10"/>
-                        </padding>
-                    </VBox>
+                    <VBox fx:id="vboxPropuestas" spacing="10" />
                 </content>
             </ScrollPane>
+
         </VBox>
     </children>
 </AnchorPane>

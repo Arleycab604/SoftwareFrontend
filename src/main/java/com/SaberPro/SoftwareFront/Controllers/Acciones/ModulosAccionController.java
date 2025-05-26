@@ -8,11 +8,11 @@ import com.SaberPro.SoftwareFront.Utils.Enums.TipoUsuario;
 import com.SaberPro.SoftwareFront.Utils.TokenManager;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.*;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -25,7 +25,7 @@ public class ModulosAccionController {
 
     @FXML private TextField txtBuscar;
     @FXML private ComboBox<ModulosSaberPro> cmbModulos;
-    @FXML private VBox vboxPropuestas;
+    @FXML private VBox vboxPropuestas; // Este es el VBox definido en tu FXML
 
     private List<PropuestaMejoraDTO> propuestasOriginales;
     private final TipoUsuario tipoUsuarioActual = TipoUsuario.valueOf(TokenManager.getTipoUsuario());
@@ -76,29 +76,29 @@ public class ModulosAccionController {
     }
 
     private void filtrarYMostrar() {
-        vboxPropuestas.getChildren().clear();
+        vboxPropuestas.getChildren().clear(); // Limpiar el VBox
 
         if (propuestasOriginales == null) return;
 
         for (PropuestaMejoraDTO propuesta : propuestasOriginales) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/SaberPro/SoftwareFront/Acciones/PropuestaMejoraItem.fxml"));
-                Parent propuestaNode = loader.load();
+                VBox item = loader.load();
 
                 PropuestaMejoraItemController controller = loader.getController();
                 controller.setData(propuesta);
                 controller.setParentController(this);
 
-                vboxPropuestas.getChildren().add(propuestaNode);
+                vboxPropuestas.getChildren().add(item); // Agregar al VBox principal
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    void abrirDetalle(PropuestaMejoraDTO dto) {
+    public void abrirDetalle(PropuestaMejoraDTO dto) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/SaberPro/SoftwareFront/AccionesMejora/DetallesAccion.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/SaberPro/SoftwareFront/Acciones/Detalles/DetallesAccion.fxml"));
             Parent root = loader.load();
             DetallesAccionController controller = loader.getController();
             controller.setPropuesta(dto);

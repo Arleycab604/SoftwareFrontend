@@ -62,6 +62,7 @@ public class LoginController {
 
                     TokenManager.setToken(token);
                     TokenManager.setTipoUsuario(tipoUsuario);
+                    TokenManager.setNombreUsuario(username);
 
                     // Cargar el Dashboard
                     Stage stage = (Stage) usernameField.getScene().getWindow();

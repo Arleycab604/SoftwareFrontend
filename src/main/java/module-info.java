@@ -17,23 +17,28 @@ module com.example.front {
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.datatype.jsr310;
 
+    // --- EXPORTS NECESARIOS ---
+    exports com.SaberPro.SoftwareFront;
+    exports com.SaberPro.SoftwareFront.Models;
+    exports com.SaberPro.SoftwareFront.Models.accionMejora;
+    exports com.SaberPro.SoftwareFront.Utils.Enums to com.fasterxml.jackson.databind;
 
+    exports com.SaberPro.SoftwareFront.Controllers.Acciones to javafx.fxml;
+    exports com.SaberPro.SoftwareFront.Controllers.Acciones.Detalles to javafx.fxml; // ✅ Exportar paquete del controlador
+    exports com.SaberPro.SoftwareFront.Utils;
+
+    // --- OPENS PARA REFLEXIÓN (FXML y Jackson) ---
     opens com.SaberPro.SoftwareFront to javafx.fxml;
     opens com.SaberPro.SoftwareFront.Controllers to javafx.fxml;
-    opens com.SaberPro.SoftwareFront.Controllers.Acciones to javafx.fxml,com.fasterxml.jackson.datatype.jsr310;
-    opens com.SaberPro.SoftwareFront.Utils.Enums to com.fasterxml.jackson.databind;
-    exports com.SaberPro.SoftwareFront.Models;
-    exports com.SaberPro.SoftwareFront;
-    exports com.SaberPro.SoftwareFront.Controllers.Acciones to javafx.fxml;
-    exports com.SaberPro.SoftwareFront.Utils.Enums to com.fasterxml.jackson.databind;
-    opens com.SaberPro.SoftwareFront.Models to com.fasterxml.jackson.databind, javafx.fxml;
+    opens com.SaberPro.SoftwareFront.Controllers.Acciones to javafx.fxml, com.fasterxml.jackson.datatype.jsr310;
+    opens com.SaberPro.SoftwareFront.Controllers.Acciones.Detalles to javafx.fxml; // ✅ Necesario para FXMLLoader
     opens com.SaberPro.SoftwareFront.Controllers.AccionesMejora to javafx.fxml;
     opens com.SaberPro.SoftwareFront.Controllers.Login to javafx.fxml;
     opens com.SaberPro.SoftwareFront.Controllers.ConsultarHistoricos to javafx.fxml;
     opens com.SaberPro.SoftwareFront.Controllers.Roles to javafx.fxml;
-    // --- LÍNEA AGREGADA ---
     opens com.SaberPro.SoftwareFront.Controllers.Cumplimiento to javafx.fxml;
-    exports com.SaberPro.SoftwareFront.Models.accionMejora;
-    opens com.SaberPro.SoftwareFront.Models.accionMejora to com.fasterxml.jackson.databind, javafx.fxml; // Permite a FXMLLoader acceder a los controladores de cumplimiento
-    // --- FIN LÍNEA AGREGADA ---
+
+    opens com.SaberPro.SoftwareFront.Models to com.fasterxml.jackson.databind, javafx.fxml;
+    opens com.SaberPro.SoftwareFront.Models.accionMejora to com.fasterxml.jackson.databind, javafx.fxml;
+    opens com.SaberPro.SoftwareFront.Utils.Enums to com.fasterxml.jackson.databind;
 }
