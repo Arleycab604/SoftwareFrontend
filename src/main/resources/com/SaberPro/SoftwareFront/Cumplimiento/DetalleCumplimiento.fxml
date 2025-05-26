@@ -28,9 +28,7 @@
 
             <ComboBox fx:id="cmbOrdenarPor" promptText="Ordenar por"/>
 
-            <HBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT" spacing="10">
-                <ComboBox fx:id="cmbVista" promptText="Vista"/>
-            </HBox>
+
         </HBox>
 
         <Separator/>

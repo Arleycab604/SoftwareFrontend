@@ -12,7 +12,6 @@
         <HBox alignment="CENTER_LEFT" spacing="15" styleClass="header-box">
             <Label text="Parcial II" styleClass="header-label"/>
             <Region HBox.hgrow="ALWAYS"/>
-            <Button text="Marcar como hecho" onAction="#handleMarcarComoHecho" styleClass="button, mark-as-done-button"/>
         </HBox>
 
         <GridPane hgap="15" vgap="8" styleClass="grid-pane">
@@ -36,7 +35,7 @@
         <HBox alignment="TOP_LEFT" spacing="10">
             <StackPane prefHeight="120" prefWidth="450" styleClass="stack-pane">
                 <Label text="Arrastre y suelte archivos aquí o haga clic para seleccionar." alignment="CENTER" textFill="gray"/>
-                <Button fx:id="uploadFileButton" opacity="0.0" prefHeight="120" prefWidth="450" onAction="#handleSelectFile" styleClass="transparent-button"/>
+                <Button fx:id="uploadFileButton" opacity="0.0" prefHeight="120" prefWidth="450" onAction="#handleSeleccionarArchivo" styleClass="transparent-button"/>
             </StackPane>
             <VBox fx:id="selectedFilesVBox" spacing="5" alignment="CENTER">
             </VBox>
@@ -52,5 +51,13 @@
             <Button text="Guardar cambios" onAction="#handleGuardarCambios" styleClass="button"/>
             <Button text="Cancelar" onAction="#handleCancelar" styleClass="button, cancel-button"/>
         </HBox>
+
+        <HBox spacing="10">
+            <Label text="Subir evidencia:"/>
+            <Button text="Seleccionar archivo" onAction="#handleSeleccionarArchivo"/>
+            <Button text="Subir" onAction="#handleSubirEvidencia"/>
+        </HBox>
+        <Label fx:id="archivoSeleccionadoLabel" text="Ningún archivo seleccionado" />
+
     </VBox>
 </AnchorPane>

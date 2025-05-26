@@ -25,6 +25,7 @@ public class DetallesAccionController {
 
     private PropuestaMejoraDTO propuesta;
 
+    @FXML
     private void initialize() {
 
         if (TokenManager.getToken().equals("COMITE_DE_PROGRAMA")) {
@@ -53,7 +54,6 @@ public class DetallesAccionController {
         evidenciasListView.getItems().addAll(propuesta.getUrlsDocumentoDetalles());
     }
 
-    // En DetallesAccionController.java
     public void setDatos(PropuestaMejoraDTO propuesta) {
         this.propuesta = propuesta;
         cargarDatos();
@@ -102,12 +102,13 @@ public class DetallesAccionController {
             }
         }
     }
-
+    @FXML
     private void OnVolverButton() {
         // Aquí puedes implementar la lógica para volver a la pantalla anterior
         // Por ejemplo, cerrar la ventana actual o cambiar a otra vista
         aceptarButton.getScene().getWindow().hide();
     }
+
     private void OcultarButton(Button button) {
         if (button != null) {
             button.setVisible(false);

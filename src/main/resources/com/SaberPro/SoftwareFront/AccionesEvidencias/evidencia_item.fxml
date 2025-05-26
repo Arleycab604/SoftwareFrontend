@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox fx:id="evidenciaItem" xmlns:fx="http://javafx.com/fxml" spacing="10" style="-fx-padding: 10; -fx-background-color: #f0f0f0; -fx-border-radius: 5;" alignment="CENTER_LEFT">
+    <VBox>
+        <Label fx:id="tituloLabel" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+        <Label fx:id="descripcionLabel" wrapText="true"/>
+    </VBox>
+</HBox>

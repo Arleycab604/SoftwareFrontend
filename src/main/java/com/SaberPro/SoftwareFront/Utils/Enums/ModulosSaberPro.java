@@ -12,6 +12,6 @@ public enum ModulosSaberPro {
 
     @Override
     public String toString() {
-        return name().replace('_', ' ');
+        return name();
     }
 }

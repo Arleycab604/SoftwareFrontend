@@ -28,7 +28,7 @@ public class ModulosAccionController {
     @FXML private VBox vboxPropuestas; // Este es el VBox definido en tu FXML
 
     private List<PropuestaMejoraDTO> propuestasOriginales;
-    private final TipoUsuario tipoUsuarioActual = TipoUsuario.valueOf(TokenManager.getTipoUsuario());
+    private final TipoUsuario tipoUsuarioActual = TipoUsuario.valueOf(TokenManager.getTipoUsuario().replace(" ", "_"));
 
     @FXML
     public void initialize() {
@@ -39,7 +39,7 @@ public class ModulosAccionController {
         cargarPropuestas();
     }
 
-    private void cargarPropuestas() {
+    public void cargarPropuestas() {
         try {
             String urlBase = "http://localhost:8080/SaberPro/propuestas";
             HttpResponse<String> response;
@@ -95,7 +95,24 @@ public class ModulosAccionController {
             }
         }
     }
+    @FXML
+    private void handleCrearPropuesta() {
+        try {
+            // Cargar el formulario de creación
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/SaberPro/SoftwareFront/Acciones/CrearPropuesta.fxml"));
+            Parent root = loader.load();
 
+            CrearPropuestaController controller = loader.getController();
+            controller.setParentController(this); // Pasar referencia al controlador actual
+
+            Stage stage = new Stage();
+            stage.setTitle("Crear Propuesta de Mejora");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public void abrirDetalle(PropuestaMejoraDTO dto) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/SaberPro/SoftwareFront/Acciones/Detalles/DetallesAccion.fxml"));

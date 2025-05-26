@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.SaberPro.SoftwareFront.Controllers.AccionesEvidencia.EvidenciaListController">
+    <VBox spacing="10" alignment="TOP_CENTER" prefWidth="600" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+        <ScrollPane fitToWidth="true" prefHeight="600">
+            <VBox fx:id="evidenciasContainer" spacing="10" padding="Insets(10)"/>
+        </ScrollPane>
+    </VBox>
+</AnchorPane>
+

@@ -16,6 +16,8 @@ module com.example.front {
     requires com.fasterxml.jackson.databind;
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.datatype.jsr310;
+    requires java.desktop;
+
 
     // --- EXPORTS NECESARIOS ---
     exports com.SaberPro.SoftwareFront;
@@ -27,6 +29,10 @@ module com.example.front {
     exports com.SaberPro.SoftwareFront.Controllers.Acciones.Detalles to javafx.fxml; // ✅ Exportar paquete del controlador
     exports com.SaberPro.SoftwareFront.Utils;
 
+    opens com.SaberPro.SoftwareFront.Controllers.AccionesEvidencia to javafx.fxml;
+    exports com.SaberPro.SoftwareFront.Controllers.AccionesEvidencia;
+
+    opens com.SaberPro.SoftwareFront.Cumplimiento to com.fasterxml.jackson.databind, javafx.fxml;
     // --- OPENS PARA REFLEXIÓN (FXML y Jackson) ---
     opens com.SaberPro.SoftwareFront to javafx.fxml;
     opens com.SaberPro.SoftwareFront.Controllers to javafx.fxml;

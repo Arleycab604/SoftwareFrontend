@@ -11,6 +11,7 @@ public class TokenManager {
     public static String getNombreUsuario() {
         return nombreUsuario;
     }
+
     public static void setToken(String token) {
         TokenManager.token = token;
     }

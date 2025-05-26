@@ -20,9 +20,6 @@
 
 <HBox alignment="CENTER_LEFT" spacing="10">
     <Label fx:id="nombreTareaLabel" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2196F3;"/>
-    <HBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT">
-        <Button text="Editar" onAction="#handleEditarAccion" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 3; -fx-font-size: 10px;"/>
-    </HBox>
 </HBox>
 
 <VBox spacing="5" style="-fx-border-color: #EEE; -fx-border-width: 0 0 1 0; -fx-padding: 0 0 10 0;">

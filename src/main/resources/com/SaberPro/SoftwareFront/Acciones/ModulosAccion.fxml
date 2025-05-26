@@ -16,6 +16,7 @@
                 <TextField fx:id="txtBuscar" promptText="Buscar..." />
                 <Label text="Módulo:" />
                 <ComboBox fx:id="cmbModulos" />
+                <Button text="Crear Propuesta" fx:id="btnCrearPropuesta" onAction="#handleCrearPropuesta" />
             </HBox>
 
             <ScrollPane fitToWidth="true" fitToHeight="true">

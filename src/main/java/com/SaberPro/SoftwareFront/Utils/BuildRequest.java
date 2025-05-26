@@ -5,10 +5,7 @@ import com.SaberPro.SoftwareFront.Utils.Enums.MethodRequest;
 import com.SaberPro.SoftwareFront.Utils.parsers.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
@@ -17,30 +14,42 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
-import java.util.stream.Collectors;
-/*
-Ey mira, soy especial, le pongo tíldes a los comentarios (¡Y puntuación!).
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import lombok.RequiredArgsConstructor;
 
-* Quien diga que este código no tiene sentido y esta mal hecho...
-* tiene, efectivamente, razón
-* */
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+@RequiredArgsConstructor
 public class BuildRequest {
 
     private static BuildRequest instancia;
+
+    private final ObjectMapper objectMapper;
+
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     // Singleton glorificado
     private final HttpClient httpClient;
     private BuildRequest() {
         this.httpClient = HttpClient.newHttpClient();
+
+        // Configuración del ObjectMapper
+        this.objectMapper = new ObjectMapper();
+        JavaTimeModule javaTimeModule = new JavaTimeModule();
+
+        javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DATE_TIME_FORMATTER));
+        javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DATE_TIME_FORMATTER));
+
+        objectMapper.registerModule(javaTimeModule);
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
     }
 
-    public static synchronized BuildRequest getInstance() {
-        if (instancia == null) {
-            instancia = new BuildRequest();
-        }
-        return instancia;
-
-    }
 
     private static HttpRequest build(
             String url,
@@ -89,6 +98,15 @@ public class BuildRequest {
             HttpRequest.BodyPublisher bodyPublisher) {
         return build(url, method, headers, bodyPublisher, true);
     }
+
+    private static BuildRequest instance;
+    public static BuildRequest getInstance() {
+        if(instance == null){
+            instance = new BuildRequest();
+        }
+        return instance;
+    }
+
     // Métodos HTTP
     public HttpResponse<String> POSTJson(String url, String json) throws IOException, InterruptedException {
         return POSTJson(url,json, true);
@@ -191,6 +209,7 @@ public class BuildRequest {
     public HttpResponse<String> GETParams(String url, Map<String, String> params) throws IOException, InterruptedException {
         return GETParams(url,params,true);
     }
+
     public HttpResponse<String> GETParams(String url, Map<String, String> params, boolean AuthTokenRequiered) throws IOException, InterruptedException {
 
         //JsonParser tambien parcea Map<String, String> :)
@@ -237,4 +256,53 @@ public class BuildRequest {
 
         return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
     }
+
+
+    public HttpResponse<String> POSTMultipartWithFiles(String url, Map<String, String> fields, List<File> files)
+            throws IOException, InterruptedException {
+
+        String boundary = "===" + System.currentTimeMillis() + "===";
+        ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+        PrintWriter writer = new PrintWriter(new OutputStreamWriter(byteStream, StandardCharsets.UTF_8), true);
+
+        // Agregar campos de texto
+        for (Map.Entry<String, String> entry : fields.entrySet()) {
+            writer.append("--").append(boundary).append("\r\n");
+            writer.append("Content-Disposition: form-data; name=\"").append(entry.getKey()).append("\"\r\n\r\n");
+            writer.append(entry.getValue()).append("\r\n");
+            writer.flush();
+        }
+
+        // Agregar archivos
+        for (File file : files) {
+            String mimeType = Files.probeContentType(file.toPath());
+            if (mimeType == null) {
+                mimeType = "application/octet-stream";
+            }
+
+            writer.append("--").append(boundary).append("\r\n");
+            writer.append("Content-Disposition: form-data; name=\"archivos\"; filename=\"").append(file.getName()).append("\"\r\n");
+            writer.append("Content-Type: ").append(mimeType).append("\r\n\r\n");
+            writer.flush();
+
+            // Copiar contenido del archivo directamente al byteStream
+            Files.copy(file.toPath(), byteStream);
+            byteStream.write("\r\n".getBytes(StandardCharsets.UTF_8));
+            writer.flush();
+        }
+
+        // Fin del multipart/form-data
+        writer.append("--").append(boundary).append("--").append("\r\n");
+        writer.close();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "multipart/form-data; boundary=" + boundary)
+                .POST(HttpRequest.BodyPublishers.ofByteArray(byteStream.toByteArray()))
+                .build();
+
+        return HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+    }
+
+
 }
