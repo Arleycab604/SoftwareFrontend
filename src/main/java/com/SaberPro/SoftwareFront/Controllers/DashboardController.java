@@ -142,7 +142,7 @@ public class DashboardController {
     @FXML
     private void onButtonDashboardSInformes() {
         // Ruta ABSOLUTA - Ajustado a una vista más lógica si "Login-view.fxml" no es para informes
-        loadView("/com/SaberPro/SoftwareFront/ConsultarHistoricos/VReporteG-view.fxml");
+        loadView("/com/SaberPro/SoftwareFront/CInforme-view.fxml");
     }
 
     @FXML
