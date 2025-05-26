@@ -1,4 +1,4 @@
-package com.SaberPro.SoftwareFront.Utils;
+/*package com.SaberPro.SoftwareFront.Utils;
 
 import com.SaberPro.SoftwareFront.Models.InputQueryDTO;
 import com.SaberPro.SoftwareFront.Utils.Enums.MethodRequest;
@@ -18,12 +18,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
-/*
-Ey mira, soy especial, le pongo tíldes a los comentarios (¡Y puntuación!).
 
-* Quien diga que este código no tiene sentido y esta mal hecho...
-* tiene, efectivamente, razón
-* */
 public class BuildRequest {
 
     private static BuildRequest instancia;
@@ -227,6 +222,254 @@ public class BuildRequest {
         return POSTJson(url, new ObjectMapper().writeValueAsString(filtros), true);
     }
 
+
+    public HttpResponse<String> GETJson(String url, String json) throws IOException, InterruptedException {
+        String queryParams = JsonParser.toQueryParams(json);
+        String fullUrl = url + "?" + queryParams;
+        HttpRequest request = build(
+                fullUrl,
+                MethodRequest.GET, null, null);
+
+        return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+    }
+}*/
+
+
+package com.SaberPro.SoftwareFront.Utils;
+
+import com.SaberPro.SoftwareFront.Models.InputQueryDTO;
+import com.SaberPro.SoftwareFront.Utils.Enums.MethodRequest;
+import com.SaberPro.SoftwareFront.Utils.parsers.JsonParser;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class BuildRequest {
+
+    private static BuildRequest instancia;
+
+    private final HttpClient httpClient;
+
+    private BuildRequest() {
+        this.httpClient = HttpClient.newHttpClient();
+    }
+
+    public static synchronized BuildRequest getInstance() {
+        if (instancia == null) {
+            instancia = new BuildRequest();
+        }
+        return instancia;
+    }
+
+    private HttpRequest build(
+            String url,
+            MethodRequest method,
+            Map<String, String> headers,
+            HttpRequest.BodyPublisher bodyPublisher,
+            boolean requiresAuthToken) {
+
+        HttpRequest.Builder builder = HttpRequest.newBuilder()
+                .uri(URI.create(url));
+
+        if (requiresAuthToken) {
+            // Asegúrate de que TokenManager.getToken() sea accesible y devuelva el token correcto
+            if (TokenManager.getToken() != null) {
+                builder.header("Authorization", "Bearer " + TokenManager.getToken());
+            } else {
+                System.out.println("Error: token no definido. Verifica si iniciaste sesion.");
+                // Podrías lanzar una excepción aquí o manejar el error de otra manera
+                return null;
+            }
+        }
+
+        if (headers != null) {
+            headers.forEach(builder::header);
+        }
+
+        switch (method) {
+            case POST:
+                builder.POST(bodyPublisher != null ? bodyPublisher : HttpRequest.BodyPublishers.noBody());
+                break;
+            case PUT:
+                builder.PUT(bodyPublisher != null ? bodyPublisher : HttpRequest.BodyPublishers.noBody());
+                break;
+            case DELETE:
+                builder.DELETE();
+                break;
+            case GET:
+                builder.GET();
+                break;
+            default:
+                throw new IllegalArgumentException("Método HTTP no soportado: " + method);
+        }
+        return builder.build();
+    }
+
+    private HttpRequest build(
+            String url,
+            MethodRequest method,
+            Map<String, String> headers,
+            HttpRequest.BodyPublisher bodyPublisher) {
+        return build(url, method, headers, bodyPublisher, true);
+    }
+
+    // --- Métodos HTTP Públicos ---
+
+    public HttpResponse<String> POSTJson(String url, String json) throws IOException, InterruptedException {
+        return POSTJson(url, json, true);
+    }
+
+    public HttpResponse<String> POSTJson(String url, String json, boolean requiresAuthToken) throws IOException, InterruptedException {
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+        HttpRequest request = build(
+                url,
+                MethodRequest.POST,
+                headers,
+                HttpRequest.BodyPublishers.ofString(json),
+                requiresAuthToken
+        );
+        return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+    }
+
+    /**
+     * Sube un solo archivo utilizando el formato multipart/form-data.
+     * @param url La URL del endpoint de subida.
+     * @param file El archivo a subir.
+     * @param params Parámetros adicionales del formulario (no el archivo).
+     * @return La respuesta HTTP del servidor.
+     * @throws IOException Si ocurre un error de I/O.
+     * @throws InterruptedException Si el hilo se interrumpe durante la operación.
+     */
+    public HttpResponse<String> uploadFile(String url, File file, Map<String, String> params)
+            throws IOException, InterruptedException {
+
+        String boundary = "----WebKitFormBoundary" + System.currentTimeMillis();
+        String lineSeparator = "\r\n";
+
+        String mimeType = Files.probeContentType(file.toPath());
+        if (mimeType == null) {
+            mimeType = "application/octet-stream";
+        }
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        OutputStreamWriter writer = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
+
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            writer.write("--" + boundary + lineSeparator);
+            writer.write("Content-Disposition: form-data; name=\"" + entry.getKey() + "\"" + lineSeparator);
+            writer.write(lineSeparator);
+            writer.write(entry.getValue() + lineSeparator);
+        }
+        // El backend espera el archivo con el nombre de campo "files"
+        writer.write("--" + boundary + lineSeparator);
+        writer.write("Content-Disposition: form-data; name=\"" + "files" + "\"; filename=\"" + file.getName() + "\"" + lineSeparator);
+        writer.write("Content-Type: " + mimeType + lineSeparator);
+        writer.write(lineSeparator);
+        writer.flush();
+
+        outputStream.write(Files.readAllBytes(file.toPath()));
+        outputStream.write(lineSeparator.getBytes(StandardCharsets.UTF_8));
+
+        writer.write("--" + boundary + "--" + lineSeparator);
+        writer.flush();
+
+        byte[] finalBody = outputStream.toByteArray();
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "multipart/form-data; boundary=" + boundary);
+
+        HttpRequest request = build(url,
+                MethodRequest.POST, headers,
+                HttpRequest.BodyPublishers.ofByteArray(finalBody));
+
+        return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+    }
+
+    /**
+     * Realiza una solicitud GET con parámetros en la URL y devuelve el cuerpo como String.
+     * @param url La URL base.
+     * @param params Mapa de parámetros a añadir a la URL.
+     * @return La respuesta HTTP del servidor como String.
+     * @throws IOException Si ocurre un error de I/O.
+     * @throws InterruptedException Si el hilo se interrumpe.
+     */
+    public HttpResponse<String> GETParams(String url, Map<String, String> params) throws IOException, InterruptedException {
+        return GETParams(url, params, true);
+    }
+
+    public HttpResponse<String> GETParams(String url, Map<String, String> params, boolean AuthTokenRequired) throws IOException, InterruptedException {
+        HttpRequest request;
+        if (params != null && !params.isEmpty()) {
+            String paramString = JsonParser.toQueryParams(params); // Asume que JsonParser.toQueryParams funciona con Map<String, String>
+            request = build(url + "?" + paramString, MethodRequest.GET, null, null, AuthTokenRequired);
+        } else {
+            request = build(url, MethodRequest.GET, null, null, AuthTokenRequired);
+        }
+        return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+    }
+
+    /**
+     * Realiza una solicitud GET con parámetros en la URL y devuelve el cuerpo como byte array (para archivos).
+     * @param url La URL base.
+     * @param params Mapa de parámetros a añadir a la URL.
+     * @param AuthTokenRequired Indica si se requiere token de autenticación.
+     * @return La respuesta HTTP del servidor como byte[].
+     * @throws IOException Si ocurre un error de I/O.
+     * @throws InterruptedException Si el hilo se interrumpe.
+     */
+    public HttpResponse<byte[]> GETBytes(String url, Map<String, String> params, boolean AuthTokenRequired) throws IOException, InterruptedException {
+        HttpRequest request;
+        if (params != null && !params.isEmpty()) {
+            String paramString = JsonParser.toQueryParams(params);
+            request = build(url + "?" + paramString, MethodRequest.GET, null, null, AuthTokenRequired);
+        } else {
+            request = build(url, MethodRequest.GET, null, null, AuthTokenRequired);
+        }
+        return httpClient.send(request, HttpResponse.BodyHandlers.ofByteArray()); // <-- Aquí devuelve byte[]
+    }
+
+    /**
+     * Realiza una solicitud DELETE a una URL específica.
+     * @param url La URL del recurso a eliminar.
+     * @return La respuesta HTTP del servidor.
+     * @throws IOException Si ocurre un error de I/O.
+     * @throws InterruptedException Si el hilo se interrumpe.
+     */
+    public HttpResponse<String> DELETE(String url) throws IOException, InterruptedException {
+        HttpRequest request = build(url, MethodRequest.DELETE, null, null, true); // Requiere AuthToken
+        return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+    }
+
+    public HttpResponse<String> PUTParams(String url, Map<String, String> params) throws IOException, InterruptedException {
+        StringJoiner paramJoiner = new StringJoiner("&");
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            paramJoiner.add(
+                    URLEncoder.encode(entry.getKey(), StandardCharsets.UTF_8) + "=" +
+                            URLEncoder.encode(entry.getValue(), StandardCharsets.UTF_8)
+            );
+        }
+        HttpRequest request = build(url + "?" + paramJoiner,
+                MethodRequest.PUT, null, null);
+
+        return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+    }
+
+    public HttpResponse<String> POSTInputDTO(String url, InputQueryDTO filtros) throws IOException, InterruptedException {
+        return POSTJson(url, new ObjectMapper().writeValueAsString(filtros), true);
+    }
 
     public HttpResponse<String> GETJson(String url, String json) throws IOException, InterruptedException {
         String queryParams = JsonParser.toQueryParams(json);
