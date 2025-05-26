@@ -49,9 +49,9 @@
 
             <!-- Botones de Acción -->
             <HBox spacing="15" alignment="CENTER_RIGHT">
-                <Button fx:id="aceptarButton" text="Aceptar" />
-                <Button fx:id="rechazarButton" text="Rechazar" />
-                <Button fx:id="volverButton" text="Volver" />
+                <Button fx:id="aceptarButton"  onAction="#OnAceptarButton" text="Aceptar" />
+                <Button fx:id="rechazarButton" onAction="#OnRechazarButton" text="Rechazar" />
+                <Button fx:id="volverButton" onAction="#OnVolverButton" text="Volver" />
             </HBox>
 
         </VBox>

@@ -65,6 +65,8 @@ public class DashboardController {
                 // Asegúrate de ocultar también generalesMenuItem si los docentes no lo ven
                 ocultarMenuItem(generalesMenuItem);
                 break;
+            case "COMITE DE PROGRAMA":
+                break;
 
             case "ESTUDIANTE":
                 ocultarMenu(cargarReportesMenu);
