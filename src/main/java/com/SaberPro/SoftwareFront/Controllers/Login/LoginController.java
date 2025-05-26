@@ -87,8 +87,6 @@ public class LoginController {
 
     @FXML
     private void initialize() {
-        // ELIMINADO: if (usernameField != null && bienvenidaLabel != null) { bienvenidaLabel.setText("Bienvenido a SaberPro, " + usernameField.getText()); }
-        // La lógica de bienvenida se maneja en BienvenidaController
 
         // Configuración de eventos de teclado (mantener)
         if (usernameField != null) { // Agregado null check para seguridad

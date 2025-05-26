@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import org.controlsfx.control.RangeSlider?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
+<?import javafx.geometry.Insets?>
 
-        <?import javafx.geometry.Insets?>
 <BorderPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.SaberPro.SoftwareFront.Controllers.ConsultarHistoricos.VReporteGController">
 <stylesheets>
     <URL value="@../../../../CSS/Carga.css" />
 </stylesheets>
 
-<!-- Parte superior con el botón para mostrar u ocultar filtros -->
 <top>
     <HBox alignment="CENTER_LEFT" spacing="10">
         <padding>
@@ -19,15 +19,11 @@
         <Button fx:id="btnToggleFilters" text="Mostrar Filtros" onAction="#toggleFilters"
                 style="-fx-font-weight: bold; -fx-padding: 8 20;"/>
     </HBox>
-
 </top>
 
-<!-- Panel izquierdo (barra lateral de filtros) -->
 <left>
     <ScrollPane fx:id="filtersSection" hbarPolicy="NEVER" fitToWidth="true" visible="false" managed="false" styleClass="filters-container">
-
         <VBox spacing="8">
-            <!-- Documento, Periodo y Año -->
             <VBox spacing="15" alignment="CENTER_LEFT">
                 <padding>
                     <Insets top="10" right="10" bottom="10" left="10"/>
@@ -39,22 +35,19 @@
                     </VBox>
                     <VBox spacing="5">
                         <Label text="Año:" styleClass="label"/>
-                        <ComboBox fx:id="cmbAnio" promptText="Año" prefHeight="30" prefWidth="165" styleClass="combo-box"/>
+                        <ComboBox fx:id="cmbYear" promptText="Año" prefHeight="30" prefWidth="165" styleClass="combo-box"/>
                     </VBox>
                 </HBox>
             </VBox>
 
-            <!-- Filtros de Puntaje Global y Módulo -->
             <VBox spacing="15">
                 <padding>
                     <Insets top="10" right="10" bottom="10" left="10"/>
                 </padding>
 
-
-                <!-- Filtro Puntaje Media -->
                 <VBox spacing="8" alignment="CENTER_LEFT">
-                    <Label text="Media periodo:" style="-fx-font-weight: bold;" styleClass="label" />
-                    <RangeSlider fx:id="rangeMediaPeriodo" min="0" max="200" blockIncrement="1" showTickLabels="true" showTickMarks="true" />
+                    <Label text="Media Periodo:" style="-fx-font-weight: bold;" styleClass="label" />
+                    <RangeSlider fx:id="rangeMediaPeriodo" min="0" max="300" blockIncrement="1" showTickLabels="true" showTickMarks="true" />
                     <HBox spacing="20" alignment="CENTER_LEFT">
                         <Label text="Min:" styleClass="label"/>
                         <TextField fx:id="txtMediaPeriodoMin" promptText="Min" prefWidth="70" styleClass="text-field"/>
@@ -63,10 +56,9 @@
                     </HBox>
                 </VBox>
 
-                <!-- Filtro Puntaje cVar -->
                 <VBox spacing="8" alignment="CENTER_LEFT">
                     <Label text="Coef. Var. Periodo:" style="-fx-font-weight: bold;" styleClass="label" />
-                    <RangeSlider fx:id="rangeCoefVarPeriodo" min="0" max="200" blockIncrement="1" showTickLabels="true" showTickMarks="true" />
+                    <RangeSlider fx:id="rangeCoefVarPeriodo" min="0" max="1" blockIncrement="0.01" showTickLabels="true" showTickMarks="true" majorTickUnit="0.1" />
                     <HBox spacing="20" alignment="CENTER_LEFT">
                         <Label text="Min:" styleClass="label"/>
                         <TextField fx:id="txtCoefVarPeriodoMin" promptText="Min" prefWidth="70" styleClass="text-field"/>
@@ -75,11 +67,9 @@
                     </HBox>
                 </VBox>
 
-
-                <!-- Filtro Puntaje mediamodulo -->
                 <VBox spacing="8" alignment="CENTER_LEFT">
-                    <Label text="Media módulo:" style="-fx-font-weight: bold;" styleClass="label" />
-                    <RangeSlider fx:id="rangeMediaModulo" min="0" max="200" blockIncrement="1" showTickLabels="true" showTickMarks="true" />
+                    <Label text="Media Módulo:" style="-fx-font-weight: bold;" styleClass="label" />
+                    <RangeSlider fx:id="rangeMediaModulo" min="0" max="300" blockIncrement="1" showTickLabels="true" showTickMarks="true" />
                     <HBox spacing="20" alignment="CENTER_LEFT">
                         <Label text="Min:" styleClass="label"/>
                         <TextField fx:id="txtMediaModuloMin" promptText="Min" prefWidth="70" styleClass="text-field"/>
@@ -88,10 +78,9 @@
                     </HBox>
                 </VBox>
 
-                <!-- Filtro Puntaje cvarmodulo -->
                 <VBox spacing="8" alignment="CENTER_LEFT">
                     <Label text="Coef. Var. Módulo:" style="-fx-font-weight: bold;" styleClass="label" />
-                    <RangeSlider fx:id="rangeCoefVarModulo" min="0" max="200" blockIncrement="1" showTickLabels="true" showTickMarks="true" />
+                    <RangeSlider fx:id="rangeCoefVarModulo" min="0" max="1" blockIncrement="0.01" showTickLabels="true" showTickMarks="true" majorTickUnit="0.1" />
                     <HBox spacing="20" alignment="CENTER_LEFT">
                         <Label text="Min:" styleClass="label"/>
                         <TextField fx:id="txtCoefVarModuloMin" promptText="Min" prefWidth="70" styleClass="text-field"/>
@@ -100,24 +89,20 @@
                     </HBox>
                 </VBox>
 
-                <!-- Tipo de módulo -->
                 <VBox spacing="5" alignment="CENTER_LEFT">
                     <Label text="Tipo de Módulo:" style="-fx-font-weight: bold;" styleClass="label"/>
                     <VBox fx:id="tipoModuloCheckboxes" spacing="3"/>
                 </VBox>
 
-                <!-- Botón aplicar -->
                 <HBox alignment="CENTER">
-                    <Button fx:id="btnAplicarFiltros" text="Aplicar"  prefWidth="390" onAction="#aplicarFiltros" style="-fx-font-weight: bold; -fx-padding: 8 10;"/>
+                    <Button fx:id="btnAplicarFiltros" onAction="#aplicarFiltros" text="Aplicar Filtros"
+                            style="-fx-font-weight: bold; -fx-padding: 8 10;"
+                            HBox.hgrow="ALWAYS" maxWidth="Infinity" />
                 </HBox>
             </VBox>
         </VBox>
-
     </ScrollPane>
 </left>
-
-<!-- Centro con la tabla -->
-
 
 <center>
     <VBox spacing="10" alignment="CENTER" style="-fx-padding: 0;">

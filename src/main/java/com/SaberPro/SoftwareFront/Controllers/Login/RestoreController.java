@@ -119,7 +119,7 @@ public class RestoreController implements Initializable {
             if (response.statusCode() == 200) {
                 mostrarAlerta(Alert.AlertType.INFORMATION, "Contraseña actualizada", "La contraseña se cambió correctamente.");
                 Stage stage = (Stage) r1_passwordField.getScene().getWindow();
-                ViewLoader.loadView("Login-view.fxml", stage);
+                ViewLoader.loadView("/com/SaberPro/SoftwareFront/Login/Login-view.fxml", stage);
             } else {
                 mostrarAlerta(Alert.AlertType.ERROR, "Error", response.body());
             }
@@ -133,7 +133,7 @@ public class RestoreController implements Initializable {
     @FXML
     private void onBackButtonClick() {
         Stage stage = (Stage) r1_passwordField.getScene().getWindow();
-        ViewLoader.loadView("Recovery-view.fxml", stage);
+        ViewLoader.loadView("/com/SaberPro/SoftwareFront/Login/Recovery-view.fxml", stage);
     }
 
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
