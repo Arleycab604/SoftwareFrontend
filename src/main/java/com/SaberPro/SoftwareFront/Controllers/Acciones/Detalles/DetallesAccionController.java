@@ -1,8 +1,12 @@
 package com.SaberPro.SoftwareFront.Controllers.Acciones.Detalles;
 
 import com.SaberPro.SoftwareFront.Models.accionMejora.PropuestaMejoraDTO;
+import com.SaberPro.SoftwareFront.Utils.BuildRequest;
+import com.SaberPro.SoftwareFront.Utils.TokenManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+
+import java.net.http.HttpResponse;
 import java.time.format.DateTimeFormatter;
 
 public class DetallesAccionController {
@@ -21,6 +25,13 @@ public class DetallesAccionController {
 
     private PropuestaMejoraDTO propuesta;
 
+    private void initialize() {
+
+        if (TokenManager.getToken().equals("COMITE_DE_PROGRAMA")) {
+            OcultarButton(aceptarButton);
+            OcultarButton(rechazarButton);
+        }
+    }
     public void setPropuesta(PropuestaMejoraDTO propuesta) {
         this.propuesta = propuesta;
         cargarDatos();
@@ -46,6 +57,69 @@ public class DetallesAccionController {
     public void setDatos(PropuestaMejoraDTO propuesta) {
         this.propuesta = propuesta;
         cargarDatos();
+    }
+
+    @FXML
+    private void OnAceptarButton() {
+        if (propuesta != null && propuesta.getIdPropuestaMejora() != 0) {
+            try {
+                String url = "http://localhost:8080/api/propuestas/" + propuesta.getIdPropuestaMejora() + "/aceptar";
+                HttpResponse<String> response = BuildRequest.getInstance().POSTJson(url, "", true);
+
+                if (response.statusCode() == 200) {
+                    mostrarAlerta(Alert.AlertType.INFORMATION, "Propuesta aceptada", response.body());
+                    aceptarButton.setDisable(true);
+                    rechazarButton.setDisable(true);
+                    estadoLabel.setText("Aceptada");
+                } else {
+                    mostrarAlerta(Alert.AlertType.ERROR, "Error al aceptar", "Código: " + response.statusCode() + "\n" + response.body());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                mostrarAlerta(Alert.AlertType.ERROR, "Error inesperado", e.getMessage());
+            }
+        }
+    }
+
+    @FXML
+    private void OnRechazarButton() {
+        if (propuesta != null && propuesta.getIdPropuestaMejora() != 0) {
+            try {
+                String url = "http://localhost:8080/api/propuestas/" + propuesta.getIdPropuestaMejora() + "/rechazar";
+                HttpResponse<String> response = BuildRequest.getInstance().POSTJson(url, "", true);
+
+                if (response.statusCode() == 200) {
+                    mostrarAlerta(Alert.AlertType.INFORMATION, "Propuesta rechazada", response.body());
+                    aceptarButton.setDisable(true);
+                    rechazarButton.setDisable(true);
+                    estadoLabel.setText("Rechazada");
+                } else {
+                    mostrarAlerta(Alert.AlertType.ERROR, "Error al rechazar", "Código: " + response.statusCode() + "\n" + response.body());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                mostrarAlerta(Alert.AlertType.ERROR, "Error inesperado", e.getMessage());
+            }
+        }
+    }
+
+    private void OnVolverButton() {
+        // Aquí puedes implementar la lógica para volver a la pantalla anterior
+        // Por ejemplo, cerrar la ventana actual o cambiar a otra vista
+        aceptarButton.getScene().getWindow().hide();
+    }
+    private void OcultarButton(Button button) {
+        if (button != null) {
+            button.setVisible(false);
+            button.setManaged(false);
+        }
+    }
+    private void mostrarAlerta(Alert.AlertType tipo, String titulo, String contenido) {
+        Alert alert = new Alert(tipo);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(contenido);
+        alert.showAndWait();
     }
 
 }

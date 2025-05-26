@@ -230,8 +230,9 @@ public class VReporteEController implements Initializable {
         // Validar y asignar valores solo si no son nulos o vacíos
         if(TokenManager.getTipoUsuario().equals("ESTUDIANTE")) {
             filtros.setNombreUsuario(TokenManager.getNombreUsuario());
-        } else if(txtDocumento.getText() != null && !txtDocumento.getText().trim().isEmpty()) {
-            filtros.setNombreUsuario(txtDocumento.getText().trim());
+        }
+        if(txtDocumento.getText() != null && !txtDocumento.getText().trim().isEmpty()) {
+            filtros.setDocumento(txtDocumento.getText().trim());
         }
         if (cmbAnio.getValue() != null) {
             filtros.setYear(cmbAnio.getValue());
