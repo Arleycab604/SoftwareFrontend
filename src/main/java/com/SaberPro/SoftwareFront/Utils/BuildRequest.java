@@ -194,10 +194,16 @@ public class BuildRequest {
     public HttpResponse<String> GETParams(String url, Map<String, String> params, boolean AuthTokenRequiered) throws IOException, InterruptedException {
 
         //JsonParser tambien parcea Map<String, String> :)
-        String paramString = JsonParser.toQueryParams(params);
 
-        HttpRequest request = build(url + "?" + paramString,
-                MethodRequest.GET, null, null, AuthTokenRequiered);
+        HttpRequest request ;
+        if(params != null){
+            String paramString= JsonParser.toQueryParams(params);
+             request = build(url + "?" + paramString,
+                    MethodRequest.GET, null, null, AuthTokenRequiered);
+        }else{
+             request = build(url,
+                    MethodRequest.GET, null, null, AuthTokenRequiered);
+        }
 
         return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
     }

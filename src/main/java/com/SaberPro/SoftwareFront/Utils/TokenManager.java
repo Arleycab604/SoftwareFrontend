@@ -11,6 +11,7 @@ public class TokenManager {
     public static String getToken() {
         return token;
     }
+    
 
     public static void setTipoUsuario(String tipoUsuario) {
         TokenManager.tipoUsuario = tipoUsuario;

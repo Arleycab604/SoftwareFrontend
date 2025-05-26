@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.SaberPro.SoftwareFront.Controllers.Acciones.Detalles.DetallesAccionController"
+            prefHeight="600.0" prefWidth="800.0" styleClass="background-main-pane">
+    <children>
+        <VBox spacing="20" alignment="TOP_LEFT" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="10" padding="20">
+
+            <!-- Título Principal -->
+            <Label fx:id="tituloLabel" text="Título de la Propuesta" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+
+            <!-- Información Detallada -->
+            <GridPane hgap="10" vgap="15">
+                <columnConstraints>
+                    <ColumnConstraints halignment="RIGHT" minWidth="150"/>
+                    <ColumnConstraints halignment="LEFT" minWidth="300"/>
+                </columnConstraints>
+
+                <Label text="Tipo de Propuesta:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <Label fx:id="tipoLabel" text="Mejora Curricular" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                <Label text="Fecha de Creación:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <Label fx:id="fechaCreacionLabel" text="2025-05-20" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                <Label text="Fecha de Cierre:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <Label fx:id="fechaCierreLabel" text="2025-06-01" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                <Label text="Estado:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <Label fx:id="estadoLabel" text="Pendiente" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                <Label text="Módulo Asociado:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <Label fx:id="moduloLabel" text="Análisis de Algoritmos" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+            </GridPane>
+
+            <!-- Justificación -->
+            <Label text="Justificación:" style="-fx-font-weight: bold;"/>
+            <TextArea fx:id="justificacionTextArea" editable="false" wrapText="true" prefHeight="100" />
+
+            <!-- Evidencias -->
+            <Label text="Evidencias:" style="-fx-font-weight: bold;"/>
+            <ListView fx:id="evidenciasListView" prefHeight="100"/>
+
+            <!-- Botones de Acción -->
+            <HBox spacing="15" alignment="CENTER_RIGHT">
+                <Button fx:id="aceptarButton" text="Aceptar" />
+                <Button fx:id="rechazarButton" text="Rechazar" />
+                <Button fx:id="volverButton" text="Volver" />
+            </HBox>
+
+        </VBox>
+    </children>
+</AnchorPane>

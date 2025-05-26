@@ -1,5 +1,6 @@
 package com.SaberPro.SoftwareFront.Models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -13,25 +14,36 @@ import lombok.Setter;
 // by Puntaje minimo, maximo, y por puntaje,
 // By year periodo, year, periodo
 public class InputQueryDTO {
+    @JsonProperty("year")
+    private Integer year;
+    @JsonProperty("periodo")
+    private Integer periodo;
 
-    private int year;
-    private int periodo;
-
+    @JsonProperty("nombreUsuario") // nombre estudiante
     private String nombreUsuario;
+    @JsonProperty("documento")
+    private String documento;
+    @JsonProperty("nombrePrograma") // Por ahora solo hay un programa :v
     private String nombrePrograma;
-    private String grupoDeReferencia; // Redundante pero no se
-    private String numeroRegistro;
-    private int puntajeGlobalMinimo;
-    private int puntajeGlobalMaximo;
-    private int percentilGlobal;
-    private String novedades;
 
-    // Datos de módulos (resumen ejemplo: podrías tener una lista si quieres más detalle)
-    private String tipoModulo; // Any, o uno especifico
-    private int puntajeModuloMinimo;
-    private int puntajeModuloMaximo;
+    // Pos funciona
+    @JsonProperty("puntajeGlobalMinimo")
+    private Integer puntajeGlobalMinimo = 0;
+    @JsonProperty("puntajeGlobalMaximo")
+    private Integer puntajeGlobalMaximo = 300;
+
+    // Pray to god que funcione
+    @JsonProperty("tipoModulo")
+    private String tipoModulo;
+
+    @JsonProperty("puntajeModuloMinimo")
+    private Integer puntajeModuloMinimo = 0;
+    @JsonProperty("puntajeModuloMaximo")
+    private Integer puntajeModuloMaximo = 300;
+
+    // Dificil de implementar
+    @JsonProperty("nivelDesempeno")
     private String nivelDesempeno;
-    private int percentilModulo;
 
     @Override
     public String toString() {
@@ -40,17 +52,12 @@ public class InputQueryDTO {
                 ", periodo=" + periodo +
                 ", nombreUsuario='" + nombreUsuario + '\'' +
                 ", nombrePrograma='" + nombrePrograma + '\'' +
-                ", grupoDeReferencia='" + grupoDeReferencia + '\'' +
-                ", numeroRegistro='" + numeroRegistro + '\'' +
                 ", puntajeGlobalMinimo=" + puntajeGlobalMinimo +
                 ", puntajeGlobalMaximo=" + puntajeGlobalMaximo +
-                ", percentilGlobal=" + percentilGlobal +
-                ", novedades='" + novedades + '\'' +
                 ", tipoModulo='" + tipoModulo + '\'' +
-                ", puntajeMinimoModulo=" + puntajeModuloMinimo +
-                ", puntajeMaximoModulo=" + puntajeModuloMaximo +
+                ", puntajeModuloMinimo=" + puntajeModuloMinimo +
+                ", puntajeModuloMaximo=" + puntajeModuloMaximo +
                 ", nivelDesempeno='" + nivelDesempeno + '\'' +
-                ", percentilModulo=" + percentilModulo +
                 '}';
     }
 }

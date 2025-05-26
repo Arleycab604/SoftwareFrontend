@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.SaberPro.SoftwareFront.Controllers.Acciones.ModulosAccionController">
+    <children>
+        <VBox prefWidth="800" spacing="10" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <HBox spacing="10">
+                <Label text="Buscar:" />
+                <TextField fx:id="txtBuscar" promptText="Buscar..." />
+                <Label text="Módulo:" />
+                <ComboBox fx:id="cmbModulos" />
+            </HBox>
+
+            <ScrollPane fitToWidth="true" prefHeight="600">
+                <content>
+                    <VBox fx:id="vboxPropuestas" spacing="15">
+                        <padding>
+                            <Insets top="10" right="10" bottom="10" left="10"/>
+                        </padding>
+                    </VBox>
+                </content>
+            </ScrollPane>
+        </VBox>
+    </children>
+</AnchorPane>

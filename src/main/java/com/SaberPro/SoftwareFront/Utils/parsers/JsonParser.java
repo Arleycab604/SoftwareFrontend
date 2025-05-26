@@ -15,11 +15,15 @@ public class JsonParser {
         Map<String, String> params = new ObjectMapper().readValue(json, new TypeReference<>() {});
         return toQueryParams(params);
     }
+    // Dentro de JsonParser.java
     public static String toQueryParams(Map<String, String> params) {
+        if (params == null || params.isEmpty()) return "";
         return params.entrySet().stream()
-                .map(entry -> encode(entry.getKey()) + "=" + encode(entry.getValue()))
+                .map(entry -> URLEncoder.encode(entry.getKey(), StandardCharsets.UTF_8) + "="
+                        + URLEncoder.encode(entry.getValue(), StandardCharsets.UTF_8))
                 .collect(Collectors.joining("&"));
     }
+
     private static String encode(String value) {
         return URLEncoder.encode(value, StandardCharsets.UTF_8);
     }

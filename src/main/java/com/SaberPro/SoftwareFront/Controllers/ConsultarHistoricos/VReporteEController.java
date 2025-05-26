@@ -19,10 +19,7 @@ import javafx.scene.layout.VBox;
 import org.controlsfx.control.RangeSlider;
 
 import java.io.IOException;
-import java.net.URI;
 import java.net.URL;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.*;
 import java.util.function.Consumer;
@@ -74,6 +71,7 @@ public class VReporteEController implements Initializable {
     @FXML private VBox vistaGrafico;
     @FXML private Button btnTablas;
     @FXML private Button btnGraficos;
+    @FXML private ComboBox<String> cmbTipoModulo;
 
     // INICIO MODIFICACIÓN: Para el Label de vista actual
     @FXML private Label lblVistaActual;
@@ -82,7 +80,6 @@ public class VReporteEController implements Initializable {
     // INICIO MODIFICACIÓN: Nombres de los ComboBoxes para el gráfico
     @FXML private ComboBox<Integer> comboAnioGrafico;
     @FXML private ComboBox<String> comboPeriodoGrafico;
-    @FXML private ComboBox<String> comboModuloGrafico; // Para el tipo de módulo
     @FXML private javafx.scene.chart.BarChart<String, Number> graficoBarras;
     @FXML private CategoryAxis ejeX;
     @FXML private NumberAxis ejeY;
@@ -90,6 +87,7 @@ public class VReporteEController implements Initializable {
     //Yo soy rabiosa - shakira ft. no se quien
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         mostrarVistaTablas();
 
         configurarComboBoxes();
@@ -104,7 +102,6 @@ public class VReporteEController implements Initializable {
         configurarComboBoxesGrafico();
         comboAnioGrafico.valueProperty().addListener((obs, oldVal, newVal) -> actualizarGrafico());
         comboPeriodoGrafico.valueProperty().addListener((obs, oldVal, newVal) -> actualizarGrafico());
-        comboModuloGrafico.valueProperty().addListener((obs, oldVal, newVal) -> actualizarGrafico());
     }
 
     private void sincronizarRangeSliderConTextFields(RangeSlider rangeSlider, TextField txtMin, TextField txtMax) {
@@ -184,12 +181,6 @@ public class VReporteEController implements Initializable {
         comboAnioGrafico.setItems(cmbAnio.getItems());
         comboPeriodoGrafico.setItems(cmbPeriodo.getItems());
 
-        // Poblar ComboBox de módulo con los mismos tipos de módulo que los checkboxes
-        List<String> modulos = tipoModuloOptions.stream()
-                .map(CheckBox::getText)
-                .collect(Collectors.toList());
-        comboModuloGrafico.setItems(FXCollections.observableArrayList(modulos));
-
         // Establecer un valor predeterminado si es necesario (ej. el primer elemento)
         if (!comboAnioGrafico.getItems().isEmpty()) {
             comboAnioGrafico.getSelectionModel().selectFirst();
@@ -197,14 +188,11 @@ public class VReporteEController implements Initializable {
         if (!comboPeriodoGrafico.getItems().isEmpty()) {
             comboPeriodoGrafico.getSelectionModel().selectFirst();
         }
-        if (!comboModuloGrafico.getItems().isEmpty()) {
-            comboModuloGrafico.getSelectionModel().selectFirst();
-        }
     }
-    // FIN MODIFICACIÓN
 
+    // MODIFIED: Now configures the ComboBox cmbTipoModulo
     private void configurarTipoModuloOptions() {
-        List<String> modulos = List.of(
+        List<String> modulos = new ArrayList<>(List.of( // Use ArrayList to allow adding "Todos los módulos"
                 "COMUNICACIÓN ESCRITA",
                 "LECTURA CRÍTICA",
                 "FORMULACIÓN DE PROYECTOS DE INGENIERÍA",
@@ -213,14 +201,15 @@ public class VReporteEController implements Initializable {
                 "DISEÑO DE SOFTWARE",
                 "RAZONAMIENTO CUANTITATIVO",
                 "PENSAMIENTO CIENTÍFICO - MATEMÁTICAS Y ESTADÍSTICA"
-        );
-
-        for (String modulo : modulos) {
-            CheckBox checkBox = new CheckBox(modulo);
-            tipoModuloCheckboxes.getChildren().add(checkBox); // Agregar al VBox
-            tipoModuloOptions.add(checkBox); // Agregar a la lista
-        }
+        ));
+        // Add an option for "Todos los módulos"
+        modulos.add(0, "Todos los módulos");
+        cmbTipoModulo.setItems(FXCollections.observableArrayList(modulos));
     }
+
+    // FIN MODIFICACIÓN
+
+
     // Método para configurar validación de puntajes (0 a 200)
 
     @FXML
@@ -249,21 +238,20 @@ public class VReporteEController implements Initializable {
         }
         if (rangeSliderPuntajeGlobal.getLowValue() >= MIN_PUNTAJE || rangeSliderPuntajeGlobal.getHighValue() <= MAX_PUNTAJE) {
             filtros.setPuntajeGlobalMinimo((int) rangeSliderPuntajeGlobal.getLowValue());
-            filtros.setPuntajeGlobalMaximo((int) rangeSliderPuntajeGlobal.getHighValue());
+            filtros.setPuntajeGlobalMaximo((int) rangeSliderPuntajeGlobal.getHighValue() == 0 ? 300 : (int) rangeSliderPuntajeGlobal.getHighValue());
         }
         if (rangeSliderPuntajeModulo.getLowValue() >= MIN_PUNTAJE || rangeSliderPuntajeModulo.getHighValue() <= MAX_PUNTAJE) {
             filtros.setPuntajeModuloMinimo((int) rangeSliderPuntajeModulo.getLowValue());
-            filtros.setPuntajeModuloMaximo((int) rangeSliderPuntajeModulo.getHighValue());
-        }
-        List<String> modulosSeleccionados = tipoModuloOptions.stream()
-                .filter(CheckBox::isSelected)
-                .map(CheckBox::getText)
-                .toList();
-        if (!modulosSeleccionados.isEmpty()) {
-            filtros.setTipoModulo(String.join(",", modulosSeleccionados));
+            filtros.setPuntajeModuloMaximo((int) rangeSliderPuntajeModulo.getHighValue() == 0 ? 300 : (int) rangeSliderPuntajeModulo.getHighValue());
         }
 
-        // Imprimir el objeto InputQueryDTO
+        // MODIFIED: Get the selected value from the ComboBox
+        String moduloSeleccionado = cmbTipoModulo.getValue();
+        if (moduloSeleccionado != null && !moduloSeleccionado.isEmpty() && !"Todos los módulos".equals(moduloSeleccionado)) {
+            filtros.setTipoModulo(moduloSeleccionado);
+        }
+
+            // Imprimir el objeto InputQueryDTO
         System.out.println("Filtros aplicados: " + filtros);
 
         // Enviar filtros al backend
@@ -282,7 +270,7 @@ public class VReporteEController implements Initializable {
         colTipoModulo.setCellValueFactory(new PropertyValueFactory<>("tipoModulo"));
         colPuntajeModulo.setCellValueFactory(new PropertyValueFactory<>("puntajeModulo"));
         colPercentilModulo.setCellValueFactory(new PropertyValueFactory<>("percentilModulo"));
-        colDesempeno.setCellValueFactory(new PropertyValueFactory<>("desempeno"));
+        colDesempeno.setCellValueFactory(new PropertyValueFactory<>("nivelDesempeno"));
         colNovedades.setCellValueFactory(new PropertyValueFactory<>("novedades"));
         tablaReportes.setItems(listaReportes);
     }
@@ -293,16 +281,10 @@ public class VReporteEController implements Initializable {
     }
     private void buscarReporteConFiltros(InputQueryDTO filtros) {
         ObjectMapper mapper = new ObjectMapper();
+        System.out.println("Enviando filtros al backend: " + filtros);
         try {
-            String requestBody = mapper.writeValueAsString(filtros);
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://localhost:8080/SaberPro/reportes/Query"))
-                    .header("Content-Type", "application/json")
-                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-                    .build();
-
-            HttpClient client = HttpClient.newHttpClient();
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = BuildRequest.getInstance().POSTInputDTO("http://localhost:8080/SaberPro/reportes/Query"
+                    ,filtros);
 
             if (response.statusCode() == 200) {
                 List<ReporteDTO> reportes = mapper.readValue(response.body(), new TypeReference<>() {});
@@ -322,66 +304,126 @@ public class VReporteEController implements Initializable {
     // INICIO MODIFICACIÓN: Método para actualizar el gráfico
     private void actualizarGrafico() {
         graficoBarras.getData().clear(); // Limpiar datos anteriores del gráfico
+        graficoBarras.setTitle("Puntajes por Módulo: Estudiante vs. Promedio General"); // Asegurar título
 
         Integer anioSeleccionado = comboAnioGrafico.getValue();
         String periodoSeleccionado = comboPeriodoGrafico.getValue();
-        String moduloSeleccionado = comboModuloGrafico.getValue();
 
-        // Solo actualizar si hay selecciones válidas
-        if (anioSeleccionado != null && periodoSeleccionado != null && moduloSeleccionado != null) {
-            // Prepara los filtros para la consulta al backend
-            InputQueryDTO filtrosGrafico = new InputQueryDTO();
-            filtrosGrafico.setYear(anioSeleccionado);
-            filtrosGrafico.setPeriodo(Integer.parseInt(periodoSeleccionado));
-            filtrosGrafico.setTipoModulo(moduloSeleccionado);
+        // Validar que se haya seleccionado año y periodo
+        if (anioSeleccionado == null || periodoSeleccionado == null) {
+            mostrarAlerta("Información", "Por favor, seleccione un Año y un Periodo para visualizar el gráfico.");
+            return;
+        }
 
-            // Puedes añadir otros filtros si el gráfico necesita datos más específicos (ej. puntaje global min/max)
-            // Para este ejemplo, solo usaremos año, periodo y módulo para el gráfico.
+        // 1. Obtener los datos del estudiante
+        String documentoEstudiante = txtDocumento.getText();
+        if (documentoEstudiante == null || documentoEstudiante.trim().isEmpty()) {
+            mostrarAlerta("Información", "Por favor, ingrese el *documento del estudiante* en la sección de filtros para ver el gráfico de comparación.");
+            return;
+        }
 
-            try {
-                HttpResponse<String> response = BuildRequest.getInstance().POSTInputDTO("http://localhost:8080/SaberPro/reportes/Query", filtrosGrafico);
-                ObjectMapper objectMapper = new ObjectMapper();
+        InputQueryDTO filtrosEstudiante = new InputQueryDTO();
+        filtrosEstudiante.setNombreUsuario(documentoEstudiante.trim());
+        filtrosEstudiante.setYear(anioSeleccionado);
+        filtrosEstudiante.setPeriodo(Integer.parseInt(periodoSeleccionado));
+        // No filtrar por tipo de módulo aquí, queremos todos los módulos del estudiante
 
-                if (response.statusCode() == 200) {
-                    List<ReporteDTO> resultados = objectMapper.readValue(response.body(), new TypeReference<List<ReporteDTO>>() {});
-
-                    // Derly como te fokin odio para eso estan los reportes generales
-                    Map<String, Double> puntajesPorModulo = resultados.stream()
-                            .filter(r -> r.getPuntajeModulo() != 0) //Esta linea es redundante, los puntajes no pueden ser nulos
-                            .collect(Collectors.groupingBy(
-                                    ReporteDTO::getTipoModulo,
-                                    Collectors.averagingDouble(ReporteDTO::getPuntajeModulo)
-                            ));
-
-                    XYChart.Series<String, Number> series = new XYChart.Series<>();
-                    series.setName("Puntaje Promedio por Módulo"); // Nombre de la serie para la leyenda
-
-                    // Si necesitas un solo módulo, podrías filtrar y agregar solo el puntaje promedio de ese módulo
-                    // O si quieres que muestre todos los módulos para el año/periodo seleccionado:
-                    for (Map.Entry<String, Double> entry : puntajesPorModulo.entrySet()) {
-                        series.getData().add(new XYChart.Data<>(entry.getKey(), entry.getValue()));
-                    }
-
-                    // Si quieres que el gráfico muestre específicamente el promedio del módulo seleccionado
-                    if (puntajesPorModulo.containsKey(moduloSeleccionado)) {
-                        XYChart.Series<String, Number> selectedModuloSeries = new XYChart.Series<>();
-                        selectedModuloSeries.setName("Puntaje Promedio de " + moduloSeleccionado);
-                        selectedModuloSeries.getData().add(new XYChart.Data<>(moduloSeleccionado, puntajesPorModulo.get(moduloSeleccionado)));
-                        graficoBarras.getData().add(selectedModuloSeries);
-                    } else {
-                        // Si el módulo seleccionado no tiene datos para esa combinación, puedes mostrar un mensaje o dejarlo vacío
-                        System.out.println("No hay datos para el módulo seleccionado: " + moduloSeleccionado);
-                    }
+        // 2. Obtener los promedios generales (para el cálculo en el frontend)
+        // Se realizará una consulta general sin el filtro de documento para obtener todos los reportes
+        // de ese año y periodo, y así calcular los promedios.
+        InputQueryDTO filtrosPromedios = new InputQueryDTO();
+        filtrosPromedios.setYear(anioSeleccionado);
+        filtrosPromedios.setPeriodo(Integer.parseInt(periodoSeleccionado));
 
 
-                } else {
-                    System.err.println("Error al cargar datos para el gráfico: " + response.statusCode() + " - " + response.body());
-                }
-            } catch (Exception e) {
-                System.err.println("Error al solicitar datos para el gráfico: " + e.getMessage());
+        try {
+            // Realizar las dos consultas al backend
+            HttpResponse<String> responseEstudiante = BuildRequest.getInstance().POSTInputDTO("http://localhost:8080/SaberPro/reportes/Query", filtrosEstudiante);
+            HttpResponse<String> responseGeneral = BuildRequest.getInstance().POSTInputDTO("http://localhost:8080/SaberPro/reportes/Query", filtrosPromedios);
+
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            List<ReporteDTO> resultadosEstudiante = new ArrayList<>();
+            if (responseEstudiante.statusCode() == 200) {
+                resultadosEstudiante = objectMapper.readValue(responseEstudiante.body(), new TypeReference<List<ReporteDTO>>() {});
+            } else {
+                System.err.println("Error al cargar datos del estudiante para el gráfico: " + responseEstudiante.statusCode() + " - " + responseEstudiante.body());
+                mostrarAlerta("Error", "No se pudieron obtener los datos del estudiante para el gráfico.");
+                return;
             }
+
+            List<ReporteDTO> resultadosGenerales = new ArrayList<>();
+            if (responseGeneral.statusCode() == 200) {
+                resultadosGenerales = objectMapper.readValue(responseGeneral.body(), new TypeReference<List<ReporteDTO>>() {});
+            } else {
+                System.err.println("Error al cargar datos generales para el gráfico: " + responseGeneral.statusCode() + " - " + responseGeneral.body());
+                // Si hay un error al cargar promedios, se continuará solo con los datos del estudiante o se mostrará un 0.
+            }
+
+            // Calcular promedios de los resultados generales
+            Map<String, Double> promediosGenerales = resultadosGenerales.stream()
+                    // Assuming ReporteDTO.getPuntajeModulo() returns int, no null check needed.
+                    .filter(r -> r.getPuntajeModulo() >= MIN_PUNTAJE && r.getPuntajeModulo() <= MAX_PUNTAJE)
+                    .collect(Collectors.groupingBy(
+                            ReporteDTO::getTipoModulo,
+                            Collectors.averagingDouble(ReporteDTO::getPuntajeModulo)
+                    ));
+
+            // Configurar las series del gráfico
+            XYChart.Series<String, Number> serieEstudiante = new XYChart.Series<>();
+            serieEstudiante.setName("Puntaje del Estudiante");
+
+            XYChart.Series<String, Number> seriePromedio = new XYChart.Series<>();
+            seriePromedio.setName("Promedio General");
+
+            // Lista de todos los módulos para asegurar el orden y la completitud en el gráfico
+            List<String> todosLosModulos = List.of(
+                    "COMUNICACIÓN ESCRITA",
+                    "LECTURA CRÍTICA",
+                    "FORMULACIÓN DE PROYECTOS DE INGENIERÍA",
+                    "COMPETENCIAS CIUDADANAS",
+                    "INGLÉS",
+                    "DISEÑO DE SOFTWARE",
+                    "RAZONAMIENTO CUANTITATIVO",
+                    "PENSAMIENTO CIENTÍFICO - MATEMÁTICAS Y ESTADÍSTICA"
+            );
+
+            // Poblar las series
+            for (String modulo : todosLosModulos) {
+                // Puntaje del estudiante para este módulo
+                Optional<ReporteDTO> reporteEstudianteModulo = resultadosEstudiante.stream()
+                        .filter(r -> modulo.equals(r.getTipoModulo()))
+                        .findFirst(); // Asume un solo reporte por estudiante por módulo
+
+                // If getPuntajeModulo() returns primitive int, no null check is possible or needed.
+                if (reporteEstudianteModulo.isPresent()) {
+                    serieEstudiante.getData().add(new XYChart.Data<>(modulo, reporteEstudianteModulo.get().getPuntajeModulo()));
+                } else {
+                    serieEstudiante.getData().add(new XYChart.Data<>(modulo, 0));
+                }
+
+                // Promedio general para este módulo
+                Double promedio = promediosGenerales.getOrDefault(modulo, 0.0); // 0.0 si no hay promedio para este módulo
+                seriePromedio.getData().add(new XYChart.Data<>(modulo, promedio));
+            }
+
+            // Añadir las series al gráfico
+            graficoBarras.getData().addAll(serieEstudiante, seriePromedio);
+
+            // Configurar etiquetas del eje X para que no se superpongan
+            ejeX.setLabel("Módulo");
+            ejeX.setTickLabelRotation(90); // Rotar etiquetas para que quepan si son largas
+            ejeY.setLabel("Puntaje");
+            ejeY.setLowerBound(MIN_PUNTAJE);
+            ejeY.setUpperBound(MAX_PUNTAJE);
+
+
+        } catch (Exception e) {
+            System.err.println("Error al solicitar datos para el gráfico: " + e.getMessage());
+            mostrarAlerta("Error", "Ocurrió un error al cargar los datos del gráfico: " + e.getMessage());
         }
     }
+
 
     private void mostrarAlerta(String titulo, String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

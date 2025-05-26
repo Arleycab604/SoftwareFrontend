@@ -160,7 +160,7 @@ public class DashboardController {
     @FXML
     private void onButtonDashboardAsignar() {
         // Ruta ABSOLUTA
-        loadView("/com/SaberPro/SoftwareFront/AccionesMejora/ModulosAccion.fxml");
+        loadView("/com/SaberPro/SoftwareFront/Acciones/ModulosAccion.fxml");
     }
 
     @FXML
