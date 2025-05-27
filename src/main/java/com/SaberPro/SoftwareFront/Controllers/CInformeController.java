@@ -95,7 +95,7 @@ public class CInformeController {
                 deleteButton.setOnAction(event -> {
                     String fileNameToDelete = getItem();
                     if (fileNameToDelete != null) {
-                        handleDeletePdf(fileNameToDelete);
+                        //handleDeletePdf(fileNameToDelete);
                     }
                 });
 
@@ -104,7 +104,7 @@ public class CInformeController {
                 downloadButton.setOnAction(event -> {
                     String fileNameToDownload = getItem();
                     if (fileNameToDownload != null) {
-                        handleDownloadPdf(fileNameToDownload);
+                        //handleDownloadPdf(fileNameToDownload);
                     }
                 });
 
@@ -126,6 +126,8 @@ public class CInformeController {
                 }
             }
         });
+
+
 
         txtBuscar.textProperty().addListener((observable, oldValue, newValue) -> applyFiltersAndSortHistoricos());
         cmbOrdenarPor.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> applyFiltersAndSortHistoricos());
@@ -351,7 +353,7 @@ public class CInformeController {
         }
     }
 
-    private void handleDeletePdf(String fileName) {
+    /*private void handleDeletePdf(String fileName) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmar Eliminación");
         alert.setHeaderText("¿Estás seguro de que quieres eliminar el archivo '" + fileName + "'?");
@@ -381,8 +383,8 @@ public class CInformeController {
                 }
             });
         }
-    }
-
+    }*/
+    /*
     private void handleDownloadPdf(String fileName) {
         logConsola("DEBUG: Intentando descargar archivo: " + fileName);
         FileChooser fileChooser = new FileChooser();
@@ -421,4 +423,6 @@ public class CInformeController {
             mostrarMensajeError("Operación de descarga cancelada.");
         }
     }
+    */
+
 }

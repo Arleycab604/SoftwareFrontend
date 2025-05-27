@@ -38,14 +38,14 @@ public class CrearPropuestaController {
 
     @FXML
     public void initialize() {
-        cmbModulo.getItems().addAll(ModulosSaberPro.INGLÉS.toString(),
+        cmbModulo.getItems().addAll(ModulosSaberPro.INGLES.toString(),
                 ModulosSaberPro.COMPETENCIAS_CIUDADANAS.toString(),
                 ModulosSaberPro.COMUNICACION_ESCRITA.toString(),
                 ModulosSaberPro.RAZONAMIENTO_CUANTITATIVO.toString(),
                 ModulosSaberPro.LECTURA_CRITICA.toString(),
                 ModulosSaberPro.FORMULACION_DE_PROYECTOS_DE_INGENIERIA.toString(),
                 ModulosSaberPro.PENSAMIENTO_CIENTIFICO_MATEMATICAS_Y_ESTADISTICA.toString(),
-                ModulosSaberPro.DISEÑO_DE_SOFTWARE.toString()); // Ejemplo de módulos
+                ModulosSaberPro.DISENO_DE_SOFTWARE.toString()); // Ejemplo de módulos
     }
 
     @FXML
@@ -53,7 +53,7 @@ public class CrearPropuestaController {
         try {
             String nombre = txtNombrePropuesta.getText();
             String descripcion = txtDescripcion.getText();
-            String modulo = cmbModulo.getValue();
+            ModulosSaberPro modulo = ModulosSaberPro.valueOf( cmbModulo.getValue());
             LocalDate fechaLimite = dpFechaLimite.getValue();
 
             if (nombre.isEmpty() || descripcion.isEmpty() || modulo == null || fechaLimite == null) {
@@ -75,11 +75,11 @@ public class CrearPropuestaController {
             // Campos de texto
             writeTextPart(dos, "nombrePropuesta", nombre, boundary);
             writeTextPart(dos, "descripcion", descripcion, boundary);
-            writeTextPart(dos, "moduloPropuesta", modulo, boundary);
+            writeTextPart(dos, "moduloPropuesta", modulo.toString(), boundary);
             writeTextPart(dos, "fechaCreacion", LocalDate.now().toString(), boundary);
             writeTextPart(dos, "fechaLimiteEntrega", fechaLimite.toString(), boundary);
             writeTextPart(dos, "estadoPropuesta", "PENDIENTE", boundary);
-            writeTextPart(dos, "usuarioProponente", "usuario123", boundary); // Si lo tienes dinámico, cámbialo
+            writeTextPart(dos, "usuarioProponente", TokenManager.getNombreUsuario(), boundary); // Si lo tienes dinámico, cámbialo
 
             // URLs de documentos existentes (si aplica)
             List<String> urls = List.of("http://miapp.com/doc1.pdf", "http://miapp.com/doc2.pdf");

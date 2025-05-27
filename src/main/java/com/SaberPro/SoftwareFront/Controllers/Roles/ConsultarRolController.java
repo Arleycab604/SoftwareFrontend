@@ -138,10 +138,13 @@ public class ConsultarRolController {
                 ObjectMapper objectMapper = new ObjectMapper();
                 JsonNode rootNode = objectMapper.readTree(jsonResponse);
                 for (JsonNode usuarioNode : rootNode) {
+
                     String nombreUsuario = usuarioNode.get("nombreUsuario").asText();
                     String tipoDeUsuario = usuarioNode.get("tipoDeUsuario").asText();
                     String correo = usuarioNode.get("correo").asText();
-
+                    if(tipoDeUsuario == "ESTUDIANTE"){
+                        continue;
+                    }
                     usuarios.add(new UsuarioDTO(nombreUsuario, tipoDeUsuario, correo));
                 }
             } else {
